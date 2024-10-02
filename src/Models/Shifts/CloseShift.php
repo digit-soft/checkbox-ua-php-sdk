@@ -1,9 +1,9 @@
 <?php
 
-namespace igorbunov\Checkbox\Models\Shifts;
+namespace DigitSoft\Checkbox\Models\Shifts;
 
-use igorbunov\Checkbox\Models\Cashier\Cashier;
-use igorbunov\Checkbox\Models\CashRegisters\CashRegister;
+use DigitSoft\Checkbox\Models\Cashier\Cashier;
+use DigitSoft\Checkbox\Models\CashRegisters\CashRegister;
 
 class CloseShift
 {

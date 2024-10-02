@@ -1,8 +1,8 @@
 <?php
 
-namespace igorbunov\Checkbox\Mappers\Receipts\Taxes;
+namespace DigitSoft\Checkbox\Mappers\Receipts\Taxes;
 
-use igorbunov\Checkbox\Models\Receipts\Taxes\GoodTaxes;
+use DigitSoft\Checkbox\Models\Receipts\Taxes\GoodTaxes;
 
 class GoodTaxesMapper
 {

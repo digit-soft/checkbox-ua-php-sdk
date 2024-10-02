@@ -1,9 +1,9 @@
 <?php
 
-namespace igorbunov\Checkbox\Mappers\Receipts\Payments;
+namespace DigitSoft\Checkbox\Mappers\Receipts\Payments;
 
-use igorbunov\Checkbox\Models\Receipts\Payments\CardPaymentPayload;
-use igorbunov\Checkbox\Models\Receipts\Payments\PaymentParent;
+use DigitSoft\Checkbox\Models\Receipts\Payments\CardPaymentPayload;
+use DigitSoft\Checkbox\Models\Receipts\Payments\PaymentParent;
 
 class CardPaymentMapper
 {

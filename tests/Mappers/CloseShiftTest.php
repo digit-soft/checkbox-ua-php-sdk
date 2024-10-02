@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace igorbunov\Checkbox\Mappers;
+namespace DigitSoft\Checkbox\Tests\Mappers;
 
-use igorbunov\Checkbox\Mappers\Shifts\CloseShiftMapper;
+use DigitSoft\Checkbox\Mappers\Shifts\CloseShiftMapper;
 use PHPUnit\Framework\TestCase;
 
 class CloseShiftTest extends TestCase
@@ -25,7 +25,7 @@ class CloseShiftTest extends TestCase
               "serial":28,
               "is_z_report":true,
               "payments":[
-                 
+
               ],
               "taxes":[
                  {

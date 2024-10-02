@@ -1,8 +1,8 @@
 <?php
 
-namespace igorbunov\Checkbox\Mappers\CashRegisters;
+namespace DigitSoft\Checkbox\Mappers\CashRegisters;
 
-use igorbunov\Checkbox\Models\CashRegisters\DocumentsState;
+use DigitSoft\Checkbox\Models\CashRegisters\DocumentsState;
 
 class DocumentsStateMapper
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace igorbunov\Checkbox\Mappers\CashRegisters;
+namespace DigitSoft\Checkbox\Mappers\CashRegisters;
 
-use igorbunov\Checkbox\Mappers\Shifts\ShiftMapper;
-use igorbunov\Checkbox\Models\CashRegisters\CashRegister;
+use DigitSoft\Checkbox\Mappers\Shifts\ShiftMapper;
+use DigitSoft\Checkbox\Models\CashRegisters\CashRegister;
 
 class CashRegisterMapper
 {

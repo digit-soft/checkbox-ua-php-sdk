@@ -1,8 +1,8 @@
 <?php
 
-namespace igorbunov\Checkbox\Mappers\Receipts;
+namespace DigitSoft\Checkbox\Mappers\Receipts;
 
-use igorbunov\Checkbox\Models\Receipts\ReceiptTypes;
+use DigitSoft\Checkbox\Models\Receipts\ReceiptTypes;
 
 class ReceiptTypeMapper
 {

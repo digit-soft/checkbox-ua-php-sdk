@@ -1,8 +1,8 @@
 <?php
 
-namespace igorbunov\Checkbox\Errors;
+namespace DigitSoft\Checkbox\Exceptions;
 
-class Validation extends \Exception
+class ValidationException extends \Exception
 {
     /** @var array<mixed> $detail */
     protected $detail;

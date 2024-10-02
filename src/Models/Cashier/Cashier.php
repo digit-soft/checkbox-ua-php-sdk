@@ -1,6 +1,6 @@
 <?php
 
-namespace igorbunov\Checkbox\Models\Cashier;
+namespace DigitSoft\Checkbox\Models\Cashier;
 
 class Cashier
 {

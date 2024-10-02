@@ -1,6 +1,6 @@
 <?php
 
-namespace igorbunov\Checkbox\Models\Receipts\Goods;
+namespace DigitSoft\Checkbox\Models\Receipts\Goods;
 
 class Goods
 {

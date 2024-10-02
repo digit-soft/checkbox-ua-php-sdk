@@ -1,8 +1,8 @@
 <?php
 
-namespace igorbunov\Checkbox\Models\Receipts;
+namespace DigitSoft\Checkbox\Models\Receipts;
 
-use igorbunov\Checkbox\Models\Meta;
+use DigitSoft\Checkbox\Models\Meta;
 
 class Receipts
 {

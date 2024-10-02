@@ -1,6 +1,6 @@
 <?php
 
-namespace igorbunov\Checkbox\Models\Shifts;
+namespace DigitSoft\Checkbox\Models\Shifts;
 
 class Taxes
 {

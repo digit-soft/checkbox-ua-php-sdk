@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace igorbunov\Checkbox\Mappers;
+namespace DigitSoft\Checkbox\Tests\Mappers;
 
-use igorbunov\Checkbox\Mappers\Shifts\CreateShiftMapper;
+use DigitSoft\Checkbox\Mappers\Shifts\CreateShiftMapper;
 use PHPUnit\Framework\TestCase;
 
 class CreateShiftTest extends TestCase

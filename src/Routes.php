@@ -1,13 +1,13 @@
 <?php
 
-namespace igorbunov\Checkbox;
+namespace DigitSoft\Checkbox;
 
-use igorbunov\Checkbox\Models\CashRegisters\CashRegistersQueryParams;
-use igorbunov\Checkbox\Models\Receipts\ReceiptsQueryParams;
-use igorbunov\Checkbox\Models\Reports\PeriodicalReportQueryParams;
-use igorbunov\Checkbox\Models\Reports\ReportsQueryParams;
-use igorbunov\Checkbox\Models\Shifts\ShiftsQueryParams;
-use igorbunov\Checkbox\Models\Transactions\TransactionsQueryParams;
+use DigitSoft\Checkbox\Models\Shifts\ShiftsQueryParams;
+use DigitSoft\Checkbox\Models\Reports\ReportsQueryParams;
+use DigitSoft\Checkbox\Models\Receipts\ReceiptsQueryParams;
+use DigitSoft\Checkbox\Models\Reports\PeriodicalReportQueryParams;
+use DigitSoft\Checkbox\Models\Transactions\TransactionsQueryParams;
+use DigitSoft\Checkbox\Models\CashRegisters\CashRegistersQueryParams;
 
 class Routes
 {

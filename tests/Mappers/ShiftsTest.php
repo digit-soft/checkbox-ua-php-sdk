@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace igorbunov\Checkbox\Mappers;
+namespace DigitSoft\Checkbox\Tests\Mappers;
 
-use igorbunov\Checkbox\Mappers\Shifts\ShiftsMapper;
+use DigitSoft\Checkbox\Mappers\Shifts\ShiftsMapper;
 use PHPUnit\Framework\TestCase;
 
 class ShiftsTest extends TestCase
@@ -1254,7 +1254,7 @@ class ShiftsTest extends TestCase
                     "serial":2,
                     "is_z_report":true,
                     "payments":[
-                       
+
                     ],
                     "taxes":[
                        {
@@ -1619,7 +1619,7 @@ class ShiftsTest extends TestCase
                     "serial":3,
                     "is_z_report":true,
                     "payments":[
-                       
+
                     ],
                     "taxes":[
                        {
@@ -1984,7 +1984,7 @@ class ShiftsTest extends TestCase
                     "serial":4,
                     "is_z_report":true,
                     "payments":[
-                       
+
                     ],
                     "taxes":[
                        {
@@ -2349,7 +2349,7 @@ class ShiftsTest extends TestCase
                     "serial":5,
                     "is_z_report":true,
                     "payments":[
-                       
+
                     ],
                     "taxes":[
                        {
@@ -2714,7 +2714,7 @@ class ShiftsTest extends TestCase
                     "serial":6,
                     "is_z_report":true,
                     "payments":[
-                       
+
                     ],
                     "taxes":[
                        {
@@ -3079,7 +3079,7 @@ class ShiftsTest extends TestCase
                     "serial":7,
                     "is_z_report":true,
                     "payments":[
-                       
+
                     ],
                     "taxes":[
                        {
@@ -3444,7 +3444,7 @@ class ShiftsTest extends TestCase
                     "serial":8,
                     "is_z_report":true,
                     "payments":[
-                       
+
                     ],
                     "taxes":[
                        {
@@ -3809,7 +3809,7 @@ class ShiftsTest extends TestCase
                     "serial":9,
                     "is_z_report":true,
                     "payments":[
-                       
+
                     ],
                     "taxes":[
                        {
@@ -4174,7 +4174,7 @@ class ShiftsTest extends TestCase
                     "serial":10,
                     "is_z_report":true,
                     "payments":[
-                       
+
                     ],
                     "taxes":[
                        {
@@ -4539,7 +4539,7 @@ class ShiftsTest extends TestCase
                     "serial":11,
                     "is_z_report":true,
                     "payments":[
-                       
+
                     ],
                     "taxes":[
                        {
@@ -4904,7 +4904,7 @@ class ShiftsTest extends TestCase
                     "serial":12,
                     "is_z_report":true,
                     "payments":[
-                       
+
                     ],
                     "taxes":[
                        {
@@ -5269,7 +5269,7 @@ class ShiftsTest extends TestCase
                     "serial":13,
                     "is_z_report":true,
                     "payments":[
-                       
+
                     ],
                     "taxes":[
                        {
@@ -5634,7 +5634,7 @@ class ShiftsTest extends TestCase
                     "serial":14,
                     "is_z_report":true,
                     "payments":[
-                       
+
                     ],
                     "taxes":[
                        {
@@ -5999,7 +5999,7 @@ class ShiftsTest extends TestCase
                     "serial":15,
                     "is_z_report":true,
                     "payments":[
-                       
+
                     ],
                     "taxes":[
                        {
@@ -6364,7 +6364,7 @@ class ShiftsTest extends TestCase
                     "serial":16,
                     "is_z_report":true,
                     "payments":[
-                       
+
                     ],
                     "taxes":[
                        {
@@ -6729,7 +6729,7 @@ class ShiftsTest extends TestCase
                     "serial":17,
                     "is_z_report":true,
                     "payments":[
-                       
+
                     ],
                     "taxes":[
                        {
@@ -7094,7 +7094,7 @@ class ShiftsTest extends TestCase
                     "serial":18,
                     "is_z_report":true,
                     "payments":[
-                       
+
                     ],
                     "taxes":[
                        {
@@ -7459,7 +7459,7 @@ class ShiftsTest extends TestCase
                     "serial":19,
                     "is_z_report":true,
                     "payments":[
-                       
+
                     ],
                     "taxes":[
                        {
@@ -7824,7 +7824,7 @@ class ShiftsTest extends TestCase
                     "serial":20,
                     "is_z_report":true,
                     "payments":[
-                       
+
                     ],
                     "taxes":[
                        {
@@ -8189,7 +8189,7 @@ class ShiftsTest extends TestCase
                     "serial":21,
                     "is_z_report":true,
                     "payments":[
-                       
+
                     ],
                     "taxes":[
                        {

@@ -1,8 +1,8 @@
 <?php
 
-namespace igorbunov\Checkbox\Mappers\Shifts;
+namespace DigitSoft\Checkbox\Mappers\Shifts;
 
-use igorbunov\Checkbox\Models\Shifts\InitialTransaction;
+use DigitSoft\Checkbox\Models\Shifts\InitialTransaction;
 
 class InitialTransactionMapper
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace igorbunov\Checkbox\Mappers\Shifts;
+namespace DigitSoft\Checkbox\Mappers\Shifts;
 
-use igorbunov\Checkbox\Errors\AlreadyOpenedShift;
-use igorbunov\Checkbox\Mappers\Cashier\CashierMapper;
-use igorbunov\Checkbox\Mappers\CashRegisters\CashRegisterMapper;
-use igorbunov\Checkbox\Models\Shifts\CreateShift;
+use DigitSoft\Checkbox\Exceptions\AlreadyOpenedShiftException;
+use DigitSoft\Checkbox\Mappers\Cashier\CashierMapper;
+use DigitSoft\Checkbox\Mappers\CashRegisters\CashRegisterMapper;
+use DigitSoft\Checkbox\Models\Shifts\CreateShift;
 
 class CreateShiftMapper
 {
@@ -20,7 +20,7 @@ class CreateShiftMapper
         }
 
         if (!empty($json['message']) and $json['message'] == 'Касир вже працює з даною касою') {
-            throw new AlreadyOpenedShift($json['message']);
+            throw new AlreadyOpenedShiftException($json['message']);
         }
 
         $zReport = (new ZReportMapper())->jsonToObject($json['z_report']);

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace igorbunov\Checkbox\Mappers;
+namespace DigitSoft\Checkbox\Tests\Mappers;
 
-use igorbunov\Checkbox\Mappers\Receipts\ReceiptMapper;
+use DigitSoft\Checkbox\Mappers\Receipts\ReceiptMapper;
 use PHPUnit\Framework\TestCase;
 
 class GetReceiptTest extends TestCase
@@ -64,7 +64,7 @@ class GetReceiptTest extends TestCase
                     }
                  ],
                  "discounts":[
-                    
+
                  ]
               }
            ],
@@ -99,7 +99,7 @@ class GetReceiptTest extends TestCase
               }
            ],
            "discounts":[
-              
+
            ],
            "header":null,
            "footer":"footer text",

@@ -1,8 +1,8 @@
 <?php
 
-namespace igorbunov\Checkbox\Mappers\Transactions;
+namespace DigitSoft\Checkbox\Mappers\Transactions;
 
-use igorbunov\Checkbox\Models\Transactions\Transaction;
+use DigitSoft\Checkbox\Models\Transactions\Transaction;
 
 class TransactionMapper
 {

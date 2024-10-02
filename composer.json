@@ -1,39 +1,41 @@
 {
-  "name": "igorbunov/checkbox-in-ua-php-sdk",
-  "description": "PHP SDK for integration with checkbox.in.ua api",
-  "type": "library",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "igorbunov",
-      "email": "igorbunov.ua@mail.com"
-    }
-  ],
-  "minimum-stability": "dev",
-  "require": {
-    "guzzlehttp/guzzle": "^7.4",
-    "php": ">=8.0"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "^9.1",
-    "squizlabs/php_codesniffer": "^3.5.7",
-    "phpstan/phpstan": "^0.12.57",
-    "otis22/php-coverage-checker": "^1.2"
-  },
-  "autoload": {
-    "psr-4": {
-      "igorbunov\\Checkbox\\" : "src"
-    }
-  },
-  "scripts": {
-    "unit-tests": [
-      "vendor/bin/phpunit --testsuite main  && vendor/bin/php-coverage-checker build/logs/clover.xml 60"
+    "name": "digit-soft/checkbox-ua-php-sdk",
+    "description": "PHP SDK for integration with checkbox.ua API",
+    "type": "library",
+    "license": "MIT",
+    "version": "0.1.1",
+    "authors": [
+        {
+            "name": "Digit",
+            "email": "digit.vova@mail.com"
+        }
     ],
-    "static": [
-      "vendor/bin/phpcs --ignore-annotations --standard=PSR12 src tests && vendor/bin/phpstan analyse --level=max src"
-    ],
-    "all-tests": [
-      "composer check-composer &&  composer unit-test && composer static"
-    ]
-  }
+    "minimum-stability": "dev",
+    "require": {
+        "guzzlehttp/guzzle": "^7.4",
+        "php": ">=8.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.1|^10.0",
+        "squizlabs/php_codesniffer": "^3.5.7",
+        "phpstan/phpstan": "^0.12.57",
+        "otis22/php-coverage-checker": "^1.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "DigitSoft\\Checkbox\\": "src",
+            "DigitSoft\\Checkbox\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "unit-tests": [
+            "vendor/bin/phpunit --testsuite main  && vendor/bin/php-coverage-checker build/logs/clover.xml 60"
+        ],
+        "static": [
+            "vendor/bin/phpcs --ignore-annotations --standard=PSR12 src tests && vendor/bin/phpstan analyse --level=max src"
+        ],
+        "all-tests": [
+            "composer check-composer &&  composer unit-test && composer static"
+        ]
+    }
 }

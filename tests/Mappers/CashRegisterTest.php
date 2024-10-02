@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace igorbunov\Checkbox\Mappers;
+namespace DigitSoft\Checkbox\Tests\Mappers;
 
-use igorbunov\Checkbox\Mappers\CashRegisters\CashRegisterMapper;
+use DigitSoft\Checkbox\Mappers\CashRegisters\CashRegisterMapper;
 use PHPUnit\Framework\TestCase;
 
 class CashRegisterTest extends TestCase

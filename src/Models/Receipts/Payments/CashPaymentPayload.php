@@ -1,6 +1,6 @@
 <?php
 
-namespace igorbunov\Checkbox\Models\Receipts\Payments;
+namespace DigitSoft\Checkbox\Models\Receipts\Payments;
 
 class CashPaymentPayload extends PaymentParent
 {

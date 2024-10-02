@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace igorbunov\Checkbox\Mappers;
+namespace DigitSoft\Checkbox\Tests\Mappers;
 
-use igorbunov\Checkbox\Mappers\Receipts\ReceiptMapper;
-use igorbunov\Checkbox\Mappers\Receipts\SellReceiptMapper;
-use igorbunov\Checkbox\Mappers\Receipts\Taxes\GoodTaxMapper;
-use igorbunov\Checkbox\Models\Receipts\Delivery;
-use igorbunov\Checkbox\Models\Receipts\Goods\GoodItemModel;
-use igorbunov\Checkbox\Models\Receipts\Goods\GoodModel;
-use igorbunov\Checkbox\Models\Receipts\Goods\Goods;
-use igorbunov\Checkbox\Models\Receipts\Payments\CardPaymentPayload;
-use igorbunov\Checkbox\Models\Receipts\Payments\CashPaymentPayload;
-use igorbunov\Checkbox\Models\Receipts\Payments\Payments;
-use igorbunov\Checkbox\Models\Receipts\SellReceipt;
-use igorbunov\Checkbox\Models\Receipts\Taxes\GoodTaxes;
+use DigitSoft\Checkbox\Mappers\Receipts\ReceiptMapper;
+use DigitSoft\Checkbox\Mappers\Receipts\SellReceiptMapper;
+use DigitSoft\Checkbox\Mappers\Receipts\Taxes\GoodTaxMapper;
+use DigitSoft\Checkbox\Models\Receipts\Delivery;
+use DigitSoft\Checkbox\Models\Receipts\Goods\GoodItemModel;
+use DigitSoft\Checkbox\Models\Receipts\Goods\GoodModel;
+use DigitSoft\Checkbox\Models\Receipts\Goods\Goods;
+use DigitSoft\Checkbox\Models\Receipts\Payments\CardPaymentPayload;
+use DigitSoft\Checkbox\Models\Receipts\Payments\CashPaymentPayload;
+use DigitSoft\Checkbox\Models\Receipts\Payments\Payments;
+use DigitSoft\Checkbox\Models\Receipts\SellReceipt;
+use DigitSoft\Checkbox\Models\Receipts\Taxes\GoodTaxes;
 use PHPUnit\Framework\TestCase;
 
 class SellReceiptTest extends TestCase

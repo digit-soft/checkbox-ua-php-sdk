@@ -1,8 +1,8 @@
 <?php
 
-namespace igorbunov\Checkbox\Models\Receipts;
+namespace DigitSoft\Checkbox\Models\Receipts;
 
-use igorbunov\Checkbox\Models\Receipts\Payments\PaymentParent;
+use DigitSoft\Checkbox\Models\Receipts\Payments\PaymentParent;
 
 class ServiceReceipt
 {

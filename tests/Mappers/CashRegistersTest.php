@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace igorbunov\Checkbox\Mappers;
+namespace DigitSoft\Checkbox\Tests\Mappers;
 
-use igorbunov\Checkbox\Mappers\CashRegisters\CashRegistersMapper;
+use DigitSoft\Checkbox\Mappers\CashRegisters\CashRegistersMapper;
 use PHPUnit\Framework\TestCase;
 
 class CashRegistersTest extends TestCase
@@ -567,7 +567,7 @@ class CashRegistersTest extends TestCase
                        "updated_at":"2020-10-05T16:08:15.319730+00:00"
                     },
                     "taxes":[
-                       
+
                     ],
                     "cashier":{
                        "id":"4aba6696-ed7a-4aa9-9a94-0269f569c431",
@@ -634,7 +634,7 @@ class CashRegistersTest extends TestCase
                     "updated_at":"2020-08-20T13:00:45.573817+00:00",
                     "balance":null,
                     "taxes":[
-                       
+
                     ],
                     "cashier":{
                        "id":"d6f468b3-6f9e-44e1-a47c-1a5d9d383ee4",
