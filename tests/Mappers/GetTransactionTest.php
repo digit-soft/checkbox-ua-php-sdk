@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace igorbunov\Checkbox\Mappers;
+namespace DigitSoft\Checkbox\Tests\Mappers;
 
-use igorbunov\Checkbox\Mappers\Transactions\TransactionMapper;
+use DigitSoft\Checkbox\Mappers\Transactions\TransactionMapper;
 use PHPUnit\Framework\TestCase;
 
 class GetTransactionTest extends TestCase

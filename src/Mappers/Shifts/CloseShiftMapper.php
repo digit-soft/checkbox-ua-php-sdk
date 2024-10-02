@@ -1,11 +1,11 @@
 <?php
 
-namespace igorbunov\Checkbox\Mappers\Shifts;
+namespace DigitSoft\Checkbox\Mappers\Shifts;
 
-use igorbunov\Checkbox\Errors\NoActiveShift;
-use igorbunov\Checkbox\Mappers\Cashier\CashierMapper;
-use igorbunov\Checkbox\Mappers\CashRegisters\CashRegisterMapper;
-use igorbunov\Checkbox\Models\Shifts\CloseShift;
+use DigitSoft\Checkbox\Exceptions\NoActiveShiftException;
+use DigitSoft\Checkbox\Mappers\Cashier\CashierMapper;
+use DigitSoft\Checkbox\Mappers\CashRegisters\CashRegisterMapper;
+use DigitSoft\Checkbox\Models\Shifts\CloseShift;
 
 class CloseShiftMapper
 {
@@ -20,7 +20,7 @@ class CloseShiftMapper
         }
 
         if (!empty($json['message']) and $json['message'] == 'Cashier has no active shift') {
-            throw new NoActiveShift($json['message']);
+            throw new NoActiveShiftException($json['message']);
         }
 
         $zReport = (new ZReportMapper())->jsonToObject($json['z_report']);

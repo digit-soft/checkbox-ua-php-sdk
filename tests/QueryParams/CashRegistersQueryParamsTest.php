@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace igorbunov\Checkbox\Mappers;
+namespace DigitSoft\Checkbox\Tests\QueryParams;
 
-use igorbunov\Checkbox\Models\CashRegisters\CashRegistersQueryParams;
+use DigitSoft\Checkbox\Models\CashRegisters\CashRegistersQueryParams;
 use PHPUnit\Framework\TestCase;
 
 class CashRegistersQueryParamsTest extends TestCase

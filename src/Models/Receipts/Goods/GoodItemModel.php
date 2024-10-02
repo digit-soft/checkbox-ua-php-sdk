@@ -1,9 +1,9 @@
 <?php
 
-namespace igorbunov\Checkbox\Models\Receipts\Goods;
+namespace DigitSoft\Checkbox\Models\Receipts\Goods;
 
-use igorbunov\Checkbox\Models\Receipts\Discounts\Discounts;
-use igorbunov\Checkbox\Models\Receipts\Taxes\GoodTaxes;
+use DigitSoft\Checkbox\Models\Receipts\Discounts\Discounts;
+use DigitSoft\Checkbox\Models\Receipts\Taxes\GoodTaxes;
 
 class GoodItemModel
 {

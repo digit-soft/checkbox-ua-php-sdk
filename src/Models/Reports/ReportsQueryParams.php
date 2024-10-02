@@ -1,6 +1,6 @@
 <?php
 
-namespace igorbunov\Checkbox\Models\Reports;
+namespace DigitSoft\Checkbox\Models\Reports;
 
 class ReportsQueryParams
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace igorbunov\Checkbox\Models\Transactions;
+namespace DigitSoft\Checkbox\Models\Transactions;
 
 class TransactionsQueryParams
 {

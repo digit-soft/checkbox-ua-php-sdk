@@ -1,6 +1,6 @@
 <?php
 
-namespace igorbunov\Checkbox\Models\Receipts;
+namespace DigitSoft\Checkbox\Models\Receipts;
 
 class ReceiptTypes
 {

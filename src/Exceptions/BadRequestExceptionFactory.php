@@ -1,6 +1,6 @@
 <?php
 
-namespace igorbunov\Checkbox\Errors;
+namespace DigitSoft\Checkbox\Exceptions;
 
 class BadRequestExceptionFactory
 {
@@ -14,13 +14,13 @@ class BadRequestExceptionFactory
             $message === 'Каса зайнята іншим касиром'
             or $message === 'Касир вже працює з даною касою'
         ) {
-            return new AlreadyOpenedShift($message);
+            return new AlreadyOpenedShiftException($message);
         }
 
         if ($message === 'Зміну не відкрито') {
-            return new NoActiveShift($message);
+            return new NoActiveShiftException($message);
         }
 
-        return new BadRequest($message);
+        return new BadRequestException($message);
     }
 }

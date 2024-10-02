@@ -1,8 +1,8 @@
 <?php
 
-namespace igorbunov\Checkbox\Models\Shifts;
+namespace DigitSoft\Checkbox\Models\Shifts;
 
-use igorbunov\Checkbox\Models\Transactions\Transaction;
+use DigitSoft\Checkbox\Models\Transactions\Transaction;
 
 class ClosingTransaction extends Transaction
 {

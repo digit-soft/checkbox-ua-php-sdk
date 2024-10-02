@@ -1,57 +1,53 @@
 <?php
 
-namespace igorbunov\Checkbox;
+namespace DigitSoft\Checkbox;
 
 use GuzzleHttp\Client;
-use igorbunov\Checkbox\Errors\AlreadyOpenedShift;
-use igorbunov\Checkbox\Errors\BadRequest;
-use igorbunov\Checkbox\Errors\BadRequestExceptionFactory;
-use igorbunov\Checkbox\Errors\EmptyResponse;
-use igorbunov\Checkbox\Errors\InvalidCredentials;
-use igorbunov\Checkbox\Errors\NoActiveShift;
-use igorbunov\Checkbox\Errors\Validation;
-use igorbunov\Checkbox\Mappers\Cashier\CashierMapper;
-use igorbunov\Checkbox\Mappers\CashRegisters\CashRegisterInfoMapper;
-use igorbunov\Checkbox\Mappers\CashRegisters\CashRegisterMapper;
-use igorbunov\Checkbox\Mappers\CashRegisters\CashRegistersMapper;
-use igorbunov\Checkbox\Mappers\Receipts\ReceiptMapper;
-use igorbunov\Checkbox\Mappers\Receipts\ReceiptsMapper;
-use igorbunov\Checkbox\Mappers\Receipts\SellReceiptMapper;
-use igorbunov\Checkbox\Mappers\Receipts\ServiceReceiptMapper;
-use igorbunov\Checkbox\Mappers\Receipts\Taxes\GoodTaxesMapper;
-use igorbunov\Checkbox\Mappers\Reports\ReportsMapper;
-use igorbunov\Checkbox\Mappers\Shifts\CloseShiftMapper;
-use igorbunov\Checkbox\Mappers\Shifts\CreateShiftMapper;
-use igorbunov\Checkbox\Mappers\Shifts\ShiftMapper;
-use igorbunov\Checkbox\Mappers\Shifts\ShiftsMapper;
-use igorbunov\Checkbox\Mappers\Shifts\ZReportMapper;
-use igorbunov\Checkbox\Mappers\Transactions\TransactionMapper;
-use igorbunov\Checkbox\Mappers\Transactions\TransactionsMapper;
-use igorbunov\Checkbox\Models\Cashier\Cashier;
-use igorbunov\Checkbox\Models\CashRegisters\CashRegister;
-use igorbunov\Checkbox\Models\CashRegisters\CashRegisterInfo;
-use igorbunov\Checkbox\Models\CashRegisters\CashRegisters;
-use igorbunov\Checkbox\Models\CashRegisters\CashRegistersQueryParams;
-use igorbunov\Checkbox\Models\Receipts\Receipt;
-use igorbunov\Checkbox\Models\Receipts\Receipts;
-use igorbunov\Checkbox\Models\Receipts\ReceiptsQueryParams;
-use igorbunov\Checkbox\Models\Receipts\SellReceipt;
-use igorbunov\Checkbox\Models\Receipts\ServiceReceipt;
-use igorbunov\Checkbox\Models\Receipts\Taxes\GoodTaxes;
-use igorbunov\Checkbox\Models\Reports\PeriodicalReportQueryParams;
-use igorbunov\Checkbox\Models\Reports\Reports;
-use igorbunov\Checkbox\Models\Reports\ReportsQueryParams;
-use igorbunov\Checkbox\Models\Shifts\CloseShift;
-use igorbunov\Checkbox\Models\Shifts\CreateShift;
-use igorbunov\Checkbox\Models\Shifts\Shift;
-use igorbunov\Checkbox\Models\Shifts\Shifts;
-use igorbunov\Checkbox\Models\Shifts\ShiftsQueryParams;
-use igorbunov\Checkbox\Models\Shifts\ZReport;
-use igorbunov\Checkbox\Models\Transactions\Transaction;
-use igorbunov\Checkbox\Models\Transactions\Transactions;
-use igorbunov\Checkbox\Models\Transactions\TransactionsQueryParams;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
+use DigitSoft\Checkbox\Exceptions\ValidationException;
+use DigitSoft\Checkbox\Models\Shifts\Shift;
+use DigitSoft\Checkbox\Exceptions\EmptyResponseException;
+use DigitSoft\Checkbox\Models\Shifts\Shifts;
+use DigitSoft\Checkbox\Models\Shifts\ZReport;
+use DigitSoft\Checkbox\Models\Cashier\Cashier;
+use DigitSoft\Checkbox\Models\Reports\Reports;
+use DigitSoft\Checkbox\Models\Receipts\Receipt;
+use DigitSoft\Checkbox\Models\Receipts\Receipts;
+use DigitSoft\Checkbox\Models\Shifts\CloseShift;
+use DigitSoft\Checkbox\Exceptions\InvalidCredentialsException;
+use DigitSoft\Checkbox\Models\Shifts\CreateShift;
+use DigitSoft\Checkbox\Mappers\Shifts\ShiftMapper;
+use DigitSoft\Checkbox\Mappers\Shifts\ShiftsMapper;
+use DigitSoft\Checkbox\Models\Receipts\SellReceipt;
+use DigitSoft\Checkbox\Mappers\Shifts\ZReportMapper;
+use DigitSoft\Checkbox\Mappers\Cashier\CashierMapper;
+use DigitSoft\Checkbox\Mappers\Reports\ReportsMapper;
+use DigitSoft\Checkbox\Mappers\Receipts\ReceiptMapper;
+use DigitSoft\Checkbox\Models\Receipts\ServiceReceipt;
+use DigitSoft\Checkbox\Mappers\Receipts\ReceiptsMapper;
+use DigitSoft\Checkbox\Mappers\Shifts\CloseShiftMapper;
+use DigitSoft\Checkbox\Models\Receipts\Taxes\GoodTaxes;
+use DigitSoft\Checkbox\Models\Shifts\ShiftsQueryParams;
+use DigitSoft\Checkbox\Models\Transactions\Transaction;
+use DigitSoft\Checkbox\Mappers\Shifts\CreateShiftMapper;
+use DigitSoft\Checkbox\Models\Transactions\Transactions;
+use DigitSoft\Checkbox\Exceptions\BadRequestExceptionFactory;
+use DigitSoft\Checkbox\Models\CashRegisters\CashRegister;
+use DigitSoft\Checkbox\Models\Reports\ReportsQueryParams;
+use DigitSoft\Checkbox\Mappers\Receipts\SellReceiptMapper;
+use DigitSoft\Checkbox\Models\CashRegisters\CashRegisters;
+use DigitSoft\Checkbox\Models\Receipts\ReceiptsQueryParams;
+use DigitSoft\Checkbox\Mappers\Receipts\ServiceReceiptMapper;
+use DigitSoft\Checkbox\Models\CashRegisters\CashRegisterInfo;
+use DigitSoft\Checkbox\Mappers\Receipts\Taxes\GoodTaxesMapper;
+use DigitSoft\Checkbox\Mappers\Transactions\TransactionMapper;
+use DigitSoft\Checkbox\Mappers\Transactions\TransactionsMapper;
+use DigitSoft\Checkbox\Mappers\CashRegisters\CashRegisterMapper;
+use DigitSoft\Checkbox\Mappers\CashRegisters\CashRegistersMapper;
+use DigitSoft\Checkbox\Models\Reports\PeriodicalReportQueryParams;
+use DigitSoft\Checkbox\Models\Transactions\TransactionsQueryParams;
+use DigitSoft\Checkbox\Mappers\CashRegisters\CashRegisterInfoMapper;
+use DigitSoft\Checkbox\Models\CashRegisters\CashRegistersQueryParams;
 
 class CheckboxJsonApi
 {
@@ -110,26 +106,30 @@ class CheckboxJsonApi
     }
 
     /**
-     * @param mixed $json
-     * @param int $statusCode
+     * Make a general JSON response validation.
+     *
+     * @param  array|mixed $json
+     * @param  int         $statusCode
      * @return void
+     * @throws \Exception
      */
-    private function validateResponseStatus($json, int $statusCode): void
+    private function validateResponseStatus(mixed $json, int $statusCode): void
     {
+        $jsonArray = is_array($json) ? $json : [];
         switch ($statusCode) {
             case 400:
-                $message = $json['message'] ?? '';
+                $message = $jsonArray['message'] ?? '';
 
                 throw BadRequestExceptionFactory::getExceptionByMessage($message);
             case 401:
             case 403:
-                throw new InvalidCredentials($json['message']);
+                throw new InvalidCredentialsException($jsonArray['message']);
             case 422:
-                throw new Validation($json);
+                throw new ValidationException($jsonArray);
         }
 
-        if (!empty($json['message'])) {
-            throw new \Exception($json['message']);
+        if (! empty($jsonArray['message'])) {
+            throw new \Exception($jsonArray['message']);
         }
     }
 
@@ -152,7 +152,7 @@ class CheckboxJsonApi
         $jsonResponse = json_decode($response->getBody()->getContents(), true);
 
         if (is_null($jsonResponse)) {
-            throw new EmptyResponse('Запрос вернул пустой результат');
+            throw new EmptyResponseException('Запрос вернул пустой результат');
         }
 
         $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
@@ -212,7 +212,7 @@ class CheckboxJsonApi
         $jsonResponse = json_decode($response->getBody()->getContents(), true);
 
         if (is_null($jsonResponse)) {
-            throw new EmptyResponse('Запрос вернул пустой результат');
+            throw new EmptyResponseException('Запрос вернул пустой результат');
         }
 
         $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
@@ -587,7 +587,7 @@ class CheckboxJsonApi
     public function createXReport(): ?ZReport
     {
         $options = $this->requestOptions;
-        $options['headers']['X-Client-Name'] = 'Igorbunov Custom SDK';
+        $options['headers']['X-Client-Name'] = 'DigitSoft PHP SDK';
         $options['headers']['X-Client-Version'] = '1.0.0';
 
         $response = $this->sendRequest(

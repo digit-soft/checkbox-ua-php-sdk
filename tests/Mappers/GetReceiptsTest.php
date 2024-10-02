@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace igorbunov\Checkbox\Mappers;
+namespace DigitSoft\Checkbox\Tests\Mappers;
 
-use igorbunov\Checkbox\Mappers\Receipts\ReceiptsMapper;
+use DigitSoft\Checkbox\Mappers\Receipts\ReceiptsMapper;
 use PHPUnit\Framework\TestCase;
 
 class GetReceiptsTest extends TestCase
@@ -40,7 +40,7 @@ class GetReceiptsTest extends TestCase
                  "serial":0,
                  "status":"DONE",
                  "goods":[
-                    
+
                  ],
                  "payments":[
                     {
@@ -58,10 +58,10 @@ class GetReceiptsTest extends TestCase
                  "created_at":"2020-08-24T07:07:02.016940+00:00",
                  "updated_at":"2020-08-24T07:07:06.302057+00:00",
                  "taxes":[
-                    
+
                  ],
                  "discounts":[
-                    
+
                  ],
                  "header":null,
                  "footer":null,
@@ -107,7 +107,7 @@ class GetReceiptsTest extends TestCase
                           }
                        ],
                        "taxes":[
-                          
+
                        ],
                        "sell_receipts_count":16,
                        "return_receipts_count":0,
@@ -387,10 +387,10 @@ class GetReceiptsTest extends TestCase
                        "quantity":1000,
                        "is_return":false,
                        "taxes":[
-                          
+
                        ],
                        "discounts":[
-                          
+
                        ]
                     }
                  ],
@@ -410,10 +410,10 @@ class GetReceiptsTest extends TestCase
                  "created_at":"2020-08-27T07:05:04.825589+00:00",
                  "updated_at":"2020-08-27T07:05:08.320973+00:00",
                  "taxes":[
-                    
+
                  ],
                  "discounts":[
-                    
+
                  ],
                  "header":null,
                  "footer":null,
@@ -450,7 +450,7 @@ class GetReceiptsTest extends TestCase
                           }
                        ],
                        "taxes":[
-                          
+
                        ],
                        "sell_receipts_count":1,
                        "return_receipts_count":1,
@@ -790,10 +790,10 @@ class GetReceiptsTest extends TestCase
                        "quantity":1000,
                        "is_return":false,
                        "taxes":[
-                          
+
                        ],
                        "discounts":[
-                          
+
                        ]
                     }
                  ],
@@ -813,10 +813,10 @@ class GetReceiptsTest extends TestCase
                  "created_at":"2020-08-20T09:34:01.887975+00:00",
                  "updated_at":"2020-08-20T09:34:06.545540+00:00",
                  "taxes":[
-                    
+
                  ],
                  "discounts":[
-                    
+
                  ],
                  "header":null,
                  "footer":null,
@@ -844,7 +844,7 @@ class GetReceiptsTest extends TestCase
                           }
                        ],
                        "taxes":[
-                          
+
                        ],
                        "sell_receipts_count":2,
                        "return_receipts_count":0,
@@ -883,7 +883,7 @@ class GetReceiptsTest extends TestCase
                     "updated_at":"2020-08-20T12:24:28.037934+00:00",
                     "balance":null,
                     "taxes":[
-                       
+
                     ],
                     "cash_register":{
                        "id":"d1d068ca-6377-46b8-a46c-0e11a90a6c10",
@@ -920,7 +920,7 @@ class GetReceiptsTest extends TestCase
                  "serial":0,
                  "status":"DONE",
                  "goods":[
-                    
+
                  ],
                  "payments":[
                     {
@@ -938,10 +938,10 @@ class GetReceiptsTest extends TestCase
                  "created_at":"2020-09-18T11:11:24.270344+00:00",
                  "updated_at":"2020-09-18T11:11:30.284907+00:00",
                  "taxes":[
-                    
+
                  ],
                  "discounts":[
-                    
+
                  ],
                  "header":null,
                  "footer":null,
@@ -1536,10 +1536,10 @@ class GetReceiptsTest extends TestCase
                        "quantity":1000,
                        "is_return":false,
                        "taxes":[
-                          
+
                        ],
                        "discounts":[
-                          
+
                        ]
                     }
                  ],
@@ -1559,10 +1559,10 @@ class GetReceiptsTest extends TestCase
                  "created_at":"2020-08-19T13:51:12.439078+00:00",
                  "updated_at":"2020-08-19T13:51:15.443574+00:00",
                  "taxes":[
-                    
+
                  ],
                  "discounts":[
-                    
+
                  ],
                  "header":null,
                  "footer":null,
@@ -1590,7 +1590,7 @@ class GetReceiptsTest extends TestCase
                           }
                        ],
                        "taxes":[
-                          
+
                        ],
                        "sell_receipts_count":1,
                        "return_receipts_count":1,
@@ -1629,7 +1629,7 @@ class GetReceiptsTest extends TestCase
                     "updated_at":"2020-08-20T06:15:07.297680+00:00",
                     "balance":null,
                     "taxes":[
-                       
+
                     ],
                     "cash_register":{
                        "id":"cb8eba31-b412-446e-9623-ff5d67a0da09",
@@ -1666,7 +1666,7 @@ class GetReceiptsTest extends TestCase
                  "serial":0,
                  "status":"DONE",
                  "goods":[
-                    
+
                  ],
                  "payments":[
                     {
@@ -1684,10 +1684,10 @@ class GetReceiptsTest extends TestCase
                  "created_at":"2020-08-18T17:54:13.253235+00:00",
                  "updated_at":"2020-08-18T17:54:14.894943+00:00",
                  "taxes":[
-                    
+
                  ],
                  "discounts":[
-                    
+
                  ],
                  "header":null,
                  "footer":null,
@@ -1724,7 +1724,7 @@ class GetReceiptsTest extends TestCase
                           }
                        ],
                        "taxes":[
-                          
+
                        ],
                        "sell_receipts_count":1,
                        "return_receipts_count":0,
@@ -1763,7 +1763,7 @@ class GetReceiptsTest extends TestCase
                     "updated_at":"2020-08-18T18:23:43.581330+00:00",
                     "balance":null,
                     "taxes":[
-                       
+
                     ],
                     "cash_register":{
                        "id":"58a9a439-2b5b-4ec3-baf5-2b3e6c9fab33",
@@ -1800,10 +1800,10 @@ class GetReceiptsTest extends TestCase
                  "serial":0,
                  "status":"ERROR",
                  "goods":[
-                    
+
                  ],
                  "payments":[
-                    
+
                  ],
                  "sum":0,
                  "total_payment":0,
@@ -1814,10 +1814,10 @@ class GetReceiptsTest extends TestCase
                  "created_at":"2020-08-11T13:54:48.726436+00:00",
                  "updated_at":"2020-08-11T13:54:49.833459+00:00",
                  "taxes":[
-                    
+
                  ],
                  "discounts":[
-                    
+
                  ],
                  "header":null,
                  "footer":null,
@@ -1834,10 +1834,10 @@ class GetReceiptsTest extends TestCase
                        "serial":0,
                        "is_z_report":true,
                        "payments":[
-                          
+
                        ],
                        "taxes":[
-                          
+
                        ],
                        "sell_receipts_count":0,
                        "return_receipts_count":0,
@@ -1876,7 +1876,7 @@ class GetReceiptsTest extends TestCase
                     "updated_at":"2020-08-11T23:08:02.220267+00:00",
                     "balance":null,
                     "taxes":[
-                       
+
                     ],
                     "cash_register":{
                        "id":"b772a358-ddec-4a68-9b8d-5b2812550678",
@@ -1956,7 +1956,7 @@ class GetReceiptsTest extends TestCase
                           }
                        ],
                        "discounts":[
-                          
+
                        ]
                     }
                  ],
@@ -2004,7 +2004,7 @@ class GetReceiptsTest extends TestCase
                     }
                  ],
                  "discounts":[
-                    
+
                  ],
                  "header":null,
                  "footer":null,
@@ -2036,7 +2036,7 @@ class GetReceiptsTest extends TestCase
                     "updated_at":"2020-08-20T13:00:45.573817+00:00",
                     "balance":null,
                     "taxes":[
-                       
+
                     ],
                     "cash_register":{
                        "id":"d94e2b98-ac84-41e4-872e-4b86810827a6",
@@ -2103,7 +2103,7 @@ class GetReceiptsTest extends TestCase
                           }
                        ],
                        "discounts":[
-                          
+
                        ]
                     }
                  ],
@@ -2128,10 +2128,10 @@ class GetReceiptsTest extends TestCase
                  "created_at":"2020-08-10T18:18:03.705320+00:00",
                  "updated_at":null,
                  "taxes":[
-                    
+
                  ],
                  "discounts":[
-                    
+
                  ],
                  "header":null,
                  "footer":null,
@@ -2148,10 +2148,10 @@ class GetReceiptsTest extends TestCase
                        "serial":0,
                        "is_z_report":true,
                        "payments":[
-                          
+
                        ],
                        "taxes":[
-                          
+
                        ],
                        "sell_receipts_count":0,
                        "return_receipts_count":0,
@@ -2190,7 +2190,7 @@ class GetReceiptsTest extends TestCase
                     "updated_at":"2020-08-10T18:19:57.005732+00:00",
                     "balance":null,
                     "taxes":[
-                       
+
                     ],
                     "cash_register":{
                        "id":"d1a98873-e994-4c33-bdee-68f24467a0f6",
@@ -2641,10 +2641,10 @@ class GetReceiptsTest extends TestCase
                        "quantity":1,
                        "is_return":false,
                        "taxes":[
-                          
+
                        ],
                        "discounts":[
-                          
+
                        ]
                     }
                  ],
@@ -2664,10 +2664,10 @@ class GetReceiptsTest extends TestCase
                  "created_at":"2020-08-27T01:53:56.274954+00:00",
                  "updated_at":"2020-08-27T01:53:58.731408+00:00",
                  "taxes":[
-                    
+
                  ],
                  "discounts":[
-                    
+
                  ],
                  "header":null,
                  "footer":null,
@@ -3000,10 +3000,10 @@ class GetReceiptsTest extends TestCase
                        "quantity":1,
                        "is_return":false,
                        "taxes":[
-                          
+
                        ],
                        "discounts":[
-                          
+
                        ]
                     },
                     {
@@ -3021,10 +3021,10 @@ class GetReceiptsTest extends TestCase
                        "quantity":1,
                        "is_return":false,
                        "taxes":[
-                          
+
                        ],
                        "discounts":[
-                          
+
                        ]
                     }
                  ],
@@ -3044,10 +3044,10 @@ class GetReceiptsTest extends TestCase
                  "created_at":"2020-08-17T07:45:46.013500+00:00",
                  "updated_at":"2020-08-17T07:45:47.858223+00:00",
                  "taxes":[
-                    
+
                  ],
                  "discounts":[
-                    
+
                  ],
                  "header":null,
                  "footer":null,
@@ -3125,7 +3125,7 @@ class GetReceiptsTest extends TestCase
                     "updated_at":"2020-08-20T08:07:45.133235+00:00",
                     "balance":null,
                     "taxes":[
-                       
+
                     ],
                     "cash_register":{
                        "id":"fa74c34b-4869-47df-b65a-a914db53c9a6",
@@ -3177,10 +3177,10 @@ class GetReceiptsTest extends TestCase
                        "quantity":100,
                        "is_return":false,
                        "taxes":[
-                          
+
                        ],
                        "discounts":[
-                          
+
                        ]
                     }
                  ],
@@ -3200,10 +3200,10 @@ class GetReceiptsTest extends TestCase
                  "created_at":"2020-08-10T14:15:40.452481+00:00",
                  "updated_at":"2020-08-10T14:15:42.202163+00:00",
                  "taxes":[
-                    
+
                  ],
                  "discounts":[
-                    
+
                  ],
                  "header":null,
                  "footer":null,
@@ -3231,7 +3231,7 @@ class GetReceiptsTest extends TestCase
                           }
                        ],
                        "taxes":[
-                          
+
                        ],
                        "sell_receipts_count":6,
                        "return_receipts_count":1,
@@ -3270,7 +3270,7 @@ class GetReceiptsTest extends TestCase
                     "updated_at":"2020-08-10T14:40:03.527398+00:00",
                     "balance":null,
                     "taxes":[
-                       
+
                     ],
                     "cash_register":{
                        "id":"c70e0dd3-bf95-4d92-a7f2-03b39af16666",
@@ -3322,10 +3322,10 @@ class GetReceiptsTest extends TestCase
                        "quantity":1000,
                        "is_return":false,
                        "taxes":[
-                          
+
                        ],
                        "discounts":[
-                          
+
                        ]
                     }
                  ],
@@ -3345,10 +3345,10 @@ class GetReceiptsTest extends TestCase
                  "created_at":"2020-08-28T10:43:07.928970+00:00",
                  "updated_at":"2020-08-28T10:43:10.584761+00:00",
                  "taxes":[
-                    
+
                  ],
                  "discounts":[
-                    
+
                  ],
                  "header":null,
                  "footer":null,
@@ -3696,7 +3696,7 @@ class GetReceiptsTest extends TestCase
                           }
                        ],
                        "discounts":[
-                          
+
                        ]
                     },
                     {
@@ -3729,7 +3729,7 @@ class GetReceiptsTest extends TestCase
                           }
                        ],
                        "discounts":[
-                          
+
                        ]
                     }
                  ],
@@ -3764,7 +3764,7 @@ class GetReceiptsTest extends TestCase
                     }
                  ],
                  "discounts":[
-                    
+
                  ],
                  "header":null,
                  "footer":null,
@@ -3781,10 +3781,10 @@ class GetReceiptsTest extends TestCase
                        "serial":0,
                        "is_z_report":true,
                        "payments":[
-                          
+
                        ],
                        "taxes":[
-                          
+
                        ],
                        "sell_receipts_count":0,
                        "return_receipts_count":0,
@@ -3823,7 +3823,7 @@ class GetReceiptsTest extends TestCase
                     "updated_at":"2020-08-14T09:12:55.608921+00:00",
                     "balance":null,
                     "taxes":[
-                       
+
                     ],
                     "cash_register":{
                        "id":"b4a03eaf-9bd3-448f-8783-8a67a27917b7",
@@ -3890,7 +3890,7 @@ class GetReceiptsTest extends TestCase
                           }
                        ],
                        "discounts":[
-                          
+
                        ]
                     }
                  ],
@@ -3925,7 +3925,7 @@ class GetReceiptsTest extends TestCase
                     }
                  ],
                  "discounts":[
-                    
+
                  ],
                  "header":null,
                  "footer":null,
@@ -4003,7 +4003,7 @@ class GetReceiptsTest extends TestCase
                     "updated_at":"2020-08-18T08:33:03.386163+00:00",
                     "balance":null,
                     "taxes":[
-                       
+
                     ],
                     "cash_register":{
                        "id":"eb444f2d-4b39-4f00-811d-69643756a414",
@@ -4070,7 +4070,7 @@ class GetReceiptsTest extends TestCase
                           }
                        ],
                        "discounts":[
-                          
+
                        ]
                     }
                  ],
@@ -4105,7 +4105,7 @@ class GetReceiptsTest extends TestCase
                     }
                  ],
                  "discounts":[
-                    
+
                  ],
                  "header":null,
                  "footer":null,
@@ -4195,7 +4195,7 @@ class GetReceiptsTest extends TestCase
                     "updated_at":"2020-08-17T16:21:02.588583+00:00",
                     "balance":null,
                     "taxes":[
-                       
+
                     ],
                     "cash_register":{
                        "id":"d6257f44-f858-4ebf-8ca2-e8ec9b06b79d",
@@ -4247,10 +4247,10 @@ class GetReceiptsTest extends TestCase
                        "quantity":1,
                        "is_return":false,
                        "taxes":[
-                          
+
                        ],
                        "discounts":[
-                          
+
                        ]
                     }
                  ],
@@ -4270,10 +4270,10 @@ class GetReceiptsTest extends TestCase
                  "created_at":"2020-09-03T09:37:56.631658+00:00",
                  "updated_at":"2020-09-03T09:38:02.096533+00:00",
                  "taxes":[
-                    
+
                  ],
                  "discounts":[
-                    
+
                  ],
                  "header":null,
                  "footer":null,
@@ -4301,7 +4301,7 @@ class GetReceiptsTest extends TestCase
                           }
                        ],
                        "taxes":[
-                          
+
                        ],
                        "sell_receipts_count":4,
                        "return_receipts_count":0,
@@ -4656,7 +4656,7 @@ class GetReceiptsTest extends TestCase
                           }
                        ],
                        "discounts":[
-                          
+
                        ]
                     }
                  ],
@@ -4691,7 +4691,7 @@ class GetReceiptsTest extends TestCase
                     }
                  ],
                  "discounts":[
-                    
+
                  ],
                  "header":null,
                  "footer":null,
@@ -4769,7 +4769,7 @@ class GetReceiptsTest extends TestCase
                     "updated_at":"2020-08-21T09:58:56.015117+00:00",
                     "balance":null,
                     "taxes":[
-                       
+
                     ],
                     "cash_register":{
                        "id":"eb478d95-c8c0-4a4b-932c-5f8789e0b2cd",
@@ -4806,7 +4806,7 @@ class GetReceiptsTest extends TestCase
                  "serial":0,
                  "status":"DONE",
                  "goods":[
-                    
+
                  ],
                  "payments":[
                     {
@@ -4824,10 +4824,10 @@ class GetReceiptsTest extends TestCase
                  "created_at":"2020-08-20T09:30:17.282193+00:00",
                  "updated_at":"2020-08-20T09:30:20.637415+00:00",
                  "taxes":[
-                    
+
                  ],
                  "discounts":[
-                    
+
                  ],
                  "header":null,
                  "footer":null,
@@ -4924,7 +4924,7 @@ class GetReceiptsTest extends TestCase
                        "updated_at":"2020-08-30T17:43:22.311958+00:00"
                     },
                     "taxes":[
-                       
+
                     ],
                     "cash_register":{
                        "id":"0b673f1c-c409-4ef3-8ea5-6619bffcb1db",
@@ -5004,7 +5004,7 @@ class GetReceiptsTest extends TestCase
                           }
                        ],
                        "discounts":[
-                          
+
                        ]
                     }
                  ],
@@ -5052,7 +5052,7 @@ class GetReceiptsTest extends TestCase
                     }
                  ],
                  "discounts":[
-                    
+
                  ],
                  "header":null,
                  "footer":null,
@@ -5142,7 +5142,7 @@ class GetReceiptsTest extends TestCase
                     "updated_at":"2020-08-13T18:44:38.305076+00:00",
                     "balance":null,
                     "taxes":[
-                       
+
                     ],
                     "cash_register":{
                        "id":"2cff6de0-e1a5-4c8c-85df-28c3a98f6c0a",
@@ -5194,10 +5194,10 @@ class GetReceiptsTest extends TestCase
                        "quantity":1000,
                        "is_return":false,
                        "taxes":[
-                          
+
                        ],
                        "discounts":[
-                          
+
                        ]
                     }
                  ],
@@ -5217,10 +5217,10 @@ class GetReceiptsTest extends TestCase
                  "created_at":"2020-08-19T11:27:28.681158+00:00",
                  "updated_at":"2020-08-19T11:27:31.036931+00:00",
                  "taxes":[
-                    
+
                  ],
                  "discounts":[
-                    
+
                  ],
                  "header":null,
                  "footer":null,
@@ -5257,7 +5257,7 @@ class GetReceiptsTest extends TestCase
                           }
                        ],
                        "taxes":[
-                          
+
                        ],
                        "sell_receipts_count":2,
                        "return_receipts_count":0,
@@ -5296,7 +5296,7 @@ class GetReceiptsTest extends TestCase
                     "updated_at":"2020-08-19T11:32:26.765655+00:00",
                     "balance":null,
                     "taxes":[
-                       
+
                     ],
                     "cash_register":{
                        "id":"657f2d01-b34a-4b5c-b476-4717e0d8fad6",
@@ -5363,7 +5363,7 @@ class GetReceiptsTest extends TestCase
                           }
                        ],
                        "discounts":[
-                          
+
                        ]
                     }
                  ],
@@ -5398,7 +5398,7 @@ class GetReceiptsTest extends TestCase
                     }
                  ],
                  "discounts":[
-                    
+
                  ],
                  "header":null,
                  "footer":null,
@@ -5476,7 +5476,7 @@ class GetReceiptsTest extends TestCase
                     "updated_at":"2020-08-11T06:29:40.188469+00:00",
                     "balance":null,
                     "taxes":[
-                       
+
                     ],
                     "cash_register":{
                        "id":"57cd9ece-81ab-4bf8-8924-4dd39d119e7d",
@@ -5543,7 +5543,7 @@ class GetReceiptsTest extends TestCase
                           }
                        ],
                        "discounts":[
-                          
+
                        ]
                     },
                     {
@@ -5576,7 +5576,7 @@ class GetReceiptsTest extends TestCase
                           }
                        ],
                        "discounts":[
-                          
+
                        ]
                     },
                     {
@@ -5609,7 +5609,7 @@ class GetReceiptsTest extends TestCase
                           }
                        ],
                        "discounts":[
-                          
+
                        ]
                     },
                     {
@@ -5642,7 +5642,7 @@ class GetReceiptsTest extends TestCase
                           }
                        ],
                        "discounts":[
-                          
+
                        ]
                     },
                     {
@@ -5675,7 +5675,7 @@ class GetReceiptsTest extends TestCase
                           }
                        ],
                        "discounts":[
-                          
+
                        ]
                     }
                  ],
@@ -5723,7 +5723,7 @@ class GetReceiptsTest extends TestCase
                     }
                  ],
                  "discounts":[
-                    
+
                  ],
                  "header":null,
                  "footer":null,
@@ -5813,7 +5813,7 @@ class GetReceiptsTest extends TestCase
                     "updated_at":"2020-08-12T18:00:29.745915+00:00",
                     "balance":null,
                     "taxes":[
-                       
+
                     ],
                     "cash_register":{
                        "id":"252b18af-307e-4f37-8151-1b4283081255",
@@ -5865,10 +5865,10 @@ class GetReceiptsTest extends TestCase
                        "quantity":1000,
                        "is_return":false,
                        "taxes":[
-                          
+
                        ],
                        "discounts":[
-                          
+
                        ]
                     }
                  ],
@@ -5888,10 +5888,10 @@ class GetReceiptsTest extends TestCase
                  "created_at":"2020-08-30T17:15:56.031927+00:00",
                  "updated_at":"2020-08-30T17:21:15.891096+00:00",
                  "taxes":[
-                    
+
                  ],
                  "discounts":[
-                    
+
                  ],
                  "header":null,
                  "footer":null,

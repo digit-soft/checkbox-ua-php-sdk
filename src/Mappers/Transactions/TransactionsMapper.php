@@ -1,9 +1,9 @@
 <?php
 
-namespace igorbunov\Checkbox\Mappers\Transactions;
+namespace DigitSoft\Checkbox\Mappers\Transactions;
 
-use igorbunov\Checkbox\Mappers\MetaMapper;
-use igorbunov\Checkbox\Models\Transactions\Transactions;
+use DigitSoft\Checkbox\Mappers\MetaMapper;
+use DigitSoft\Checkbox\Models\Transactions\Transactions;
 
 class TransactionsMapper
 {

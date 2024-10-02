@@ -1,6 +1,6 @@
 <?php
 
-namespace igorbunov\Checkbox\Models;
+namespace DigitSoft\Checkbox\Models;
 
 class Meta
 {

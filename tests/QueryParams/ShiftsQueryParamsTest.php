@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace igorbunov\Checkbox\Mappers;
+namespace DigitSoft\Checkbox\Tests\QueryParams;
 
 use PHPUnit\Framework\TestCase;
-use igorbunov\Checkbox\Models\Shifts\ShiftsQueryParams;
+use DigitSoft\Checkbox\Models\Shifts\ShiftsQueryParams;
 
 class ShiftsQueryParamsTest extends TestCase
 {

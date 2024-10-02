@@ -1,9 +1,9 @@
 <?php
 
-namespace igorbunov\Checkbox\Mappers\Receipts;
+namespace DigitSoft\Checkbox\Mappers\Receipts;
 
-use igorbunov\Checkbox\Mappers\MetaMapper;
-use igorbunov\Checkbox\Models\Receipts\Receipts;
+use DigitSoft\Checkbox\Mappers\MetaMapper;
+use DigitSoft\Checkbox\Models\Receipts\Receipts;
 
 class ReceiptsMapper
 {

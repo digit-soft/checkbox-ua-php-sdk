@@ -1,8 +1,8 @@
 <?php
 
-namespace igorbunov\Checkbox\Mappers;
+namespace DigitSoft\Checkbox\Mappers;
 
-use igorbunov\Checkbox\Models\Meta;
+use DigitSoft\Checkbox\Models\Meta;
 
 class MetaMapper
 {

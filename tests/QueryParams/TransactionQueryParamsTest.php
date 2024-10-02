@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace igorbunov\Checkbox\Mappers;
+namespace DigitSoft\Checkbox\Tests\QueryParams;
 
-use igorbunov\Checkbox\Models\Transactions\TransactionsQueryParams;
+use DigitSoft\Checkbox\Models\Transactions\TransactionsQueryParams;
 use PHPUnit\Framework\TestCase;
 
 class TransactionQueryParamsTest extends TestCase

@@ -1,11 +1,11 @@
 <?php
 
-namespace igorbunov\Checkbox\Mappers\Receipts;
+namespace DigitSoft\Checkbox\Mappers\Receipts;
 
-use igorbunov\Checkbox\Mappers\Receipts\Discounts\DiscountsMapper;
-use igorbunov\Checkbox\Mappers\Receipts\Goods\GoodsMapper;
-use igorbunov\Checkbox\Mappers\Receipts\Payments\PaymentsMapper;
-use igorbunov\Checkbox\Models\Receipts\SellReceipt;
+use DigitSoft\Checkbox\Mappers\Receipts\Discounts\DiscountsMapper;
+use DigitSoft\Checkbox\Mappers\Receipts\Goods\GoodsMapper;
+use DigitSoft\Checkbox\Mappers\Receipts\Payments\PaymentsMapper;
+use DigitSoft\Checkbox\Models\Receipts\SellReceipt;
 
 class SellReceiptMapper
 {
