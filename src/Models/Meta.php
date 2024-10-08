@@ -2,17 +2,15 @@
 
 namespace DigitSoft\Checkbox\Models;
 
-class Meta
+/**
+ * @method static static make(int $limit, int $offset = 0)
+ */
+class Meta extends ModelBase
 {
-    /** @var int $limit */
-    public $limit;
-    /** @var int $offset */
-    public $offset;
+    public int $limit;
+    public int $offset;
 
-    public function __construct(
-        int $limit,
-        int $offset
-    ) {
+    public function __construct(int $limit, int $offset = 0) {
         $this->limit = $limit;
         $this->offset = $offset;
     }

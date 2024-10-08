@@ -3,29 +3,27 @@
 namespace DigitSoft\Checkbox\Mappers\Cashier;
 
 use DigitSoft\Checkbox\Models\Cashier\Organization;
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
 
-class OrganizationMapper
+class OrganizationMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return Organization|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?Organization
+    public function jsonToObject(?array $json): ?Organization
     {
         if (is_null($json)) {
             return null;
         }
 
-        $organization = new Organization(
+        return Organization::make(
             $json['id'],
             $json['title'],
             $json['edrpou'],
             $json['tax_number'],
             $json['created_at'],
             $json['updated_at'],
-            $json['subscription_exp'] ?? ''
+            $json['subscription_exp'] ?? null
         );
-
-        return $organization;
     }
 }

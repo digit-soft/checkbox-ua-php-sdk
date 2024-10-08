@@ -2,49 +2,43 @@
 
 namespace DigitSoft\Checkbox\Models\Shifts;
 
-class Tax
+use DigitSoft\Checkbox\Models\ModelBase;
+
+/**
+ * @method static static make(string $id, int $code, string $label, string $symbol, int $rate, ?float $extra_rate, bool $included, bool $no_vat, string $created_at, ?string $updated_at, int $sales, int $returns, int $sales_turnover, int $returns_turnover)
+ */
+class Tax extends ModelBase
 {
-    /** @var string $id */
-    public $id;
-    /** @var string $code */
-    public $code;
-    /** @var string $label */
-    public $label;
-    /** @var string $symbol */
-    public $symbol;
-    /** @var string $rate */
-    public $rate;
-    /** @var string $extra_rate */
-    public $extra_rate;
-    /** @var string $included */
-    public $included;
-    /** @var string $created_at */
-    public $created_at;
-    /** @var string $updated_at */
-    public $updated_at;
-    /** @var string $sales */
-    public $sales;
-    /** @var string $returns */
-    public $returns;
-    /** @var string $sales_turnover */
-    public $sales_turnover;
-    /** @var string $returns_turnover */
-    public $returns_turnover;
+    public string $id;
+    public int $code;
+    public string $label;
+    public string $symbol;
+    public int $rate;
+    public ?float $extra_rate;
+    public bool $included;
+    public bool $no_vat;
+    public string $created_at;
+    public ?string $updated_at;
+    public int $sales;
+    public int $returns;
+    public int $sales_turnover;
+    public int $returns_turnover;
 
     public function __construct(
         string $id,
-        string $code,
+        int $code,
         string $label,
         string $symbol,
-        string $rate,
-        string $extra_rate,
-        string $included,
+        int $rate,
+        ?float $extra_rate,
+        bool $included,
+        bool $no_vat,
         string $created_at,
-        string $updated_at,
-        string $sales,
-        string $returns,
-        string $sales_turnover,
-        string $returns_turnover
+        ?string $updated_at,
+        int $sales,
+        int $returns,
+        int $sales_turnover,
+        int $returns_turnover
     ) {
         $this->id = $id;
         $this->code = $code;
@@ -53,6 +47,7 @@ class Tax
         $this->rate = $rate;
         $this->extra_rate = $extra_rate;
         $this->included = $included;
+        $this->no_vat = $no_vat;
         $this->created_at = $created_at;
         $this->updated_at = $updated_at;
         $this->sales = $sales;

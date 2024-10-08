@@ -3,22 +3,22 @@
 namespace DigitSoft\Checkbox\Models\Shifts;
 
 use DigitSoft\Checkbox\Models\Meta;
+use DigitSoft\Checkbox\Models\ModelBaseWithResultsList;
 
-class Shifts
+/**
+ * @property \DigitSoft\Checkbox\Models\Shifts\Shift[]|array $results
+ * @method static static make(array $shifts, ?Meta $meta = null)
+ */
+class Shifts extends ModelBaseWithResultsList
 {
-    /** @var array<Shift> $results */
-    public $results;
-    /** @var Meta|null $meta */
-    public $meta;
-
     /**
      * Constructor
      *
-     * @param array<Shift> $shifts
-     * @param Meta|null $meta
-     *
+     * @param  Shift[]   $shifts
+     * @param  Meta|null $meta
+     * @noinspection PhpDynamicFieldDeclarationInspection
      */
-    public function __construct(array $shifts, ?Meta $meta)
+    public function __construct(array $shifts, ?Meta $meta = null)
     {
         $this->results = $shifts;
         $this->meta = $meta;

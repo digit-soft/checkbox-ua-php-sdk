@@ -2,22 +2,17 @@
 
 namespace DigitSoft\Checkbox\Models\Shifts;
 
-class Payment
+use DigitSoft\Checkbox\Models\ModelBase;
+
+class Payment extends ModelBase
 {
-    /** @var string $id */
-    public $id;
-    /** @var string $type */
-    public $type;
-    /** @var string $label */
-    public $label;
-    /** @var int $sell_sum */
-    public $sell_sum;
-    /** @var int $return_sum */
-    public $return_sum;
-    /** @var string $service_in */
-    public $service_in;
-    /** @var string $service_out */
-    public $service_out;
+    public string $id;
+    public string $type;
+    public string $label;
+    public int $sell_sum;
+    public int $return_sum;
+    public string $service_in;
+    public string $service_out;
 
     public function __construct(
         string $id,

@@ -2,36 +2,54 @@
 
 namespace DigitSoft\Checkbox;
 
+/**
+ * Simple config class for the API usage.
+ */
 class Config
 {
-    /**
-     * @var array<string, string> $data
-     */
-    private $data;
+    public string $apiBaseUrl = 'https://api.checkbox.ua/api/v1';
 
-    public const API_URL = 'apiUrl';
-    public const LOGIN = 'login';
-    public const PASSWORD = 'password';
-    public const PINCODE = 'pin_code';
-    public const LICENSE_KEY = 'licenseKey';
+    public string $licenseKey;
+    // PIN
+    public ?string $cashierPinCode;
+    // Or login + pass
+    public ?string $cashierLogin;
+    public ?string $cashierPass;
 
-    /**
-     * Constructor
-     *
-     * @param array<string, string> $data
-     *
-     */
-    public function __construct(array $data)
+    protected static ?array $configAttributes = null;
+
+    public function __construct(
+        string $licenseKey, ?string $cashierPinCode = null, ?string $cashierLogin = null, ?string $cashierPass = null
+    )
     {
-        $this->data = $data;
+        $this->licenseKey = $licenseKey;
+        $this->cashierPinCode = $cashierPinCode;
+        $this->cashierLogin = $cashierLogin;
+        $this->cashierPass = $cashierPass;
     }
 
-    public function get(string $name): string
+    /**
+     * Make a new instance with auth by PIN-code.
+     *
+     * @param  string $licenseKey
+     * @param  string $cashierPinCode
+     * @return static
+     */
+    public static function makeWithPin(string $licenseKey, string $cashierPinCode): static
     {
-        if (array_key_exists($name, $this->data)) {
-            return $this->data[$name];
-        }
+        return new static($licenseKey, $cashierPinCode);
+    }
 
-        throw new \Exception("Error: '{$name}' not found in config class");
+    /**
+     * Make a new instance with auth by login and password.
+     *
+     * @param  string $licenseKey
+     * @param  string $cashierLogin
+     * @param  string $cashierPass
+     * @return static
+     */
+    public static function makeWithLoginPass(string $licenseKey, string $cashierLogin, string $cashierPass): static
+    {
+        return new static($licenseKey, null, $cashierLogin, $cashierPass);
     }
 }

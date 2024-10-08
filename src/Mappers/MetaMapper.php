@@ -3,24 +3,19 @@
 namespace DigitSoft\Checkbox\Mappers;
 
 use DigitSoft\Checkbox\Models\Meta;
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
 
-class MetaMapper
+class MetaMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return Meta|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?Meta
+    public function jsonToObject(?array $json): ?Meta
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
-        $meta = new Meta(
-            $json['limit'],
-            $json['offset']
-        );
-
-        return $meta;
+        return Meta::make($json['limit'], $json['offset']);
     }
 }

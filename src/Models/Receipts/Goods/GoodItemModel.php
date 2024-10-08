@@ -2,25 +2,19 @@
 
 namespace DigitSoft\Checkbox\Models\Receipts\Goods;
 
-use DigitSoft\Checkbox\Models\Receipts\Discounts\Discounts;
+use DigitSoft\Checkbox\Models\ModelBase;
 use DigitSoft\Checkbox\Models\Receipts\Taxes\GoodTaxes;
+use DigitSoft\Checkbox\Models\Receipts\Discounts\Discounts;
 
-class GoodItemModel
+class GoodItemModel extends ModelBase
 {
-    /** @var GoodModel|null $good */
-    public $good;
-    /** @var string $good_id */
-    public $good_id;
-    /** @var int $sum */
-    public $sum;
-    /** @var int $quantity */
-    public $quantity;
-    /** @var bool $is_return */
-    public $is_return;
-    /** @var GoodTaxes|null $taxes */
-    public $taxes;
-    /** @var Discounts|null $discounts */
-    public $discounts;
+    public ?GoodModel $good;
+    public ?string $good_id;
+    public int $sum;
+    public int $quantity;
+    public bool $is_return;
+    public ?GoodTaxes $taxes;
+    public ?Discounts $discounts;
 
     public function __construct(
         ?GoodModel $good,
@@ -29,7 +23,7 @@ class GoodItemModel
         ?GoodTaxes $taxes = null,
         bool $is_return = false,
         int $sum = 0,
-        string $good_id = ''
+        ?string $good_id = null
     ) {
         $this->good = $good;
         $this->sum = $sum;

@@ -2,12 +2,15 @@
 
 namespace DigitSoft\Checkbox\Models\Receipts;
 
+use DigitSoft\Checkbox\Models\ModelBase;
 use DigitSoft\Checkbox\Models\Receipts\Payments\PaymentParent;
 
-class ServiceReceipt
+/**
+ * @method static static make(PaymentParent $payment)
+ */
+class ServiceReceipt extends ModelBase
 {
-    /** @var PaymentParent $payment */
-    public $payment;
+    public PaymentParent $payment;
 
     public function __construct(
         PaymentParent $payment

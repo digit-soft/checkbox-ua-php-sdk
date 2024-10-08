@@ -4,40 +4,43 @@ namespace DigitSoft\Checkbox\Models\Receipts;
 
 class ReceiptStatus
 {
-    public const CREATED = 'CREATED';
-    public const DONE = 'DONE';
-    public const ERROR = 'ERROR';
+    public const string CREATED = 'CREATED';
+    public const string DONE = 'DONE';
+    public const string ERROR = 'ERROR';
 
-    /** @var array<string> $allowedValues */
-    private $allowedValues = [];
-    /** @var string $value */
-    private $value = '';
+    protected string $value = '';
+
+    protected static array $allowedValues = [
+        self::CREATED,
+        self::DONE,
+        self::ERROR
+    ];
 
     public function __construct(string $value)
     {
-        $this->initAllowedValues();
-
         $this->value = $value;
 
         $this->validate();
     }
 
-    private function initAllowedValues(): void
+    /**
+     * Validate a value.
+     *
+     * @return void
+     * @throws \Exception
+     */
+    protected function validate(): void
     {
-        $this->allowedValues = [
-            self::CREATED,
-            self::DONE,
-            self::ERROR
-        ];
-    }
-
-    private function validate(): void
-    {
-        if (!in_array($this->value, $this->allowedValues)) {
+        if (! in_array($this->value, static::$allowedValues, true)) {
             throw new \Exception("Status '{$this->value}' is not allowed");
         }
     }
 
+    /**
+     * Getter for the $value.
+     *
+     * @return string
+     */
     public function getValue(): string
     {
         return $this->value;

@@ -2,22 +2,22 @@
 
 namespace DigitSoft\Checkbox\Mappers\Receipts\Payments;
 
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
 use DigitSoft\Checkbox\Models\Receipts\Payments\CardPaymentPayload;
 use DigitSoft\Checkbox\Models\Receipts\Payments\PaymentParent;
 
-class CardPaymentMapper
+class CardPaymentMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return CardPaymentPayload|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?CardPaymentPayload
+    public function jsonToObject(?array $json): ?CardPaymentPayload
     {
         if (is_null($json)) {
             return null;
         }
 
-        $receipt = new CardPaymentPayload(
+        return new CardPaymentPayload(
             $json['value'],
             $json['label'] ?? '',
             $json['code'] ?? 0,
@@ -31,8 +31,6 @@ class CardPaymentMapper
             $json['acquirer_and_seller'] ?? '',
             $json['commission'] ?? 0,
         );
-
-        return $receipt;
     }
 
     /**

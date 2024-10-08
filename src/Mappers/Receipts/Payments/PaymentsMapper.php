@@ -2,32 +2,32 @@
 
 namespace DigitSoft\Checkbox\Mappers\Receipts\Payments;
 
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
 use DigitSoft\Checkbox\Models\Receipts\Payments\PaymentParent;
 use DigitSoft\Checkbox\Models\Receipts\Payments\Payments;
 
-class PaymentsMapper
+class PaymentsMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return Payments|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?Payments
+    public function jsonToObject(?array $json): ?Payments
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
         $results = [];
 
         foreach ($json as $payment) {
-            if ($payment['type'] == PaymentParent::TYPE_CASH) {
-                $pay = (new CashPaymentMapper())->jsonToObject($payment);
+            if ($payment['type'] === PaymentParent::TYPE_CASH) {
+                $pay = (new CashPaymentMapper)->jsonToObject($payment);
 
                 if (!is_null($pay)) {
                     $results[] = $pay;
                 }
-            } elseif ($payment['type'] == PaymentParent::TYPE_CARD) {
-                $pay = (new CardPaymentMapper())->jsonToObject($payment);
+            } elseif ($payment['type'] === PaymentParent::TYPE_CARD) {
+                $pay = (new CardPaymentMapper)->jsonToObject($payment);
 
                 if (!is_null($pay)) {
                     $results[] = $pay;
@@ -35,9 +35,7 @@ class PaymentsMapper
             }
         }
 
-        $receipt = new Payments($results);
-
-        return $receipt;
+        return new Payments($results);
     }
 
     /**

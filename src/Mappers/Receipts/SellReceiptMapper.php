@@ -2,16 +2,16 @@
 
 namespace DigitSoft\Checkbox\Mappers\Receipts;
 
-use DigitSoft\Checkbox\Mappers\Receipts\Discounts\DiscountsMapper;
+use DigitSoft\Checkbox\Models\Receipts\SellReceipt;
 use DigitSoft\Checkbox\Mappers\Receipts\Goods\GoodsMapper;
 use DigitSoft\Checkbox\Mappers\Receipts\Payments\PaymentsMapper;
-use DigitSoft\Checkbox\Models\Receipts\SellReceipt;
+use DigitSoft\Checkbox\Mappers\Receipts\Discounts\DiscountsMapper;
 
 class SellReceiptMapper
 {
     /**
      * @param SellReceipt $receipt
-     * @return array<string, mixed>
+     * @return array
      */
     public function objectToJson(SellReceipt $receipt): array
     {
@@ -27,11 +27,11 @@ class SellReceiptMapper
             'barcode' => $receipt->barcode
         ];
 
-        if ($receipt->id) {
+        if (isset($receipt->id)) {
             $output['id'] = $receipt->id;
         }
 
-        if ($receipt->related_receipt_id) {
+        if (isset($receipt->related_receipt_id)) {
             $output['related_receipt_id'] = $receipt->related_receipt_id;
         }
 

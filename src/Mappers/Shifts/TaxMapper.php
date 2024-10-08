@@ -3,35 +3,34 @@
 namespace DigitSoft\Checkbox\Mappers\Shifts;
 
 use DigitSoft\Checkbox\Models\Shifts\Tax;
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
 
-class TaxMapper
+class TaxMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return Tax|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?Tax
+    public function jsonToObject(?array $json): ?Tax
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
-        $tax = new Tax(
+        return Tax::make(
             $json['id'],
             $json['code'],
             $json['label'],
             $json['symbol'],
             $json['rate'],
-            $json['extra_rate'] ?? '',
-            $json['included'] ?? '',
+            $json['extra_rate'] ?? null,
+            $json['included'] ?? false,
+            $json['no_vat'] ?? false,
             $json['created_at'],
-            $json['updated_at'] ?? '',
-            $json['sales'] ?? '',
-            $json['returns'] ?? '',
+            $json['updated_at'] ?? null,
+            $json['sales'] ?? 0,
+            $json['returns'] ?? 0,
             $json['sales_turnover'],
             $json['returns_turnover']
         );
-
-        return $tax;
     }
 }

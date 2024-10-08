@@ -2,15 +2,17 @@
 
 namespace DigitSoft\Checkbox\Models\Receipts\Goods;
 
-class Goods
+use DigitSoft\Checkbox\Models\ModelBase;
+
+class Goods extends ModelBase
 {
-    /** @var array<GoodItemModel> $results */
-    public $results;
+    /** @var GoodItemModel[] $results */
+    public array $results;
 
     /**
      * Constructor
      *
-     * @param array<GoodItemModel> $goods
+     * @param GoodItemModel[] $goods
      *
      */
     public function __construct(array $goods)

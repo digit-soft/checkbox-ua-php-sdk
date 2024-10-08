@@ -2,14 +2,14 @@
 
 namespace DigitSoft\Checkbox\Mappers\Receipts;
 
-use DigitSoft\Checkbox\Mappers\Receipts\Payments\CashPaymentMapper;
-use DigitSoft\Checkbox\Models\Receipts\Payments\PaymentParent;
 use DigitSoft\Checkbox\Models\Receipts\ServiceReceipt;
+use DigitSoft\Checkbox\Models\Receipts\Payments\PaymentParent;
+use DigitSoft\Checkbox\Mappers\Receipts\Payments\CashPaymentMapper;
 
 class ServiceReceiptMapper
 {
     /**
-     * @param ServiceReceipt $receipt
+     * @param  ServiceReceipt $receipt
      * @return array<string, array<string, int|string>|null>
      */
     public function objectToJson(ServiceReceipt $receipt): array
@@ -23,7 +23,7 @@ class ServiceReceiptMapper
         }
 
         return [
-            'payment' => $payment
+            'payment' => $payment,
         ];
     }
 }

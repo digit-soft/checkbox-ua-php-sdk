@@ -4,26 +4,22 @@ namespace DigitSoft\Checkbox\Models\Reports;
 
 use DigitSoft\Checkbox\Models\Meta;
 use DigitSoft\Checkbox\Models\Shifts\ZReport;
+use DigitSoft\Checkbox\Models\ModelBaseWithResultsList;
 
-class Reports
+class Reports extends ModelBaseWithResultsList
 {
-    /** @var array<ZReport> $results */
-    public $results;
-    /** @var Meta|null $meta */
-    public $meta;
-
     /**
      * Constructor
      *
-     * @param array<ZReport> $reports
-     * @param Meta|null $meta
-     *
+     * @param  array<ZReport> $reports
+     * @param  Meta|null      $meta
+     * @throws \Exception
      */
     public function __construct(array $reports, ?Meta $meta)
     {
         foreach ($reports as $report) {
-            if (!is_a($report, ZReport::class)) {
-                throw new \Exception('This is not zreport class');
+            if (! $report instanceof ZReport) {
+                throw new \Exception('This is not ZReport class');
             }
 
             $this->results[] = $report;

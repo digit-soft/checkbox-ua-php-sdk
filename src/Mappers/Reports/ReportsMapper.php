@@ -3,38 +3,33 @@
 namespace DigitSoft\Checkbox\Mappers\Reports;
 
 use DigitSoft\Checkbox\Mappers\MetaMapper;
-use DigitSoft\Checkbox\Mappers\Shifts\ZReportMapper;
 use DigitSoft\Checkbox\Models\Reports\Reports;
+use DigitSoft\Checkbox\Mappers\Shifts\ZReportMapper;
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
 
-class ReportsMapper
+class ReportsMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return Reports|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?Reports
+    public function jsonToObject(?array $json): ?Reports
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
-        $shiftsArr = [];
+        $reportsArr = [];
 
         foreach ($json['results'] as $jsonRow) {
-            $report = (new ZReportMapper())->jsonToObject($jsonRow);
+            $report = (new ZReportMapper)->jsonToObject($jsonRow);
 
             if (!is_null($report)) {
-                $shiftsArr[] = $report;
+                $reportsArr[] = $report;
             }
         }
 
-        $meta = (new MetaMapper())->jsonToObject($json['meta']);
+        $meta = (new MetaMapper)->jsonToObject($json['meta']);
 
-        $shift = new Reports(
-            $shiftsArr,
-            $meta
-        );
-
-        return $shift;
+        return new Reports($reportsArr, $meta);
     }
 }

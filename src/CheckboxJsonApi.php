@@ -3,106 +3,252 @@
 namespace DigitSoft\Checkbox;
 
 use GuzzleHttp\Client;
-use Psr\Http\Message\ResponseInterface;
+use DigitSoft\Checkbox\RouteGroups\TaxesRouteGroup;
+use DigitSoft\Checkbox\RouteGroups\ShiftsRouteGroup;
+use DigitSoft\Checkbox\RouteGroups\CashierRouteGroup;
+use DigitSoft\Checkbox\RouteGroups\ReportsRouteGroup;
 use DigitSoft\Checkbox\Exceptions\ValidationException;
-use DigitSoft\Checkbox\Models\Shifts\Shift;
-use DigitSoft\Checkbox\Exceptions\EmptyResponseException;
-use DigitSoft\Checkbox\Models\Shifts\Shifts;
-use DigitSoft\Checkbox\Models\Shifts\ZReport;
-use DigitSoft\Checkbox\Models\Cashier\Cashier;
-use DigitSoft\Checkbox\Models\Reports\Reports;
-use DigitSoft\Checkbox\Models\Receipts\Receipt;
-use DigitSoft\Checkbox\Models\Receipts\Receipts;
-use DigitSoft\Checkbox\Models\Shifts\CloseShift;
+use DigitSoft\Checkbox\RouteGroups\ReceiptsRouteGroup;
+use DigitSoft\Checkbox\RouteGroups\TransactionsRouteGroup;
+use DigitSoft\Checkbox\RouteGroups\CashRegistersRouteGroup;
 use DigitSoft\Checkbox\Exceptions\InvalidCredentialsException;
-use DigitSoft\Checkbox\Models\Shifts\CreateShift;
-use DigitSoft\Checkbox\Mappers\Shifts\ShiftMapper;
-use DigitSoft\Checkbox\Mappers\Shifts\ShiftsMapper;
-use DigitSoft\Checkbox\Models\Receipts\SellReceipt;
-use DigitSoft\Checkbox\Mappers\Shifts\ZReportMapper;
-use DigitSoft\Checkbox\Mappers\Cashier\CashierMapper;
-use DigitSoft\Checkbox\Mappers\Reports\ReportsMapper;
-use DigitSoft\Checkbox\Mappers\Receipts\ReceiptMapper;
-use DigitSoft\Checkbox\Models\Receipts\ServiceReceipt;
-use DigitSoft\Checkbox\Mappers\Receipts\ReceiptsMapper;
-use DigitSoft\Checkbox\Mappers\Shifts\CloseShiftMapper;
-use DigitSoft\Checkbox\Models\Receipts\Taxes\GoodTaxes;
-use DigitSoft\Checkbox\Models\Shifts\ShiftsQueryParams;
-use DigitSoft\Checkbox\Models\Transactions\Transaction;
-use DigitSoft\Checkbox\Mappers\Shifts\CreateShiftMapper;
-use DigitSoft\Checkbox\Models\Transactions\Transactions;
 use DigitSoft\Checkbox\Exceptions\BadRequestExceptionFactory;
-use DigitSoft\Checkbox\Models\CashRegisters\CashRegister;
-use DigitSoft\Checkbox\Models\Reports\ReportsQueryParams;
-use DigitSoft\Checkbox\Mappers\Receipts\SellReceiptMapper;
-use DigitSoft\Checkbox\Models\CashRegisters\CashRegisters;
-use DigitSoft\Checkbox\Models\Receipts\ReceiptsQueryParams;
-use DigitSoft\Checkbox\Mappers\Receipts\ServiceReceiptMapper;
-use DigitSoft\Checkbox\Models\CashRegisters\CashRegisterInfo;
-use DigitSoft\Checkbox\Mappers\Receipts\Taxes\GoodTaxesMapper;
-use DigitSoft\Checkbox\Mappers\Transactions\TransactionMapper;
-use DigitSoft\Checkbox\Mappers\Transactions\TransactionsMapper;
-use DigitSoft\Checkbox\Mappers\CashRegisters\CashRegisterMapper;
-use DigitSoft\Checkbox\Mappers\CashRegisters\CashRegistersMapper;
-use DigitSoft\Checkbox\Models\Reports\PeriodicalReportQueryParams;
-use DigitSoft\Checkbox\Models\Transactions\TransactionsQueryParams;
-use DigitSoft\Checkbox\Mappers\CashRegisters\CashRegisterInfoMapper;
-use DigitSoft\Checkbox\Models\CashRegisters\CashRegistersQueryParams;
 
 class CheckboxJsonApi
 {
-    /** @var Routes $routes */
-    private $routes;
+    // Keep sync with package version in composer.json
+    public const string SDK_VERSION = '0.2.0';
 
-    /** @var Client $guzzleClient */
-    private $guzzleClient;
+    protected Routes $routes;
 
-    /** @var int $connectTimeout */
-    private $connectTimeout;
+    protected Client $guzzleClient;
 
-    /** @var Config $config */
-    private $config = null;
+    protected Config $config;
 
-    /**
-     * Request options.
-     * @var array<string, mixed> $requestOptions
-     */
-    private $requestOptions;
+    /** @var int Connect timeout in seconds */
+    protected int $connectTimeout;
 
-    public const METHOD_GET = 'get';
-    public const METHOD_POST = 'post';
-    public const METHOD_PATCH = 'patch';
+    protected array $defaultHeaders;
+
+    protected ?string $authTokenCashier = null;
 
     /**
      * Constructor
      *
      * @param Config $config
-     * @param int $connectTimeoutSeconds
-     *
+     * @param int    $connectTimeoutSeconds
      */
     public function __construct(Config $config, int $connectTimeoutSeconds = 5)
     {
         $this->config = $config;
         $this->connectTimeout = $connectTimeoutSeconds;
-        $this->routes = new Routes($this->config->get(Config::API_URL));
 
+        $this->initConfiguration();
+    }
+
+    /**
+     * Get route group for the cashier operations.
+     *
+     * @return \DigitSoft\Checkbox\RouteGroups\CashierRouteGroup
+     */
+    public function cashier(): CashierRouteGroup
+    {
+        return new CashierRouteGroup($this);
+    }
+
+    /**
+     * Get route group for shifts.
+     *
+     * @return \DigitSoft\Checkbox\RouteGroups\ShiftsRouteGroup
+     */
+    public function shifts(): ShiftsRouteGroup
+    {
+        return new ShiftsRouteGroup($this);
+    }
+
+    /**
+     * Get route group for cash registers (пРРО).
+     *
+     * @return \DigitSoft\Checkbox\RouteGroups\CashRegistersRouteGroup
+     */
+    public function cashRegisters(): CashRegistersRouteGroup
+    {
+        return new CashRegistersRouteGroup($this);
+    }
+
+    /**
+     * Get route group for the receipts (чеки).
+     *
+     * @return \DigitSoft\Checkbox\RouteGroups\ReceiptsRouteGroup
+     */
+    public function receipts(): ReceiptsRouteGroup
+    {
+        return new ReceiptsRouteGroup($this);
+    }
+
+    /**
+     * Get route group for the reports.
+     *
+     * @return \DigitSoft\Checkbox\RouteGroups\ReportsRouteGroup
+     */
+    public function reports(): ReportsRouteGroup
+    {
+        return new ReportsRouteGroup($this);
+    }
+
+    /**
+     * Get route group for the taxes.
+     *
+     * @return \DigitSoft\Checkbox\RouteGroups\TaxesRouteGroup
+     */
+    public function taxes(): TaxesRouteGroup
+    {
+        return new TaxesRouteGroup($this);
+    }
+
+    /**
+     * Get route group for transactions.
+     *
+     * @return \DigitSoft\Checkbox\RouteGroups\TransactionsRouteGroup
+     */
+    public function transactions(): TransactionsRouteGroup
+    {
+        return new TransactionsRouteGroup($this);
+    }
+
+    /**
+     * Save a JWT token of the cashier.
+     *
+     * @param  string|null $token
+     * @return $this
+     */
+    public function setCashierAuthToken(?string $token): static
+    {
+        $this->authTokenCashier = $token;
+
+        return $this;
+    }
+
+    /**
+     * Determines whether cashier JWT token was set.
+     *
+     * @return bool
+     */
+    public function hasCashierAuthToken(): bool
+    {
+        return isset($this->authTokenCashier);
+    }
+
+    /**
+     * Get a builder for API routes.
+     *
+     * @return \DigitSoft\Checkbox\Routes
+     */
+    public function routeBuilder(): Routes
+    {
+        return $this->routes;
+    }
+
+    /**
+     * Get the HTTP client.
+     *
+     * @return \GuzzleHttp\Client
+     */
+    public function httpClient(): Client
+    {
+        return $this->guzzleClient;
+    }
+
+    /**
+     * Get a config instance.
+     *
+     * @return \DigitSoft\Checkbox\Config
+     */
+    public function config(): Config
+    {
+        return $this->config;
+    }
+
+    /**
+     * Initialize class.
+     *
+     * @return void
+     */
+    protected function initConfiguration(): void
+    {
+        // Route builder
+        $this->routes = new Routes($this->config->apiBaseUrl);
+        // HTTP client
         $this->guzzleClient = new Client([
             'verify' => false,
-            'http_errors' => false
+            'http_errors' => false,
         ]);
-
-        $this->requestOptions = [
-            'connect_timeout' => $this->connectTimeout,
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'X-License-Key' => $this->config->get('licenseKey')
-            ]
+        // Default values for the properties
+        // Set default headers
+        $this->defaultHeaders = [
+            'Content-Type' => 'application/json',
+            'X-License-Key' => $this->config->licenseKey,
+            'X-Client-Name' => 'DigitSoft PHP SDK',
+            'X-Client-Version' => static::SDK_VERSION,
         ];
     }
 
-    private function setHeadersWithToken(string $token): void
+    /**
+     * Make a JSON request to the API and return a response as associative array.
+     *
+     * @param  string     $uri
+     * @param  string     $method HTTP method
+     * @param  array|null $body
+     * @param  array      $headers
+     * @param  array|null $optionsRewrite
+     * @param  bool       $returnRaw Return RAW string response
+     * @return array|string|null
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Exception
+     */
+    public function sendJsonRequest(
+        string $uri, string $method = 'GET', ?array $body = null, array $headers = [], ?array $optionsRewrite = null, bool $returnRaw = false
+    ): array|string|null
     {
-        $this->requestOptions['headers']['Authorization'] = 'Bearer ' . $token;
+        $optionsAll = [
+            'connect_timeout' => $this->connectTimeout,
+            'headers' => array_merge($this->defaultHeaders, $headers),
+        ];
+        if ($body !== null) {
+            $optionsAll['body'] = json_encode($body);
+        }
+        if ($optionsRewrite !== null) {
+            $optionsAll = array_merge($optionsRewrite);
+        }
+
+        $response = $this->httpClient()->request($method, $uri, $optionsAll);
+        $contents = $response->getBody()->getContents();
+        $jsonResponse = json_decode($contents, true);
+
+        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
+
+        return $returnRaw ? $contents : $jsonResponse;
+    }
+
+    /**
+     * Make a JSON request to the API and return a response as associative array with JWT token of the cashier.
+     *
+     * @param  string     $uri
+     * @param  string     $method
+     * @param  array|null $body
+     * @param  array      $headers
+     * @param  array|null $optionsRewrite
+     * @param  bool       $returnRaw Return RAW string response
+     * @return array|string|null
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function sendJsonRequestAuthorized(
+        string $uri, string $method = 'GET', ?array $body = null, array $headers = [], ?array $optionsRewrite = null, bool $returnRaw = false
+    ): array|string|null
+    {
+        $headers['Authorization'] = 'Bearer ' . $this->authTokenCashier;
+
+        return $this->sendJsonRequest($uri, $method, $body, $headers, $optionsRewrite, $returnRaw);
     }
 
     /**
@@ -113,7 +259,7 @@ class CheckboxJsonApi
      * @return void
      * @throws \Exception
      */
-    private function validateResponseStatus(mixed $json, int $statusCode): void
+    protected function validateResponseStatus(mixed $json, int $statusCode): void
     {
         $jsonArray = is_array($json) ? $json : [];
         switch ($statusCode) {
@@ -131,609 +277,5 @@ class CheckboxJsonApi
         if (! empty($jsonArray['message'])) {
             throw new \Exception($jsonArray['message']);
         }
-    }
-
-    // start Cashier methods //
-
-    public function signInCashier(): void
-    {
-        $options = $this->requestOptions;
-        $options['body'] = \json_encode([
-            'login' => $this->config->get(Config::LOGIN),
-            'password' => $this->config->get(Config::PASSWORD)
-        ]);
-
-        $response = $this->sendRequest(
-            self::METHOD_POST,
-            $this->routes->signInCashier(),
-            $options
-        );
-
-        $jsonResponse = json_decode($response->getBody()->getContents(), true);
-
-        if (is_null($jsonResponse)) {
-            throw new EmptyResponseException('Запрос вернул пустой результат');
-        }
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        $this->setHeadersWithToken($jsonResponse['access_token']);
-    }
-
-    public function signOutCashier(): void
-    {
-        $response = $this->sendRequest(
-            self::METHOD_POST,
-            $this->routes->signOutCashier(),
-            $this->requestOptions
-        );
-
-        $jsonResponse = json_decode($response->getBody()->getContents(), true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-    }
-
-    /*
-    public function signInCashierViaSignature(string $signature)
-    {
-        $options = $this->requestOptions;
-        $options['body'] = \json_encode([
-            'signature' => $signature
-        ]);
-
-        $response = $this->sendRequest(
-            self::METHOD_POST,
-            $this->routes->signInCashierViaSignature(),
-            $options
-        );
-
-        $jsonResponse = json_decode($response->getBody()->getContents(), true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return $jsonResponse;
-    }
-    */
-
-
-    public function signInCashierViaPinCode(): void
-    {
-        $options = $this->requestOptions;
-        $options['body'] = \json_encode([
-            'pin_code' => $this->config->get(Config::PINCODE)
-        ]);
-
-        $response = $this->sendRequest(
-            self::METHOD_POST,
-            $this->routes->signInCashierViaPinCode(),
-            $options
-        );
-
-        $jsonResponse = json_decode($response->getBody()->getContents(), true);
-
-        if (is_null($jsonResponse)) {
-            throw new EmptyResponseException('Запрос вернул пустой результат');
-        }
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        $this->setHeadersWithToken($jsonResponse['access_token']);
-    }
-
-
-    public function getCashierProfile(): ?Cashier
-    {
-        $response = $this->sendRequest(
-            self::METHOD_GET,
-            $this->routes->getCashierProfile(),
-            $this->requestOptions
-        );
-
-        $jsonResponse = json_decode($response->getBody()->getContents(), true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return (new CashierMapper())->jsonToObject($jsonResponse);
-    }
-
-    public function getCashierShift(): ?Shift
-    {
-        $response = $this->sendRequest(
-            self::METHOD_GET,
-            $this->routes->getCashierShift(),
-            $this->requestOptions
-        );
-
-        $jsonResponse = json_decode($response->getBody()->getContents(), true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return (new ShiftMapper())->jsonToObject($jsonResponse);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function pingTaxServiceAction()
-    {
-        $response = $this->sendRequest(
-            self::METHOD_POST,
-            $this->routes->pingTaxServiceAction(),
-            $this->requestOptions
-        );
-
-        $jsonResponse = json_decode($response->getBody()->getContents(), true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return $jsonResponse;
-    }
-
-    // end Cashier methods //
-
-    // start Shift methods //
-
-    public function getShifts(ShiftsQueryParams $queryParams = null): ?Shifts
-    {
-        if (is_null($queryParams)) {
-            $queryParams = new ShiftsQueryParams();
-        }
-
-        $response = $this->sendRequest(
-            self::METHOD_GET,
-            $this->routes->getShifts($queryParams),
-            $this->requestOptions
-        );
-
-        $jsonResponse = json_decode($response->getBody()->getContents(), true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return (new ShiftsMapper())->jsonToObject($jsonResponse);
-    }
-
-    public function createShift(): ?CreateShift
-    {
-        $response = $this->sendRequest(
-            self::METHOD_POST,
-            $this->routes->createShift(),
-            $this->requestOptions
-        );
-
-        $jsonResponse = json_decode($response->getBody()->getContents(), true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return (new CreateShiftMapper())->jsonToObject($jsonResponse);
-    }
-
-    public function getShift(string $shiftId): ?Shift
-    {
-        $response = $this->sendRequest(
-            self::METHOD_GET,
-            $this->routes->getShift($shiftId),
-            $this->requestOptions
-        );
-
-        $jsonResponse = json_decode($response->getBody()->getContents(), true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return (new ShiftMapper())->jsonToObject($jsonResponse);
-    }
-
-    public function closeShift(): ?CloseShift
-    {
-        $response = $this->sendRequest(
-            self::METHOD_POST,
-            $this->routes->closeShift(),
-            $this->requestOptions
-        );
-
-        $jsonResponse = json_decode($response->getBody()->getContents(), true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return (new CloseShiftMapper())->jsonToObject($jsonResponse);
-    }
-
-    // end Shift methods //
-
-    // start cash registers methods //
-
-    public function getCashRegisters(CashRegistersQueryParams $queryParams = null): ?CashRegisters
-    {
-        if (is_null($queryParams)) {
-            $queryParams = new CashRegistersQueryParams();
-        }
-
-        $response = $this->sendRequest(
-            self::METHOD_GET,
-            $this->routes->getCashRegisters($queryParams),
-            $this->requestOptions
-        );
-
-        $jsonResponse = json_decode($response->getBody()->getContents(), true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return (new CashRegistersMapper())->jsonToObject($jsonResponse);
-    }
-
-    public function getCashRegister(string $registerId): ?CashRegister
-    {
-        $response = $this->sendRequest(
-            self::METHOD_GET,
-            $this->routes->getCashRegister($registerId),
-            $this->requestOptions
-        );
-
-        $jsonResponse = json_decode($response->getBody()->getContents(), true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return (new CashRegisterMapper())->jsonToObject($jsonResponse);
-    }
-
-    public function getCashRegisterInfo(): ?CashRegisterInfo
-    {
-        $response = $this->sendRequest(
-            self::METHOD_GET,
-            $this->routes->getCashRegisterInfo(),
-            $this->requestOptions
-        );
-
-        $jsonResponse = json_decode($response->getBody()->getContents(), true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return (new CashRegisterInfoMapper())->jsonToObject($jsonResponse);
-    }
-
-    // end cash registers methods //
-
-    // start receipts methods //
-
-    public function getReceipts(ReceiptsQueryParams $queryParams = null): ?Receipts
-    {
-        if (is_null($queryParams)) {
-            $queryParams = new ReceiptsQueryParams();
-        }
-        $this->routes->getReceipts($queryParams);
-
-        $response = $this->sendRequest(
-            self::METHOD_GET,
-            $this->routes->getReceipts($queryParams),
-            $this->requestOptions
-        );
-
-        $jsonResponse = json_decode($response->getBody()->getContents(), true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return (new ReceiptsMapper())->jsonToObject($jsonResponse);
-    }
-
-    public function getReceipt(string $receiptId): ?Receipt
-    {
-        $response = $this->sendRequest(
-            self::METHOD_GET,
-            $this->routes->getReceipt($receiptId),
-            $this->requestOptions
-        );
-
-        $jsonResponse = json_decode($response->getBody()->getContents(), true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return (new ReceiptMapper())->jsonToObject($jsonResponse);
-    }
-
-    public function createSellReceipt(SellReceipt $receipt): ?Receipt
-    {
-        $options = $this->requestOptions;
-        $options['body'] = \json_encode((new SellReceiptMapper())->objectToJson($receipt));
-
-        $response = $this->sendRequest(
-            self::METHOD_POST,
-            $this->routes->createSellReceipt(),
-            $options
-        );
-
-        $jsonResponse = json_decode($response->getBody()->getContents(), true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return (new ReceiptMapper())->jsonToObject($jsonResponse);
-    }
-
-    public function createServiceReceipt(ServiceReceipt $receipt): ?Receipt
-    {
-        $options = $this->requestOptions;
-        $options['body'] = \json_encode((new ServiceReceiptMapper())->objectToJson($receipt));
-
-        $response = $this->sendRequest(
-            self::METHOD_POST,
-            $this->routes->createServiceReceipt(),
-            $options
-        );
-
-        $jsonResponse = json_decode($response->getBody()->getContents(), true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return (new ReceiptMapper())->jsonToObject($jsonResponse);
-    }
-
-    public function getReceiptPdf(string $receiptId): string
-    {
-        $response = $this->sendRequest(
-            self::METHOD_GET,
-            $this->routes->getReceiptPdf($receiptId),
-            $this->requestOptions
-        );
-
-        $responseContents = $response->getBody()->getContents();
-
-        $jsonResponse = json_decode($responseContents, true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return $responseContents;
-    }
-
-    public function getReceiptHtml(string $receiptId): string
-    {
-        $response = $this->sendRequest(
-            self::METHOD_GET,
-            $this->routes->getReceiptHtml($receiptId),
-            $this->requestOptions
-        );
-
-        $responseContents = $response->getBody()->getContents();
-
-        $jsonResponse = json_decode($responseContents, true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return $responseContents;
-    }
-
-    public function getReceiptText(string $receiptId): string
-    {
-        $response = $this->sendRequest(
-            self::METHOD_GET,
-            $this->routes->getReceiptText($receiptId),
-            $this->requestOptions
-        );
-
-        $responseContents = $response->getBody()->getContents();
-
-        $jsonResponse = json_decode($responseContents, true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return $responseContents;
-    }
-
-    public function getReceiptQrCodeImage(string $receiptId): string
-    {
-        $options = $this->requestOptions;
-        $options['headers']['Content-Type'] = 'image/png';
-
-        $response = $this->sendRequest(
-            self::METHOD_GET,
-            $this->routes->getReceiptQrCodeImage($receiptId),
-            $options
-        );
-
-        $responseContents = $response->getBody()->getContents();
-
-        $jsonResponse = json_decode($responseContents, true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return $responseContents;
-    }
-
-    public function getReceiptImagePng(string $receiptId, int $width = 30, int $paperWidth = 58): string
-    {
-        $options = $this->requestOptions;
-        $options['headers']['Content-Type'] = 'image/png';
-
-        $response = $this->sendRequest(
-            self::METHOD_GET,
-            $this->routes->getReceiptImagePng($receiptId, $width, $paperWidth),
-            $options
-        );
-
-        $responseContents = $response->getBody()->getContents();
-
-        $jsonResponse = json_decode($responseContents, true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return $responseContents;
-    }
-
-    public function getReceiptImagePngLink(string $receiptId, int $width = 30, int $paperWidth = 58): string
-    {
-        return $this->routes->getReceiptImagePng($receiptId, $width, $paperWidth);
-    }
-
-    // end receipts methods //
-
-    // start taxes methods //
-
-    public function getAllTaxes(): ?GoodTaxes
-    {
-        $response = $this->sendRequest(
-            self::METHOD_GET,
-            $this->routes->getAllTaxes(),
-            $this->requestOptions
-        );
-
-        $jsonResponse = json_decode($response->getBody()->getContents(), true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return (new GoodTaxesMapper())->jsonToObject($jsonResponse);
-    }
-
-    // end taxes methods //
-
-    // start report methods //
-
-    public function createXReport(): ?ZReport
-    {
-        $options = $this->requestOptions;
-        $options['headers']['X-Client-Name'] = 'DigitSoft PHP SDK';
-        $options['headers']['X-Client-Version'] = '1.0.0';
-
-        $response = $this->sendRequest(
-            self::METHOD_POST,
-            $this->routes->createXReport(),
-            $options
-        );
-
-        $jsonResponse = json_decode($response->getBody()->getContents(), true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return (new ZReportMapper())->jsonToObject($jsonResponse);
-    }
-
-    public function getReport(string $reportId): ?ZReport
-    {
-        $response = $this->sendRequest(
-            self::METHOD_GET,
-            $this->routes->getReport($reportId),
-            $this->requestOptions
-        );
-
-        $jsonResponse = json_decode($response->getBody()->getContents(), true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return (new ZReportMapper())->jsonToObject($jsonResponse);
-    }
-
-    public function getReportText(string $reportId, int $printArea = 42): string
-    {
-        if ($printArea < 10 or $printArea > 250) {
-            throw new \Exception('That print area is not valid');
-        }
-
-        $response = $this->sendRequest(
-            self::METHOD_GET,
-            $this->routes->getReportText($reportId, $printArea),
-            $this->requestOptions
-        );
-
-        $responseContents = $response->getBody()->getContents();
-
-        $jsonResponse = json_decode($responseContents, true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return $responseContents;
-    }
-
-    public function getPeriodicalReport(PeriodicalReportQueryParams $queryParams): string
-    {
-        $response = $this->sendRequest(
-            self::METHOD_GET,
-            $this->routes->getPeriodicalReport($queryParams),
-            $this->requestOptions
-        );
-
-        $responseContents = $response->getBody()->getContents();
-
-        $jsonResponse = json_decode($responseContents, true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return $responseContents;
-    }
-
-    public function getReports(ReportsQueryParams $queryParams): ?Reports
-    {
-        $response = $this->sendRequest(
-            self::METHOD_GET,
-            $this->routes->getReports($queryParams),
-            $this->requestOptions
-        );
-
-        $jsonResponse = json_decode($response->getBody()->getContents(), true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return (new ReportsMapper())->jsonToObject($jsonResponse);
-    }
-
-
-    // end report methods //
-
-    // start transaction methods //
-
-    public function getTransaction(string $transactionId): ?Transaction
-    {
-        $response = $this->sendRequest(
-            self::METHOD_GET,
-            $this->routes->getTransaction($transactionId),
-            $this->requestOptions
-        );
-
-        $jsonResponse = json_decode($response->getBody()->getContents(), true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return (new TransactionMapper())->jsonToObject($jsonResponse);
-    }
-
-    public function getTransactions(TransactionsQueryParams $queryParams): ?Transactions
-    {
-        $response = $this->sendRequest(
-            self::METHOD_GET,
-            $this->routes->getTransactions($queryParams),
-            $this->requestOptions
-        );
-
-        $jsonResponse = json_decode($response->getBody()->getContents(), true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return (new TransactionsMapper())->jsonToObject($jsonResponse);
-    }
-
-
-    public function updateTransaction(string $transactionId, string $requestSignature): ?Transaction
-    {
-        $options = $this->requestOptions;
-        $options['body'] = \json_encode([
-            'request_signature' => $requestSignature
-        ]);
-
-        $response = $this->sendRequest(
-            self::METHOD_PATCH,
-            $this->routes->updateTransaction($transactionId),
-            $options
-        );
-
-        $jsonResponse = json_decode($response->getBody()->getContents(), true);
-
-        $this->validateResponseStatus($jsonResponse, $response->getStatusCode());
-
-        return (new TransactionMapper())->jsonToObject($jsonResponse);
-    }
-
-    // end transaction methods //
-
-    /**
-     * @param array<mixed> $options
-     */
-    protected function sendRequest(string $method, string $uri = '', array $options = []): ResponseInterface
-    {
-        return $this->guzzleClient->request($method, $uri, $options);
     }
 }

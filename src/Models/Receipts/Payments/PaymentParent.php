@@ -2,24 +2,23 @@
 
 namespace DigitSoft\Checkbox\Models\Receipts\Payments;
 
-class PaymentParent
-{
-    public const TYPE_CASH = 'CASH';
-    public const TYPE_CARD = 'CASHLESS';
+use DigitSoft\Checkbox\Models\ModelBase;
 
-    /** @var string $type */
-    public $type;
-    /** @var string $value */
-    public $value;
-    /** @var string $label */
-    public $label;
+class PaymentParent extends ModelBase
+{
+    public const string TYPE_CASH = 'CASH';
+    public const string TYPE_CARD = 'CASHLESS';
+
+    public string $type;
+    public string $value;
+    public string $label;
 
     public function __construct(
         string $type,
         string $value,
         string $label = ''
     ) {
-        if (!in_array($type, [self::TYPE_CASH, self::TYPE_CARD])) {
+        if (! in_array($type, [static::TYPE_CASH, static::TYPE_CARD], true)) {
             throw new \Exception('Wrong payment type');
         }
 

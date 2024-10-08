@@ -3,16 +3,16 @@
 namespace DigitSoft\Checkbox\Mappers\Shifts;
 
 use DigitSoft\Checkbox\Models\Shifts\Payments;
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
 
-class PaymentsMapper
+class PaymentsMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return Payments|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?Payments
+    public function jsonToObject(?array $json): ?Payments
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
@@ -26,8 +26,6 @@ class PaymentsMapper
             }
         }
 
-        $taxes = new Payments($paymentArr);
-
-        return $taxes;
+        return new Payments($paymentArr);
     }
 }

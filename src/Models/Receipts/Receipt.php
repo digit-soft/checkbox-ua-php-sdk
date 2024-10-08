@@ -2,63 +2,40 @@
 
 namespace DigitSoft\Checkbox\Models\Receipts;
 
-use DigitSoft\Checkbox\Models\Receipts\Discounts\Discounts;
-use DigitSoft\Checkbox\Models\Receipts\Goods\Goods;
-use DigitSoft\Checkbox\Models\Receipts\Payments\Payments;
-use DigitSoft\Checkbox\Models\Receipts\Taxes\GoodTaxes;
+use DigitSoft\Checkbox\Models\ModelBase;
 use DigitSoft\Checkbox\Models\Shifts\Shift;
+use DigitSoft\Checkbox\Models\Receipts\Goods\Goods;
+use DigitSoft\Checkbox\Models\Receipts\Taxes\GoodTaxes;
 use DigitSoft\Checkbox\Models\Transactions\Transaction;
+use DigitSoft\Checkbox\Models\Receipts\Payments\Payments;
+use DigitSoft\Checkbox\Models\Receipts\Discounts\Discounts;
 
-class Receipt
+class Receipt extends ModelBase
 {
-    /** @var string $id */
-    public $id;
-    /** @var ReceiptTypes|null $type */
-    public $type;
-    /** @var Transaction|null $transaction */
-    public $transaction;
-    /** @var int $serial */
-    public $serial;
-    /** @var ReceiptStatus|null $status */
-    public $status;
-    /** @var Goods|null $goods */
-    public $goods;
-    /** @var Payments|null $payments */
-    public $payments;
-    /** @var int $total_sum */
-    public $total_sum;
-    /** @var int $total_payment */
-    public $total_payment;
-    /** @var int $total_rest */
-    public $total_rest;
-    /** @var string|null $fiscal_code */
-    public $fiscal_code;
-    /** @var string|null $fiscal_date */
-    public $fiscal_date;
-    /** @var string|null $delivered_at */
-    public $delivered_at;
-    /** @var string|null $created_at */
-    public $created_at;
-    /** @var string|null $updated_at */
-    public $updated_at;
-    /** @var GoodTaxes|null $taxes */
-    public $taxes;
-    /** @var Discounts|null $discounts */
-    public $discounts;
-    /** @var string|null $header */
-    public $header;
-    /** @var string|null $footer */
-    public $footer;
-    /** @var string|null $barcode */
-    public $barcode;
-    /** @var bool $is_created_offline */
-    public $is_created_offline;
-    /** @var bool $is_sent_dps */
-    public $is_sent_dps;
-    /** @var string|null $sent_dps_at */
-    public $sent_dps_at;
-    /** @var Shift|null $shift */
-    public $shift;
+    public string $id;
+    public int $serial;
+    public ?ReceiptTypes $type;
+    public ?Transaction $transaction;
+    public ?ReceiptStatus $status;
+    public ?Goods $goods;
+    public ?Payments $payments;
+    public ?GoodTaxes $taxes;
+    public ?Discounts $discounts;
+    public ?Shift $shift;
+    public int $total_sum;
+    public int $total_payment;
+    public int $total_rest;
+    public ?string $fiscal_code;
+    public ?string $fiscal_date;
+    public ?string $delivered_at;
+    public ?string $created_at;
+    public ?string $updated_at;
+    public ?string $header;
+    public ?string $footer;
+    public ?string $barcode;
+    public bool $is_created_offline;
+    public bool $is_sent_dps;
+    public ?string $sent_dps_at;
 
     public function __construct(
         string $id,
@@ -68,6 +45,9 @@ class Receipt
         ?ReceiptStatus $status,
         ?Goods $goods,
         ?Payments $payments,
+        ?GoodTaxes $taxes,
+        ?Discounts $discounts,
+        ?Shift $shift,
         int $total_sum,
         int $total_payment,
         int $total_rest,
@@ -76,15 +56,12 @@ class Receipt
         ?string $delivered_at,
         ?string $created_at,
         ?string $updated_at,
-        ?GoodTaxes $taxes,
-        ?Discounts $discounts,
-        ?string $header,
-        ?string $footer,
-        ?string $barcode,
-        bool $is_created_offline,
-        bool $is_sent_dps,
-        ?string $sent_dps_at,
-        ?Shift $shift
+        ?string $header = null,
+        ?string $footer = null,
+        ?string $barcode = null,
+        bool $is_created_offline = false,
+        bool $is_sent_dps = false,
+        ?string $sent_dps_at = null
     ) {
         $this->id = $id;
         $this->type = $type;
@@ -93,6 +70,9 @@ class Receipt
         $this->status = $status;
         $this->goods = $goods;
         $this->payments = $payments;
+        $this->taxes = $taxes;
+        $this->discounts = $discounts;
+        $this->shift = $shift;
         $this->total_sum = $total_sum;
         $this->total_payment = $total_payment;
         $this->total_rest = $total_rest;
@@ -101,14 +81,11 @@ class Receipt
         $this->delivered_at = $delivered_at;
         $this->created_at = $created_at;
         $this->updated_at = $updated_at;
-        $this->taxes = $taxes;
-        $this->discounts = $discounts;
         $this->header = $header;
         $this->footer = $footer;
         $this->barcode = $barcode;
         $this->is_created_offline = $is_created_offline;
         $this->is_sent_dps = $is_sent_dps;
         $this->sent_dps_at = $sent_dps_at;
-        $this->shift = $shift;
     }
 }

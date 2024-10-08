@@ -2,14 +2,13 @@
 
 namespace DigitSoft\Checkbox\Models\CashRegisters;
 
-class DocumentsState
+use DigitSoft\Checkbox\Models\ModelBase;
+
+class DocumentsState extends ModelBase
 {
-    /** @var int $last_receipt_code */
-    public $last_receipt_code;
-    /** @var int $last_report_code */
-    public $last_report_code;
-    /** @var int $last_z_report_code */
-    public $last_z_report_code;
+    public int $last_receipt_code;
+    public int $last_report_code;
+    public int $last_z_report_code;
 
     public function __construct(
         int $last_receipt_code,

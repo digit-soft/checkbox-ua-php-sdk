@@ -3,20 +3,20 @@
 namespace DigitSoft\Checkbox\Mappers\Transactions;
 
 use DigitSoft\Checkbox\Models\Transactions\Transaction;
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
 
-class TransactionMapper
+class TransactionMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return Transaction|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?Transaction
+    public function jsonToObject(?array $json): ?Transaction
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
-        $transaction = new Transaction(
+        return new Transaction(
             $json['id'],
             $json['type'],
             $json['serial'],
@@ -29,11 +29,9 @@ class TransactionMapper
             $json['updated_at'],
             $json['request_data'] ?? '',
             $json['request_signature'] ?? '',
-            $json['response_id'] ?? '',
+            $json['response_id'] ?? null,
             $json['response_data_signature'] ?? null,
             $json['response_data'] ?? null
         );
-
-        return $transaction;
     }
 }

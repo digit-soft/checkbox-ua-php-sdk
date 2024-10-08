@@ -4,34 +4,34 @@ namespace DigitSoft\Checkbox\Mappers\Shifts;
 
 use DigitSoft\Checkbox\Exceptions\NoActiveShiftException;
 use DigitSoft\Checkbox\Mappers\Cashier\CashierMapper;
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
 use DigitSoft\Checkbox\Mappers\CashRegisters\CashRegisterMapper;
 use DigitSoft\Checkbox\Models\Shifts\CloseShift;
 
-class CloseShiftMapper
+class CloseShiftMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return CloseShift|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?CloseShift
+    public function jsonToObject(?array $json): ?CloseShift
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
-        if (!empty($json['message']) and $json['message'] == 'Cashier has no active shift') {
+        if (! empty($json['message']) and $json['message'] == 'Cashier has no active shift') {
             throw new NoActiveShiftException($json['message']);
         }
 
-        $zReport = (new ZReportMapper())->jsonToObject($json['z_report']);
-        $initialTransaction = (new InitialTransactionMapper())->jsonToObject($json['initial_transaction']);
-        $closingTransaction = (new ClosingTransactionMapper())->jsonToObject($json['closing_transaction']);
-        $balance = (new BalanceMapper())->jsonToObject($json['balance']);
-        $taxes = (new TaxesMapper())->jsonToObject($json['taxes']);
-        $cashRegister = (new CashRegisterMapper())->jsonToObject($json['cash_register']);
-        $cashier = (new CashierMapper())->jsonToObject($json['cashier']);
+        $zReport = (new ZReportMapper)->jsonToObject($json['z_report']);
+        $initialTransaction = (new InitialTransactionMapper)->jsonToObject($json['initial_transaction']);
+        $closingTransaction = (new ClosingTransactionMapper)->jsonToObject($json['closing_transaction']);
+        $balance = (new BalanceMapper)->jsonToObject($json['balance']);
+        $taxes = (new TaxesMapper)->jsonToObject($json['taxes']);
+        $cashRegister = (new CashRegisterMapper)->jsonToObject($json['cash_register']);
+        $cashier = (new CashierMapper)->jsonToObject($json['cashier']);
 
-        $shift = new CloseShift(
+        return new CloseShift(
             $json['id'],
             $json['serial'],
             $json['status'],
@@ -47,7 +47,5 @@ class CloseShiftMapper
             $cashRegister,
             $cashier
         );
-
-        return $shift;
     }
 }

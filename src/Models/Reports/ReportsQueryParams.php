@@ -4,36 +4,30 @@ namespace DigitSoft\Checkbox\Models\Reports;
 
 class ReportsQueryParams
 {
-    /** @var string $from_date */
-    public $from_date;
-    /** @var string $to_date */
-    public $to_date;
-    /** @var array<string> $shift_id */
-    public $shift_id;
-    /** @var bool|null $is_z_report */
-    public $is_z_report;
-    /** @var bool $desc */
-    public $desc;
-    /** @var int $limit */
-    public $limit;
-    /** @var int $offset */
-    public $offset;
+    public ?string $from_date;
+    public ?string $to_date;
+    public array $shift_id;
+    public ?bool $is_z_report = null;
+    public bool $desc = false;
+    public int $limit = 25;
+    public int $offset = 0;
 
     /**
      * Constructor
      *
-     * @param string $from_date
-     * @param string $to_date
-     * @param array<string> $shift_id
-     * @param bool|null $is_z_report
-     * @param bool $desc
-     * @param int $limit
-     * @param int $offset
+     * @param  string|null   $from_date
+     * @param  string|null   $to_date
+     * @param  array<string> $shift_id
+     * @param  bool|null     $is_z_report
+     * @param  bool          $desc
+     * @param  int           $limit
+     * @param  int           $offset
      *
+     * @throws \Exception
      */
     public function __construct(
-        string $from_date = '',
-        string $to_date = '',
+        ?string $from_date = null,
+        ?string $to_date = null,
         array $shift_id = [],
         ?bool $is_z_report = null,
         bool $desc = false,
@@ -51,11 +45,11 @@ class ReportsQueryParams
         $this->from_date = $from_date;
         $this->to_date = $to_date;
 
-        if (empty($this->from_date) and empty($this->to_date)) {
+        if (! isset($this->from_date) && ! isset($this->to_date)) {
             $this->shift_id = $shift_id;
         }
 
-        if (!is_null($is_z_report)) {
+        if (isset($is_z_report)) {
             $this->is_z_report = filter_var($is_z_report, FILTER_VALIDATE_BOOLEAN);
         }
 

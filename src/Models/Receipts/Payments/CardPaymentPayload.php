@@ -2,12 +2,13 @@
 
 namespace DigitSoft\Checkbox\Models\Receipts\Payments;
 
+/**
+ * @method static static make(string $value, string $label = 'Безготівковий', int $code = 0, string $card_mask = '', string $card_name = '', string $terminal = '', string $rrn = '', string $auth_code = '', string $payment_system = '', string $receipt_no = '', string $acquirer_and_seller = '', int $commission = 0)
+ */
 class CardPaymentPayload extends PaymentParent
 {
-    /** @var int $code */
-    public $code;
-    /** @var string $card_mask */
-    public $card_mask;
+    public int $code;
+    public string $card_mask;
 
     public string $terminal;
     public string $rrn;
