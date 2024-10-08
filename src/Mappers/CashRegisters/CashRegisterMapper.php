@@ -4,22 +4,22 @@ namespace DigitSoft\Checkbox\Mappers\CashRegisters;
 
 use DigitSoft\Checkbox\Mappers\Shifts\ShiftMapper;
 use DigitSoft\Checkbox\Models\CashRegisters\CashRegister;
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
 
-class CashRegisterMapper
+class CashRegisterMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return CashRegister|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?CashRegister
+    public function jsonToObject(?array $json): ?CashRegister
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
-        $shift = (new ShiftMapper())->jsonToObject($json['shift'] ?? null);
+        $shift = (new ShiftMapper)->jsonToObject($json['shift'] ?? null);
 
-        $cashRegister = new CashRegister(
+        return CashRegister::make(
             $json['id'],
             $json['fiscal_number'],
             $json['created_at'],
@@ -27,7 +27,5 @@ class CashRegisterMapper
             $shift,
             $json['offline_mode'] ?? null
         );
-
-        return $cashRegister;
     }
 }

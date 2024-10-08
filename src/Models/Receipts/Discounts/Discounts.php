@@ -2,22 +2,24 @@
 
 namespace DigitSoft\Checkbox\Models\Receipts\Discounts;
 
-class Discounts
-{
-    /** @var array<DiscountModel> $results */
-    public $results = [];
+use DigitSoft\Checkbox\Models\ModelBaseWithResultsList;
 
+/**
+ * @property \DigitSoft\Checkbox\Models\Receipts\Discounts\DiscountModel[] $results
+ */
+class Discounts extends ModelBaseWithResultsList
+{
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param array<DiscountModel> $discounts
-     *
+     * @param  array<DiscountModel> $discounts
+     * @throws \Exception
      */
     public function __construct(array $discounts)
     {
         foreach ($discounts as $discount) {
-            if (!is_a($discount, DiscountModel::class)) {
-                throw new \Exception('Discount has wrong class');
+            if (! $discount instanceof DiscountModel) {
+                throw new \Exception('Discount has a wrong class');
             }
 
             $this->results[] = $discount;

@@ -4,28 +4,38 @@ namespace DigitSoft\Checkbox\Models\CashRegisters;
 
 class CashRegistersQueryParams
 {
-    /** @var bool|null $inUse */
-    public $inUse; // null, true, false
-    /** @var int $limit */
-    public $limit;
-    /** @var int $offset */
-    public $offset;
+    public ?bool $inUse; // null, true, false
+    public int $limit;
+    public int $offset;
 
     public function __construct(
         ?bool $inUse = null,
         int $limit = 25,
         int $offset = 0
     ) {
-        if ($offset < 0) {
-            throw new \Exception('Offset cant be lower then 0');
-        }
-
-        if ($limit > 1000) {
-            throw new \Exception('Limit cant be more then 1000');
-        }
+        $this->validateConstructorArguments($offset, $limit);
 
         $this->inUse = $inUse;
         $this->offset = $offset;
         $this->limit = $limit;
+    }
+
+    /**
+     * Validate some constructor arguments.
+     *
+     * @param  int $offset
+     * @param  int $limit
+     * @return void
+     * @throws \Exception
+     */
+    public function validateConstructorArguments(int $offset, int $limit): void
+    {
+        if ($offset < 0) {
+            throw new \Exception("Offset can't be less than 0");
+        }
+
+        if ($limit > 1000) {
+            throw new \Exception("Limit can't be greater than 1000");
+        }
     }
 }

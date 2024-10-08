@@ -4,32 +4,27 @@ namespace DigitSoft\Checkbox\Mappers\CashRegisters;
 
 use DigitSoft\Checkbox\Mappers\MetaMapper;
 use DigitSoft\Checkbox\Models\CashRegisters\CashRegisters;
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
 
-class CashRegistersMapper
+class CashRegistersMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return CashRegisters|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?CashRegisters
+    public function jsonToObject(?array $json): ?CashRegisters
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
-        $shiftsArr = [];
+        $registersArr = [];
 
         foreach ($json['results'] as $jsonRow) {
-            $shiftsArr[] = (new CashRegisterMapper())->jsonToObject($jsonRow);
+            $registersArr[] = (new CashRegisterMapper)->jsonToObject($jsonRow);
         }
 
-        $meta = (new MetaMapper())->jsonToObject($json['meta']);
+        $meta = (new MetaMapper)->jsonToObject($json['meta']);
 
-        $registers = new CashRegisters(
-            $shiftsArr,
-            $meta
-        );
-
-        return $registers;
+        return CashRegisters::make($registersArr, $meta);
     }
 }

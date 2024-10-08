@@ -2,55 +2,45 @@
 
 namespace DigitSoft\Checkbox\Models\Shifts;
 
+use DigitSoft\Checkbox\Models\ModelBase;
 use DigitSoft\Checkbox\Models\Cashier\Cashier;
 use DigitSoft\Checkbox\Models\CashRegisters\CashRegister;
 
-class Shift
+/**
+ * @method static static make(string $id, string $serial, string $status, ?ZReport $z_report, ?string $opened_at, ?string $closed_at, ?InitialTransaction $initial_transaction, ?ClosingTransaction $closing_transaction, ?string $created_at, ?string $updated_at, ?Balance $balance = null, ?Taxes $taxes = null, ?CashRegister $cash_register = null, ?Cashier $cashier = null)
+ */
+class Shift extends ModelBase
 {
-    /** @var string $id */
-    public $id;
-    /** @var string $serial */
-    public $serial;
-    /** @var string $status */
-    public $status;
-    /** @var ZReport|null $z_report */
-    public $z_report;
-    /** @var string|null $opened_at */
-    public $opened_at;
-    /** @var string|null $closed_at */
-    public $closed_at;
-    /** @var InitialTransaction|null $initial_transaction */
-    public $initial_transaction;
-    /** @var ClosingTransaction|null $closing_transaction */
-    public $closing_transaction;
-    /** @var string|null $created_at */
-    public $created_at;
-    /** @var string|null $updated_at */
-    public $updated_at;
-    /** @var Balance|null $balance */
-    public $balance;
-    /** @var Taxes|null $taxes */
-    public $taxes;
-    /** @var CashRegister|null $cash_register */
-    public $cash_register;
-    /** @var Cashier|null $cashier */
-    public $cashier;
+    public string $id;
+    public int $serial;
+    public string $status;
+    public ?ZReport $z_report;
+    public ?string $opened_at;
+    public ?string $closed_at;
+    public ?InitialTransaction $initial_transaction;
+    public ?ClosingTransaction $closing_transaction;
+    public string $created_at;
+    public ?string $updated_at;
+    public ?Balance $balance;
+    public ?Taxes $taxes;
+    public ?CashRegister $cash_register;
+    public ?Cashier $cashier;
 
     public function __construct(
         string $id,
-        string $serial,
+        int $serial,
         string $status,
         ?ZReport $z_report,
         ?string $opened_at,
         ?string $closed_at,
         ?InitialTransaction $initial_transaction,
         ?ClosingTransaction $closing_transaction,
-        ?string $created_at,
+        string $created_at,
         ?string $updated_at,
-        ?Balance $balance,
-        ?Taxes $taxes,
-        ?CashRegister $cash_register,
-        ?Cashier $cashier
+        ?Balance $balance = null,
+        ?Taxes $taxes = null,
+        ?CashRegister $cash_register = null,
+        ?Cashier $cashier = null
     ) {
         $this->id = $id;
         $this->serial = $serial;

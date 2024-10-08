@@ -2,33 +2,29 @@
 
 namespace DigitSoft\Checkbox\Mappers\Receipts\Goods;
 
-use DigitSoft\Checkbox\Mappers\Receipts\Taxes\GoodTaxMapper;
-use DigitSoft\Checkbox\Mappers\Shifts\TaxesMapper;
 use DigitSoft\Checkbox\Models\Receipts\Goods\GoodModel;
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
 
-class GoodModelMapper
+class GoodModelMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return GoodModel|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?GoodModel
+    public function jsonToObject(?array $json): ?GoodModel
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
-        $goods = new GoodModel(
+        return new GoodModel(
             $json['code'],
             $json['price'],
             $json['name'],
-            $json['barcode'] ?? '',
-            $json['header'] ?? '',
-            $json['footer'] ?? '',
-            $json['uktzed'] ?? ''
+            $json['barcode'] ?? null,
+            $json['header'] ?? null,
+            $json['footer'] ?? null,
+            $json['uktzed'] ?? null
         );
-
-        return $goods;
     }
 
     /**

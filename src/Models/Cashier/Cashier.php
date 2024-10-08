@@ -2,28 +2,23 @@
 
 namespace DigitSoft\Checkbox\Models\Cashier;
 
-class Cashier
+use DigitSoft\Checkbox\Models\ModelBase;
+
+/**
+ * @method static static make(string $id, string $full_name, string $nin, string $key_id, string $signature_type, string $created_at, string $updated_at, ?string $certificate_end = null, ?string $blocked = null, ?Organization $organization = null)
+ */
+class Cashier extends ModelBase
 {
-    /** @var string $id */
-    public $id;
-    /** @var string $full_name */
-    public $full_name;
-    /** @var string $nin */
-    public $nin;
-    /** @var string $key_id */
-    public $key_id;
-    /** @var string $signature_type */
-    public $signature_type;
-    /** @var string $created_at */
-    public $created_at;
-    /** @var string $updated_at */
-    public $updated_at;
-    /** @var string $certificate_end */
-    public $certificate_end;
-    /** @var string $blocked */
-    public $blocked;
-    /** @var Organization|null $organization */
-    public $organization;
+    public string $id;
+    public string $full_name;
+    public string $nin;
+    public string $key_id;
+    public string $signature_type;
+    public string $created_at;
+    public string $updated_at;
+    public ?string $certificate_end;
+    public ?string $blocked;
+    public ?Organization $organization;
 
     public function __construct(
         string $id,
@@ -33,9 +28,9 @@ class Cashier
         string $signature_type,
         string $created_at,
         string $updated_at,
-        string $certificate_end,
-        string $blocked,
-        ?Organization $organization
+        ?string $certificate_end = null,
+        ?string $blocked = null,
+        ?Organization $organization = null
     ) {
         $this->id = $id;
         $this->full_name = $full_name;

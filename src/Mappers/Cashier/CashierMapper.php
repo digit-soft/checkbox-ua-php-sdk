@@ -3,22 +3,24 @@
 namespace DigitSoft\Checkbox\Mappers\Cashier;
 
 use DigitSoft\Checkbox\Models\Cashier\Cashier;
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
 
-class CashierMapper
+class CashierMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return Cashier|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?Cashier
+    public function jsonToObject(?array $json): ?Cashier
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
-        $organization = (new OrganizationMapper())->jsonToObject($json['organization'] ?? null);
+        $organization = isset($json['organization'])
+            ? (new OrganizationMapper)->jsonToObject($json['organization'])
+            : null;
 
-        $cashier = new Cashier(
+        return Cashier::make(
             $json['id'],
             $json['full_name'],
             $json['nin'],
@@ -26,11 +28,9 @@ class CashierMapper
             $json['signature_type'],
             $json['created_at'],
             $json['updated_at'],
-            $json['certificate_end'] ?? '',
-            $json['blocked'] ?? '',
+            $json['certificate_end'] ?? null,
+            $json['blocked'] ?? null,
             $organization
         );
-
-        return $cashier;
     }
 }

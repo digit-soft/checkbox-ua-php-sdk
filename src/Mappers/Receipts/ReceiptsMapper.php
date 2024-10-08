@@ -4,16 +4,16 @@ namespace DigitSoft\Checkbox\Mappers\Receipts;
 
 use DigitSoft\Checkbox\Mappers\MetaMapper;
 use DigitSoft\Checkbox\Models\Receipts\Receipts;
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
 
-class ReceiptsMapper
+class ReceiptsMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return Receipts|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?Receipts
+    public function jsonToObject(?array $json): ?Receipts
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
@@ -29,11 +29,9 @@ class ReceiptsMapper
 
         $meta = (new MetaMapper())->jsonToObject($json['meta']);
 
-        $shift = new Receipts(
+        return new Receipts(
             $receiptsArr,
             $meta
         );
-
-        return $shift;
     }
 }

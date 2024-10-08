@@ -11,12 +11,12 @@ use DigitSoft\Checkbox\Models\CashRegisters\CashRegistersQueryParams;
 
 class Routes
 {
-    /** @var string $apiUrl */
-    private $apiUrl;
+    /** @var string $apiBaseUrl */
+    private string $apiBaseUrl;
 
-    public function __construct(string $appUrl)
+    public function __construct(string $apiBaseUrl)
     {
-        $this->apiUrl = $appUrl;
+        $this->apiBaseUrl = $apiBaseUrl;
     }
 
     /** @deprecated */
@@ -27,7 +27,7 @@ class Routes
 
     public function signInCashier(): string
     {
-        return $this->apiUrl . '/cashier/signin';
+        return $this->apiBaseUrl . '/cashier/signin';
     }
 
     /** @deprecated */
@@ -38,32 +38,32 @@ class Routes
 
     public function signOutCashier(): string
     {
-        return $this->apiUrl . '/cashier/signout';
+        return $this->apiBaseUrl . '/cashier/signout';
     }
 
     public function signInCashierViaSignature(): string
     {
-        return $this->apiUrl . '/cashier/signinSignature';
+        return $this->apiBaseUrl . '/cashier/signinSignature';
     }
 
     public function signInCashierViaPinCode(): string
     {
-        return $this->apiUrl . '/cashier/signinPinCode';
+        return $this->apiBaseUrl . '/cashier/signinPinCode';
     }
 
     public function getCashierProfile(): string
     {
-        return $this->apiUrl . '/cashier/me';
+        return $this->apiBaseUrl . '/cashier/me';
     }
 
     public function getCashierShift(): string
     {
-        return $this->apiUrl . '/cashier/shift';
+        return $this->apiBaseUrl . '/cashier/shift';
     }
 
     public function createShift(): string
     {
-        return $this->apiUrl . '/shifts';
+        return $this->apiBaseUrl . '/shifts';
     }
 
     public function getShifts(ShiftsQueryParams $queryParams): string
@@ -84,22 +84,22 @@ class Routes
 
         $params = implode('&', $params);
 
-        return $this->apiUrl . '/shifts?' . $params;
+        return $this->apiBaseUrl . '/shifts?' . $params;
     }
 
     public function closeShift(): string
     {
-        return $this->apiUrl . '/shifts/close';
+        return $this->apiBaseUrl . '/shifts/close';
     }
 
     public function getShift(string $shiftId): string
     {
-        return $this->apiUrl . '/shifts/' . $shiftId;
+        return $this->apiBaseUrl . '/shifts/' . $shiftId;
     }
 
     public function pingTaxServiceAction(): string
     {
-        return $this->apiUrl . '/cashier/ping-tax-service';
+        return $this->apiBaseUrl . '/cash-registers/ping-tax-service';
     }
 
     public function getCashRegisters(CashRegistersQueryParams $queryParams): string
@@ -117,43 +117,43 @@ class Routes
 
         $params = implode('&', $params);
 
-        return $this->apiUrl . '/cash-registers?' . $params;
+        return $this->apiBaseUrl . '/cash-registers?' . $params;
     }
 
     public function getCashRegister(string $registerId): string
     {
-        return $this->apiUrl . '/cash-registers/' . $registerId;
+        return $this->apiBaseUrl . '/cash-registers/' . $registerId;
     }
 
     public function getCashRegisterInfo(): string
     {
-        return $this->apiUrl . '/cash-registers/info';
+        return $this->apiBaseUrl . '/cash-registers/info';
     }
 
     public function getReceipt(string $receiptId): string
     {
-        return $this->apiUrl . '/receipts/' . $receiptId;
+        return $this->apiBaseUrl . '/receipts/' . $receiptId;
     }
 
     public function createSellReceipt(): string
     {
-        return $this->apiUrl . '/receipts/sell';
+        return $this->apiBaseUrl . '/receipts/sell';
     }
 
     public function createServiceReceipt(): string
     {
-        return $this->apiUrl . '/receipts/service';
+        return $this->apiBaseUrl . '/receipts/service';
     }
 
     public function getReceipts(ReceiptsQueryParams $queryParams): string
     {
         $params = [];
 
-        if (!empty($queryParams->fiscal_code)) {
+        if (isset($queryParams->fiscal_code)) {
             $params[] = "fiscal_code={$queryParams->fiscal_code}";
         }
 
-        if (!empty($queryParams->serial)) {
+        if (isset($queryParams->serial)) {
             $params[] = "serial={$queryParams->serial}";
         }
 
@@ -165,57 +165,62 @@ class Routes
 
         $params = implode('&', $params);
 
-        return $this->apiUrl . '/receipts?' . $params;
+        return $this->apiBaseUrl . '/receipts?' . $params;
     }
 
     public function getReceiptPdf(string $receiptId): string
     {
-        return $this->apiUrl . '/receipts/' . $receiptId . '/pdf';
+        return $this->apiBaseUrl . '/receipts/' . $receiptId . '/pdf';
     }
 
     public function getReceiptHtml(string $receiptId): string
     {
-        return $this->apiUrl . '/receipts/' . $receiptId . '/html';
+        return $this->apiBaseUrl . '/receipts/' . $receiptId . '/html';
     }
 
     public function getReceiptText(string $receiptId): string
     {
-        return $this->apiUrl . '/receipts/' . $receiptId . '/text';
+        return $this->apiBaseUrl . '/receipts/' . $receiptId . '/text';
     }
 
     public function getReceiptQrCodeImage(string $receiptId): string
     {
-        return $this->apiUrl . '/receipts/' . $receiptId . '/qrcode';
+        return $this->apiBaseUrl . '/receipts/' . $receiptId . '/qrcode';
     }
 
     public function getReceiptImagePng(string $receiptId, int $width = 30, int $paperWidth = 58): string
     {
-        return $this->apiUrl . '/receipts/' . $receiptId . '/png?width=' . $width . '&paper_width=' . $paperWidth;
+        return $this->apiBaseUrl . '/receipts/' . $receiptId . '/png?width=' . $width . '&paper_width=' . $paperWidth;
     }
 
     public function getAllTaxes(): string
     {
-        return $this->apiUrl . '/tax';
+        return $this->apiBaseUrl . '/tax';
+    }
+
+    public function getAllTaxesByCashier(): string
+    {
+        return $this->apiBaseUrl . '/cashier/tax';
     }
 
     public function createXReport(): string
     {
-        return $this->apiUrl . '/reports';
+        return $this->apiBaseUrl . '/reports';
     }
 
     public function getReport(string $reportId): string
     {
-        return $this->apiUrl . '/reports/' . $reportId;
+        return $this->apiBaseUrl . '/reports/' . $reportId;
     }
 
     public function getReportText(string $reportId, int $printArea): string
     {
-        return $this->apiUrl . '/reports/' . $reportId . '/text?width=' . $printArea;
+        return $this->apiBaseUrl . '/reports/' . $reportId . '/text?width=' . $printArea;
     }
 
     public function getPeriodicalReport(PeriodicalReportQueryParams $queryParams): string
     {
-        return $this->apiUrl . '/reports/periodical?from_date=' . $queryParams->from_date
+        return $this->apiBaseUrl . '/reports/periodical?from_date=' . $queryParams->from_date
             . '&to_date=' . $queryParams->to_date
             . '&width=' . $queryParams->width;
     }
@@ -224,26 +229,22 @@ class Routes
     {
         $params = [];
 
-        if (!empty($queryParams->from_date)) {
+        if (isset($queryParams->from_date)) {
             $params[] = "from_date={$queryParams->from_date}";
         }
 
-        if (!empty($queryParams->to_date)) {
+        if (isset($queryParams->to_date)) {
             $params[] = "to_date={$queryParams->to_date}";
         }
 
-        if (!empty($queryParams->shift_id) and is_array($queryParams->shift_id)) {
+        if (! empty($queryParams->shift_id)) {
             foreach ($queryParams->shift_id as $shiftId) {
                 $params[] = "shift_id={$shiftId}";
             }
         }
 
-        if (!is_null($queryParams->is_z_report)) {
-            if ($queryParams->is_z_report) {
-                $params[] = "is_z_report=true";
-            } else {
-                $params[] = "is_z_report=false";
-            }
+        if ($queryParams->is_z_report !== null) {
+            $params[] = "is_z_report=" . ($queryParams->is_z_report ? 'true' : 'false');
         }
 
         $value = ($queryParams->desc) ? 'true' : 'false';
@@ -254,7 +255,7 @@ class Routes
 
         $params = implode('&', $params);
 
-        return $this->apiUrl . '/reports?' . $params;
+        return $this->apiBaseUrl . '/reports?' . $params;
     }
 
     public function getTransactions(TransactionsQueryParams $queryParams): string
@@ -274,16 +275,16 @@ class Routes
 
         $params = implode('&', $params);
 
-        return $this->apiUrl . '/transactions?' . $params;
+        return $this->apiBaseUrl . '/transactions?' . $params;
     }
 
     public function getTransaction(string $transactionId): string
     {
-        return $this->apiUrl . '/transactions/' . $transactionId;
+        return $this->apiBaseUrl . '/transactions/' . $transactionId;
     }
 
     public function updateTransaction(string $transactionId): string
     {
-        return $this->apiUrl . '/transactions/' . $transactionId;
+        return $this->apiBaseUrl . '/transactions/' . $transactionId;
     }
 }

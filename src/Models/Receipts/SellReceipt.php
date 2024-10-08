@@ -2,39 +2,39 @@
 
 namespace DigitSoft\Checkbox\Models\Receipts;
 
-use DigitSoft\Checkbox\Models\Receipts\Discounts\Discounts;
+use DigitSoft\Checkbox\Models\ModelBase;
 use DigitSoft\Checkbox\Models\Receipts\Goods\Goods;
 use DigitSoft\Checkbox\Models\Receipts\Payments\Payments;
+use DigitSoft\Checkbox\Models\Receipts\Discounts\Discounts;
 
-class SellReceipt
+class SellReceipt extends ModelBase
 {
     /** @var string $cashier_name */
-    public $cashier_name;
+    public string $cashier_name;
     /** @var string $departament */
-    public $departament;
+    public string $departament;
     /** @var Goods $goods */
-    public $goods;
+    public Goods $goods;
     /** @var Delivery $delivery */
     public Delivery $delivery;
     /** @var Discounts|null $discounts */
-    public $discounts;
+    public ?Discounts $discounts;
     /** @var Payments $payments */
-    public $payments;
+    public Payments $payments;
     /** @var string $header */
-    public $header;
+    public string $header;
     /** @var string $footer */
-    public $footer;
+    public string $footer;
     /** @var string $barcode */
-    public $barcode;
+    public string $barcode;
     /**
      * How to use id, check official documentation
      *
      * @see https://docs.google.com/document/d/1Zhkc4OljKjea_235YafVvZunkWSp6TCAKeckhgl8t2w/edit#heading=h.prhyp31urzzb
      * @var string|null
      */
-    public $id;
-    /** @var string $related_receipt_id */
-    public $related_receipt_id;
+    public ?string $id;
+    public ?string $related_receipt_id;
 
     public function __construct(
         string $cashier_name,
@@ -46,8 +46,8 @@ class SellReceipt
         string $header = '',
         string $footer = '',
         string $barcode = '',
-        string $id = '',
-        string $related_receipt_id = ''
+        ?string $id = null,
+        ?string $related_receipt_id = null
     ) {
         $this->id = $id;
         $this->cashier_name = $cashier_name;

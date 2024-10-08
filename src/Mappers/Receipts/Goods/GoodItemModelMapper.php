@@ -2,37 +2,35 @@
 
 namespace DigitSoft\Checkbox\Mappers\Receipts\Goods;
 
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
 use DigitSoft\Checkbox\Mappers\Receipts\Discounts\DiscountsMapper;
 use DigitSoft\Checkbox\Mappers\Receipts\Taxes\GoodTaxesMapper;
 use DigitSoft\Checkbox\Models\Receipts\Goods\GoodItemModel;
 
-class GoodItemModelMapper
+class GoodItemModelMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return GoodItemModel|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?GoodItemModel
+    public function jsonToObject(?array $json): ?GoodItemModel
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
-        $goodModel = (new GoodModelMapper())->jsonToObject($json['good']);
-        $taxes = (new GoodTaxesMapper())->jsonToObject($json['taxes']);
-        $discounts = (new DiscountsMapper())->jsonToObject($json['discounts']);
+        $goodModel = (new GoodModelMapper)->jsonToObject($json['good']);
+        $taxes = (new GoodTaxesMapper)->jsonToObject($json['taxes']);
+        $discounts = (new DiscountsMapper)->jsonToObject($json['discounts']);
 
-        $goods = new GoodItemModel(
+        return new GoodItemModel(
             $goodModel,
             $json['quantity'],
             $discounts,
             $taxes,
             $json['is_return'],
             $json['sum'],
-            $json['good_id'] ?? ''
+            $json['good_id'] ?? null
         );
-
-        return $goods;
     }
 
     /**
@@ -41,17 +39,15 @@ class GoodItemModelMapper
      */
     public function objectToJson(GoodItemModel $itemModel): array
     {
-        if (is_null($itemModel->good)) {
+        if (! isset($itemModel->good)) {
             return [];
         }
 
-        $result = [
-            'good' => (new GoodModelMapper())->objectToJson($itemModel->good),
+        return [
+            'good' => (new GoodModelMapper)->objectToJson($itemModel->good),
             'quantity' => $itemModel->quantity,
             'is_return' => $itemModel->is_return,
-            'discounts' => (new DiscountsMapper())->objectToJson($itemModel->discounts)
+            'discounts' => (new DiscountsMapper)->objectToJson($itemModel->discounts)
         ];
-
-        return $result;
     }
 }

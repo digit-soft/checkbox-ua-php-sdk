@@ -2,29 +2,21 @@
 
 namespace DigitSoft\Checkbox\Models\CashRegisters;
 
-class CashRegisterInfo
-{
-    /** @var string $id */
-    public $id;
-    /** @var string $fiscal_number */
-    public $fiscal_number;
-    /** @var string $created_at */
-    public $created_at;
-    /** @var string $updated_at */
-    public $updated_at;
-    /** @var string $address */
-    public $address;
-    /** @var string $title */
-    public $title;
-    /** @var bool */
-    public $offline_mode;
-    /** @var bool */
-    public $stay_offline;
-    /** @var bool */
-    public $has_shift;
+use DigitSoft\Checkbox\Models\ModelBase;
 
-    /** @var DocumentsState|null $documents_state */
-    public $documents_state;
+class CashRegisterInfo extends ModelBase
+{
+    public string $id;
+    public string $fiscal_number;
+    public string $created_at;
+    public string $updated_at;
+    public string $address;
+    public string $title;
+    public bool $offline_mode;
+    public bool $stay_offline;
+    public bool $has_shift;
+
+    public ?DocumentsState $documents_state;
 
     public function __construct(
         string $id,

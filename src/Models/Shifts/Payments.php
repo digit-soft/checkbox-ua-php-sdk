@@ -2,16 +2,17 @@
 
 namespace DigitSoft\Checkbox\Models\Shifts;
 
-class Payments
+use DigitSoft\Checkbox\Models\ModelBase;
+
+class Payments extends ModelBase
 {
-    /** @var array<Payment> $payments */
-    public $payments;
+    /** @var Payment[] */
+    public array $payments;
 
     /**
      * Constructor
      *
-     * @param array<Payment> $payments
-     *
+     * @param Payment[] $payments
      */
     public function __construct(array $payments)
     {

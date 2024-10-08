@@ -3,25 +3,25 @@
 namespace DigitSoft\Checkbox\Models\Receipts;
 
 use DigitSoft\Checkbox\Models\Meta;
+use DigitSoft\Checkbox\Models\ModelBaseWithResultsList;
 
-class Receipts
+/**
+ * @property \DigitSoft\Checkbox\Models\Shifts\Shift[]|array $results
+ * @method static static make(array $receipts, ?Meta $meta = null)
+ */
+class Receipts extends ModelBaseWithResultsList
 {
-    /** @var array<Receipt> $results */
-    public $results = [];
-    /** @var Meta|null $meta */
-    public $meta;
-
     /**
      * Constructor
      *
-     * @param array<Receipt> $receipts
-     * @param Meta|null $meta
-     *
+     * @param  Receipt[] $receipts
+     * @param  Meta|null $meta
+     * @throws \Exception
      */
-    public function __construct(array $receipts, ?Meta $meta)
+    public function __construct(array $receipts, ?Meta $meta = null)
     {
         foreach ($receipts as $receipt) {
-            if (!is_a($receipt, Receipt::class)) {
+            if (! is_object($receipt) || ! $receipt instanceof Receipt) {
                 throw new \Exception('This is not a Receipt class');
             }
 

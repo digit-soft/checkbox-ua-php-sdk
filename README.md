@@ -6,7 +6,10 @@
 
 ##### Примітка:
 
-> В даному SDK реализовані тільки функції онлайн режиму (офлайн ніт)
+> __За основу взято SDK з <https://github.com/igorbunov/checkbox-in-ua-php-sdk>__, внесено деякі зміни для зручності роботи з API та перекладено на українську мову.
+> Вдячний пану [igorbunov](https://github.com/igorbunov) за його роботу над цим репо.
+
+> В даному SDK реалізовані тільки функції онлайн режиму (офлайн ніт)
 
 #### Офіційна документація:
 
@@ -29,29 +32,34 @@ require_once 'vendor/autoload.php';
 
 ##### Налаштування конфігу:
 
->адреса продакшн серверу http://api.checkbox.in.ua<br/>
->адреса тестового серверу http://dev-api.checkbox.in.ua<br/>
->версія API - v1
+> адреса серверу http://api.checkbox.ua (тепер тільки одна адреса для продакш та тестування)<br>
+> версія API - v1
 
 ```php
-$config = new \DigitSoft\Checkbox\Config([
-    \DigitSoft\Checkbox\Config::API_URL => 'https://dev-api.checkbox.in.ua/api/v1',
-    \DigitSoft\Checkbox\Config::LOGIN => 'логін касира',
-    \DigitSoft\Checkbox\Config::PASSWORD => 'пароль касира', //or
-    \DigitSoft\Checkbox\Config::PINCODE => 02301230440,
-    \DigitSoft\Checkbox\Config::LICENSE_KEY => 'ключ лицензії каси'
-]);
+$config = \DigitSoft\Checkbox\Config::makeWithPin(
+    'ключ лицензії каси',
+    'PIN-код'
+)
+```
+або
+
+```php
+$config = \DigitSoft\Checkbox\Config::makeWithLoginPass(
+    'ключ лицензії каси',
+    'логін касира',
+    'пароль касира'
+)
 ```
 
 ##### Логін кассира:
 
 ```php
 $api = new \DigitSoft\Checkbox\CheckboxJsonApi($config);
-$api->signInCashier();
+$api->cashier()->signIn();
 ```
 ##### Логаут кассира:
 ```php
-$api->signOutCashier();
+$api->cashier()->signOut();
 ```
 ##### Помилки (Exceptions):
 
@@ -82,272 +90,274 @@ $api->signOutCashier();
 
 ##### profile (касир):
 ```php
-$api->getCashierProfile() : \DigitSoft\Checkbox\Models\Cashier\Cashier // возвращает профиль кассира
+$api->cashier()->getProfile() : \DigitSoft\Checkbox\Models\Cashier\Cashier // повертає профіль касира
 ```
 ##### shifts (зміни):
 ```php
-$api->getCashierShift() : \DigitSoft\Checkbox\Models\Shifts\Shift // возвращает текущую смену кассира
+$api->cashier()->getShift() : \DigitSoft\Checkbox\Models\Shifts\Shift // повертає поточну зміну касира
 ```
 ```php
-$api->getShift('ID зміни') : \DigitSoft\Checkbox\Models\Shifts\Shift // возвращает смену по ид
+$api->shifts()->one('ID зміни') : \DigitSoft\Checkbox\Models\Shifts\Shift // повертає зміну по ID
 ```
 ```php
-$api->getShifts() : \DigitSoft\Checkbox\Models\Shifts\Shifts // возвращает смены
+$api->shifts()->all() : \DigitSoft\Checkbox\Models\Shifts\Shifts // повертає зміни
 ```
 або
 ```php
-$api->getShifts(
+$api->shifts()->all(
     new \DigitSoft\Checkbox\Models\Shifts\ShiftsQueryParams(
         [
             \DigitSoft\Checkbox\Models\Shifts\ShiftsQueryParams::STATUS_CLOSED,
             \DigitSoft\Checkbox\Models\Shifts\ShiftsQueryParams::STATUS_OPENED
         ], // статуси змін
-        false, // desc - сортування (false or true)
+        false, // desc - сортування (false || true)
         2, // limit
-        0 // offset
+        0  // offset
     )
-): \DigitSoft\Checkbox\Models\Shifts\Shifts // возвращает смены с учетом фильтра
+): \DigitSoft\Checkbox\Models\Shifts\Shifts // повертає зміни з урахуванням фільтру
 ```
 ```php
-$api->createShift() : \DigitSoft\Checkbox\Models\Shifts\CreateShift // создает смену
+$api->shifts()->create() : \DigitSoft\Checkbox\Models\Shifts\CreateShift // створює/відкриває зміну
 ```
 ```php
-$api->closeShift() : \DigitSoft\Checkbox\Models\Shifts\CloseShift // закрывает смену
+$api->shifts()->close() : \DigitSoft\Checkbox\Models\Shifts\CloseShift // закриває зміну
 ```
 ##### cash registers (пРРО):
 ```php
-$api->getCashRegisters() : \DigitSoft\Checkbox\Models\CashRegisters\CashRegisters // возвращает кассовые регистраторы
+$api->cashRegisters()->all() : \DigitSoft\Checkbox\Models\CashRegisters\CashRegisters // повертає касові реєстратори (пРРО)
 ```
-или
+або
 ```php
-$api->getCashRegisters(
+$api->cashRegisters()->all(
     new \DigitSoft\Checkbox\Models\CashRegisters\CashRegistersQueryParams(
-        true, // inUse - используется или нет (true or false)
+        true, // inUse - використовується чи ні (true or false)
         3, // limit
-        0 // offset
+        0  // offset
     )
-) : \DigitSoft\Checkbox\Models\CashRegisters\CashRegisters // возвращает кассовые регистраторы по фильтру
+) : \DigitSoft\Checkbox\Models\CashRegisters\CashRegisters // повертає касові реєстратори по фільтру
 ```
 ```php
-$api->getCashRegister('ид кассы') : \DigitSoft\Checkbox\Models\CashRegisters\CashRegister // возвращает кассу по айди
+$api->cashRegisters()->one('ID каси') : \DigitSoft\Checkbox\Models\CashRegisters\CashRegister // повертає касу по ID
 ```
 ```php
-$api->getCashRegisterInfo() : \DigitSoft\Checkbox\Models\CashRegisters\CashRegisterInfo // возвращает информацию текущей кассы
+$api->cashRegisters()->info() : \DigitSoft\Checkbox\Models\CashRegisters\CashRegisterInfo // повертає інформацію по поточній касі
 ```
-##### taxes (налоги):
+##### taxes (податки):
 ```php
-$api->getAllTaxes() : \DigitSoft\Checkbox\Models\Receipts\Taxes\GoodTaxes // возвращает все налоги
+$api->taxes()->all() : \DigitSoft\Checkbox\Models\Receipts\Taxes\GoodTaxes // повертає всі податки
 ```
-##### transactions (транзакции):
 ```php
-$api->getTransactions(
+$api->taxes()->allByCashier() : \DigitSoft\Checkbox\Models\Receipts\Taxes\GoodTaxes // повертає всі податки по поточному касиру
+```
+##### transactions (транзакції):
+```php
+$api->transactions()->all(
     new \DigitSoft\Checkbox\Models\Transactions\TransactionsQueryParams(
         [
             \DigitSoft\Checkbox\Models\Transactions\TransactionsQueryParams::STATUS_CREATED,
             \DigitSoft\Checkbox\Models\Transactions\TransactionsQueryParams::STATUS_DONE,
             \DigitSoft\Checkbox\Models\Transactions\TransactionsQueryParams::STATUS_SIGNED
-        ], // статусы транзакции
+        ], // статуси транзакцій
         [
             \DigitSoft\Checkbox\Models\Transactions\TransactionsQueryParams::TYPE_RECEIPT,
             \DigitSoft\Checkbox\Models\Transactions\TransactionsQueryParams::TYPE_SHIFT_OPEN,
             \DigitSoft\Checkbox\Models\Transactions\TransactionsQueryParams::TYPE_Z_REPORT
-        ], // типы транзакций
+        ], // типи транзакцій
         2, // limit
-        0 // offset
+        0  // offset
     )
-) : \DigitSoft\Checkbox\Models\Transactions\Transactions // возвращает транзакции по фильтру
+) : \DigitSoft\Checkbox\Models\Transactions\Transactions // повертає транзакції по фільтру
 ```
 ```php
-$api->getTransaction('ид транзакции') : \DigitSoft\Checkbox\Models\Transactions\Transaction // возвращает транзакцию по айди
+$api->transactions()->one('ID транзакції') : \DigitSoft\Checkbox\Models\Transactions\Transaction // повертає транзакцію по ID
 ```
 ```php
-$api->updateTransaction(
-    'ид транзакции',
+// Увага! Даний ендпоінт API на даний момент вже прибраний з документації
+$api->transactions()->update(
+    'ID транзакції',
     base64_encode('request_signature')
-) : \DigitSoft\Checkbox\Models\Transactions\Transaction // меняет request_signature у транзакции, работает только если у транзакции статус PENDING
+) : \DigitSoft\Checkbox\Models\Transactions\Transaction // змінює request_signature в транзакції, працює тільки якщо у неї статус PENDING
 ```
-##### reports (отчеты):
+##### reports (звіти):
 ```php
-$api->createXReport() : \DigitSoft\Checkbox\Models\Shifts\ZReport // создает х отчет
-```
-```php
-$api->getReport('ид отчета') : \DigitSoft\Checkbox\Models\Shifts\ZReport // возвращает данные отчета по айди
+$api->reports()->createX() : \DigitSoft\Checkbox\Models\Shifts\ZReport // створює X звіт
 ```
 ```php
-$api->getReportText('ид отчета') : string // возвращает данные отчета по айди в виде текста
-```
-или
-```php
-$api->getReportText('ид отчета', 60) : string // возвращает данные отчета по айди в виде текста, с указанием ширины текста
+$api->reports()->one('ID звіту') : \DigitSoft\Checkbox\Models\Shifts\ZReport // повертає дані звіту по ID
 ```
 ```php
-$api->getPeriodicalReport(
+$api->reports()->oneAsText('ID звіту') : string // повертає дані звіту по ID у вигляді тексту
+```
+або
+```php
+$api->reports()->oneAsText('ID звіту', 60) : string // повертає дані звіту по ID у вигляді тексту, із вказанням ширини тексту
+```
+```php
+$api->reports()->onePeriodical(
     new \DigitSoft\Checkbox\Models\Reports\PeriodicalReportQueryParams(
-        '2020-10-27 00:00:00', // дата с
-        '2020-11-04 13:15:00', // дата по
-        60 // ширина текста
+        '2020-10-27T00:00:00+03:00', // дата з
+        '2020-11-04T13:15:00+03:00', // дата по
+        60 // ширина тексту
     )
-) : string // возвращает данные отчета за период по фильру
+) : string // повертає дані звіту за період по фільтру
 ```
 ```php
-$api->getReports(
+$api->reports()->all(
     new \DigitSoft\Checkbox\Models\Reports\ReportsQueryParams(
-        '2020-10-27 00:00:00', // дата с
-        '2020-11-04 13:15:00', // дата по
-        [], // массив ид смен
+        '2020-10-27T00:00:00+03:00', // дата з
+        '2020-11-04T13:15:00+03:00', // дата по
+        [], // масив ID змін
         false, // is_z_report (true or false)
-        true, // desc - сортировка (false or true)
+        true, // desc - сортування (false or true)
         3, // limit
         0 // offset
     )
-) : \DigitSoft\Checkbox\Models\Reports\Reports // возвращает отчеты по фильтру
+) : \DigitSoft\Checkbox\Models\Reports\Reports // повертає звіт по фільтру
 ```
 ##### receipts (чеки):
 ```php
-$api->getReceipts() : \DigitSoft\Checkbox\Models\Receipts\Receipts // возвращает чеки
+$api->receipts()->all() : \DigitSoft\Checkbox\Models\Receipts\Receipts // повертає чеки
 ```
 ```php
-$api->getReceipts(
+$api->receipts()->all(
     new \DigitSoft\Checkbox\Models\Receipts\ReceiptsQueryParams(
         '', // fiscal code
         '', // serial
-        false, // desc - сортировка (false or true)
+        false, // desc - сортування (false or true)
         2, // limit
         0 // offset
     )
-) : \DigitSoft\Checkbox\Models\Receipts\Receipts // возвращает чеки по фильтру
+) : \DigitSoft\Checkbox\Models\Receipts\Receipts // повертає чеки по фільтру
 ```
 ```php
-$api->getReceipt('ид чека') : \DigitSoft\Checkbox\Models\Receipts\Receipt // возвращает чек по айди
+$api->receipts()->one('ID чеку') : \DigitSoft\Checkbox\Models\Receipts\Receipt // повертає чек по ID
 ```
 ```php
-$api->getReceiptPdf('ид чека') : pdf // возвращает чек по айди в виде пдф
+$api->receipts()->oneAsPdf('ID чеку') : string // повертає чек по ID у вигляді PDF
 ```
 ```php
-$api->getReceiptHtml('ид чека') : string // возвращает чек по айди в виде html
+$api->receipts()->oneAsHtml('ID чеку') : string // повертає чек по ID у вигляді HTML
 ```
 ```php
-$api->getReceiptText('ид чека') : string // возвращает чек по айди в виде текста
+$api->receipts()->oneAsText('ID чеку') : string // повертає чек по ID у вигляді тексту
 ```
 ```php
-$api->getReceiptQrCodeImage('ид чека') : string // возвращает чек по айди в виде qr-кода
+$api->receipts()->oneAsImageQrCode('ID чеку') : string // повертає чек по ID у вигляді QR коду
 ```
-или
+або
 ```php
-// пример с отображением qr-кода
-$rawImageContent = $api->getReceiptQrCodeImage('ид чека');
+// Приклад з відображенням QR-коду
+$rawImageContent = $api->receipts()->oneAsImageQrCode('ID чеку');
 echo '<img src="data:image/png;base64,' . base64_encode($rawImageContent) . '"/>';
 ```
 ###### чек продажи:
 ```php
 $receipt = new \DigitSoft\Checkbox\Models\Receipts\SellReceipt(
-    'Вася Пупкин', // кассир
-    'Отдел продаж', // отдел
+    'Вася Пупкін', // касир
+    'Відділ продаж', // відділ
     new \DigitSoft\Checkbox\Models\Receipts\Goods\Goods(
         [
             new \DigitSoft\Checkbox\Models\Receipts\Goods\GoodItemModel( // товар 1
                 new \DigitSoft\Checkbox\Models\Receipts\Goods\GoodModel(
                     'vm-123', // good_id
                     50 * 100, // 50 грн
-                    'Биовак' // название товара
+                    'Биовак' // назва товару
                 ),
-                1 * 1000 // кол-во товара  1 шт
+                1 * 1000 // к-сть товару  1 шт
             ),
             new \DigitSoft\Checkbox\Models\Receipts\Goods\GoodItemModel( // товар 2
                 new \DigitSoft\Checkbox\Models\Receipts\Goods\GoodModel(
                     'vm-124', // good_id
                     20 * 100, // 20 грн
-                    'Биовак 2' // название товара
+                    'Биовак 2' // назва товару
                 ),
-                2 * 1000 // кол-во товара 2 шт
+                2 * 1000 // к-сть товару 2 шт
             )
         ]
     ),
-    'admin@gmail.com', // кому отправлять чек по почте
+    'admin@gmail.com', // кому надсилати чек на пошту
     new \DigitSoft\Checkbox\Models\Receipts\Payments\Payments([
-        new \DigitSoft\Checkbox\Models\Receipts\Payments\CardPaymentPayload( // безналичная оплата
+        new \DigitSoft\Checkbox\Models\Receipts\Payments\CardPaymentPayload( // безготівкова оплата
             40 * 100 // 40 грн
         ),
-        new \DigitSoft\Checkbox\Models\Receipts\Payments\CashPaymentPayload( // наличная оплата
+        new \DigitSoft\Checkbox\Models\Receipts\Payments\CashPaymentPayload( // готівкова оплата
             50 * 100 // 50 грн
         )
     ])
 );
 
-$api->createSellReceipt($receipt): \DigitSoft\Checkbox\Models\Receipts\Receipt; // выполняем оплату
+$api->receipts()->createSell($receipt): \DigitSoft\Checkbox\Models\Receipts\Receipt; // виконуємо оплату
 ```
-более сложная оплата:
+більш складна оплата
 ```php
-$allTaxes = $api->getAllTaxes(); // получили все налоги
-$tax = $allTaxes->getTaxByLabel('Акцизний збір'); // получили один налог по лейбл
-$goodTaxes = $allTaxes->getTaxesByLabel('ПДВ'); // получили массив налогов по лейбл
+$allTaxes = $api->taxes()->all(); // отримали всі податки
+$tax = $allTaxes->getTaxByLabel('Акцизний збір'); // отримали один податок за назвою (поле label)
+$goodTaxes = $allTaxes->getTaxesByLabel('ПДВ'); // отримали масив податків по label
 $taxCodes = [];
 
-// подготавливаем массив кодов налогов
+// Підготуємо масив кодів податків
 foreach ($goodTaxes->results as $goodTax) {
     $taxCodes[] = $goodTax->code;
 }
 
 $receipt = new \DigitSoft\Checkbox\Models\Receipts\SellReceipt(
-    'Вася Пупкин', // имя кассира
-    'Отдел продаж', // отдел
-    new \DigitSoft\Checkbox\Models\Receipts\Goods\Goods( // товары
+    'Вася Пупкін', // Ім'я касира
+    'Відділ продажу', // Відділ
+    new \DigitSoft\Checkbox\Models\Receipts\Goods\Goods( // товари
         [
             new \DigitSoft\Checkbox\Models\Receipts\Goods\GoodItemModel(
                 new \DigitSoft\Checkbox\Models\Receipts\Goods\GoodModel(
-                    'vm-123', // good_id айди товара
-                    5000, // 50 грн  цена 100 = 1 грн
-                    'Биовак', // название
+                    'vm-123', // good_id ID товару
+                    5000, // 50 грн  ціна 100 = 1 грн
+                    'Біовак', // назва
                     '5р47ле78675е3', // баркод
-                    'хидер', // хидер
-                    'футер', // футер
+                    'шапка', // header
+                    'футер', // footer
                     '', // ktzed
-                    $goodTaxes // налоги товара
+                    $goodTaxes // податки товару
                 ),
-                1000, // кол-во 1000 = 1 шт
-                new \DigitSoft\Checkbox\Models\Receipts\Discounts\Discounts( // скидки или надбавки
+                1000, // к-сть 1000 = 1 шт
+                new \DigitSoft\Checkbox\Models\Receipts\Discounts\Discounts( // знижки чи надбавки
                     [
                         new \DigitSoft\Checkbox\Models\Receipts\Discounts\DiscountModel(
-                            \DigitSoft\Checkbox\Models\Receipts\Discounts\DiscountModel::TYPE_DISCOUNT, // скидка или надбавка
-                            \DigitSoft\Checkbox\Models\Receipts\Discounts\DiscountModel::MODE_VALUE, // по значению или по проценту
-                            100, // 1 грн  сумма скидки/надбавки  100 = 1 грн
-                            0, // сумма (не используется в данном sdk)
-                            $tax->code, // код налога (подготовили выше)
-                            $taxCodes, // массив кодов налога (подготовили выше)
-                            'one good discount' // название
+                            \DigitSoft\Checkbox\Models\Receipts\Discounts\DiscountModel::TYPE_DISCOUNT, // знижка або надбавка
+                            \DigitSoft\Checkbox\Models\Receipts\Discounts\DiscountModel::MODE_VALUE, // по значенню чи по відсотку
+                            100, // 1 грн  сума знижки/надбавки  100 = 1 грн
+                            $tax->code, // код податку (підготували вище)
+                            $taxCodes, // масив кодів податку (підготували вище)
+                            'one good discount' // назва
                         )
                     ]
                 ),
-                $allTaxes->getTaxesByLabel('Акцизний збір'), // налоги товара
-                false, // возврат товара (false or true)
-                0, // сумма (не используется в данном sdk)
-                '' // айди товара (только если вы загружали список товарв (не используется в данном sdk))
+                $allTaxes->getTaxesByLabel('Акцизний збір'), // податки товару
+                false, // повернення товару (false or true)
+                0, // сума (не використовується в данном SDK)
+                '' // ID товару (тільки якщо ви завантажували список товарів (не використовується в даному SDK))
             )
         ]
     ),
-    'admin@gmail.com', // кому отправлять чек по почте
-    new \DigitSoft\Checkbox\Models\Receipts\Payments\Payments([ // оплаты
-        new \DigitSoft\Checkbox\Models\Receipts\Payments\CardPaymentPayload( // безналичная оплата
-            400, // сумма оплаты 400 = 4 грн
-            'beznalichka', // текст оплаты
-            0, // code - не знаю для чего (видимо пин код карты)
-            '0000 0000 0000 0000' // номер карты
+    'admin@example.com', // кому надсилати чек на пошту
+    new \DigitSoft\Checkbox\Models\Receipts\Payments\Payments([ // оплати
+        new \DigitSoft\Checkbox\Models\Receipts\Payments\CardPaymentPayload( // безготівкова оплата
+            400, // сума оплати 400 = 4 грн
+            'bezgotivka', // текст оплати
+            0, // code - не знаю для чого (видно пін код карти ^_^)
+            '0000 0000 0000 0000' // номер картки
         ),
-        new \DigitSoft\Checkbox\Models\Receipts\Payments\CashPaymentPayload( // наличная оплата
-            4300, // сумма оплаты 4300 = 43 грн
-            'nalichka' // текст оплаты
+        new \DigitSoft\Checkbox\Models\Receipts\Payments\CashPaymentPayload( // готівкова оплата
+            4300, // сума оплати 4300 = 43 грн
+            'nalichka' // текст оплати
         )
     ]),
-    new \DigitSoft\Checkbox\Models\Receipts\Discounts\Discounts( // скидки/надбавки на весь чек
+    new \DigitSoft\Checkbox\Models\Receipts\Discounts\Discounts( // знижки/надбавки на весь чек
         [
             new \DigitSoft\Checkbox\Models\Receipts\Discounts\DiscountModel(
-                \DigitSoft\Checkbox\Models\Receipts\Discounts\DiscountModel::TYPE_DISCOUNT, // скидка или надбавка
-                \DigitSoft\Checkbox\Models\Receipts\Discounts\DiscountModel::MODE_VALUE, // по значению или по проценту
-                200, // 2 грн  сумма скидки/надбавки  200 = 2 грн
-                0, // сумма (не используется в данном sdk)
-                $tax->code, // код налога (подготовили выше)
-                $taxCodes, // массив кодов налога (подготовили выше)
-                'total discount' // название
+                \DigitSoft\Checkbox\Models\Receipts\Discounts\DiscountModel::TYPE_DISCOUNT, // знижка чи надбавка
+                \DigitSoft\Checkbox\Models\Receipts\Discounts\DiscountModel::MODE_VALUE, // по значенню чи по проценту
+                200, // 2 грн  сума знижки/надбавки  200 = 2 грн
+                $tax->code, // код податку (підготували вище)
+                $taxCodes, // масив кодів податку (підготували вище)
+                'total discount' // назва
             )
         ]
     ),
@@ -356,11 +366,11 @@ $receipt = new \DigitSoft\Checkbox\Models\Receipts\SellReceipt(
     '45435h543twrege' // баркод
 );
 
-$saleReceiptResult = $api->createSellReceipt($receipt): \DigitSoft\Checkbox\Models\Receipts\Receipt; // выполняем оплату
+$saleReceiptResult = $api->receipts()->createSell($receipt): \DigitSoft\Checkbox\Models\Receipts\Receipt; // виконуємо оплату
 ```
-еще пример
+ще приклад
 ```php
-$allTaxes = $api->getAllTaxes();
+$allTaxes = $api->taxes()->all();
 $tax = $allTaxes->getTaxByLabel('Акцизний збір');
 $goodTaxes = $allTaxes->getTaxesByLabel('ПДВ');
 $taxCodes = [];
@@ -392,10 +402,9 @@ $receipt = new \DigitSoft\Checkbox\Models\Receipts\SellReceipt(
                             \DigitSoft\Checkbox\Models\Receipts\Discounts\DiscountModel::TYPE_DISCOUNT,
                             \DigitSoft\Checkbox\Models\Receipts\Discounts\DiscountModel::MODE_VALUE,
                             100, // 1 грн
-                            0,
                             $tax->code,
                             $taxCodes,
-                            'моя скидка'
+                            'моя знижка'
                         )
                     ]
                 ),
@@ -422,7 +431,6 @@ $receipt = new \DigitSoft\Checkbox\Models\Receipts\SellReceipt(
                             \DigitSoft\Checkbox\Models\Receipts\Discounts\DiscountModel::TYPE_EXTRA_CHARGE,
                             \DigitSoft\Checkbox\Models\Receipts\Discounts\DiscountModel::MODE_VALUE,
                             200, // 2 грн
-                            0,
                             $tax->code,
                             $taxCodes,
                             'моя надбавка'
@@ -451,54 +459,53 @@ $receipt = new \DigitSoft\Checkbox\Models\Receipts\SellReceipt(
                 \DigitSoft\Checkbox\Models\Receipts\Discounts\DiscountModel::TYPE_EXTRA_CHARGE,
                 \DigitSoft\Checkbox\Models\Receipts\Discounts\DiscountModel::MODE_VALUE,
                 200, // 2 грн
-                0,
                 $tax->code,
                 $taxCodes,
-                'общая надбавка'
+                'загальна надбавка'
             )
         ]
     )
 );
 
-$api->createSellReceipt($receipt): \DigitSoft\Checkbox\Models\Receipts\Receipt;
+$api->receipts()->createSell($receipt): \DigitSoft\Checkbox\Models\Receipts\Receipt;
 ```
 ```php
-$api->createServiceReceipt(
+$api->receipts()->createService(
     new \DigitSoft\Checkbox\Models\Receipts\ServiceReceipt(
         new \DigitSoft\Checkbox\Models\Receipts\Payments\CashPaymentPayload(5100)
     )
-): \DigitSoft\Checkbox\Models\Receipts\Receipt // создаем чек сервисного внесения денег (наличкой)
+): \DigitSoft\Checkbox\Models\Receipts\Receipt // створюємо чек сервісного внесення коштів (готівкою)
 ```
 ```php
-$api->createServiceReceipt(
+$api->receipts()->createService(
     new \DigitSoft\Checkbox\Models\Receipts\ServiceReceipt(
         new \DigitSoft\Checkbox\Models\Receipts\Payments\CardPaymentPayload(1000)
     )
-): \DigitSoft\Checkbox\Models\Receipts\Receipt // создаем чек сервисного внесения денег (картой)
+): \DigitSoft\Checkbox\Models\Receipts\Receipt // створюємо чек сервісного внесення коштів (картою)
 ```
 ```php
-$api->createServiceReceipt(
+$api->receipts()->createService(
     new \DigitSoft\Checkbox\Models\Receipts\ServiceReceipt(
-        new new \DigitSoft\Checkbox\Models\Receipts\Payments\CashPaymentPayload(-5100)
+        new \DigitSoft\Checkbox\Models\Receipts\Payments\CashPaymentPayload(-5100)
     )
-): \DigitSoft\Checkbox\Models\Receipts\Receipt // создаем чек сервисного вынесения денег (наличкой) (знак минус)
+): \DigitSoft\Checkbox\Models\Receipts\Receipt // створюємо чек сервісного внесення коштів (готівка) (знак мінус)
 ```
 ```php
-$api->createServiceReceipt(
+$api->receipts()->createService(
     new \DigitSoft\Checkbox\Models\Receipts\ServiceReceipt(
-        new new \DigitSoft\Checkbox\Models\Receipts\Payments\CardPaymentPayload(-1000)
+        new \DigitSoft\Checkbox\Models\Receipts\Payments\CardPaymentPayload(-1000)
     )
-): \DigitSoft\Checkbox\Models\Receipts\Receipt // создаем чек сервисного вынесения денег (картой) (знак минус)
+): \DigitSoft\Checkbox\Models\Receipts\Receipt // створюємо чек сервісного внесення коштів (картою) (знак мінус)
 ```
 
-##### Рекомендации:
+##### Рекомендації:
 
 > всі операції обгортати в try catch
 
 ```php
 try {
 
-    // тут все делаем
+    // код для роботи з API тут
 
 } catch (\DigitSoft\Checkbox\Exceptions\InvalidCredentialsException $err) {
     var_dump('creds err', $err->getMessage());
@@ -516,32 +523,37 @@ try {
 }
 ```
 
-##### подключение всех неймспейсов из примеров:
+##### Підключення класів з прикладів вище:
 
 ```php
-use DigitSoft\Checkbox\CheckboxJsonApi;
 use DigitSoft\Checkbox\Config;
-use DigitSoft\Checkbox\Exceptions\InvalidCredentialsException;
+use DigitSoft\Checkbox\CheckboxJsonApi;
+
 use DigitSoft\Checkbox\Exceptions\ValidationException;
-use DigitSoft\Checkbox\Exceptions\NoActiveShiftException;
-use DigitSoft\Checkbox\Exceptions\AlreadyOpenedShiftException;
 use DigitSoft\Checkbox\Exceptions\EmptyResponseException;
-use DigitSoft\Checkbox\Models\CashRegisters\CashRegistersQueryParams;
+use DigitSoft\Checkbox\Exceptions\NoActiveShiftException;
+use DigitSoft\Checkbox\Exceptions\InvalidCredentialsException;
+use DigitSoft\Checkbox\Exceptions\AlreadyOpenedShiftException;
+
 use DigitSoft\Checkbox\Models\Shifts\ShiftsQueryParams;
+use DigitSoft\Checkbox\Models\Reports\ReportsQueryParams;
 use DigitSoft\Checkbox\Models\Receipts\ReceiptsQueryParams;
-use DigitSoft\Checkbox\Models\Receipts\Discounts\Discounts;
-use DigitSoft\Checkbox\Models\Receipts\Discounts\DiscountModel;
+use DigitSoft\Checkbox\Models\Reports\PeriodicalReportQueryParams;
+use DigitSoft\Checkbox\Models\Transactions\TransactionsQueryParams;
+use DigitSoft\Checkbox\Models\CashRegisters\CashRegistersQueryParams;
+
+use DigitSoft\Checkbox\Models\Receipts\Goods\Goods;
+use DigitSoft\Checkbox\Models\Receipts\Goods\GoodModel;
+use DigitSoft\Checkbox\Models\Receipts\Goods\GoodItemModel;
 use DigitSoft\Checkbox\Models\Receipts\SellReceipt;
+use DigitSoft\Checkbox\Models\Receipts\ServiceReceipt;
+
 use DigitSoft\Checkbox\Models\Receipts\Payments\Payments;
 use DigitSoft\Checkbox\Models\Receipts\Payments\CardPaymentPayload;
 use DigitSoft\Checkbox\Models\Receipts\Payments\CashPaymentPayload;
-use DigitSoft\Checkbox\Models\Receipts\ServiceReceipt;
-use DigitSoft\Checkbox\Models\Reports\PeriodicalReportQueryParams;
-use DigitSoft\Checkbox\Models\Reports\ReportsQueryParams;
-use DigitSoft\Checkbox\Models\Transactions\TransactionsQueryParams;
-use DigitSoft\Checkbox\Models\Receipts\Goods\Goods;
-use DigitSoft\Checkbox\Models\Receipts\Goods\GoodItemModel;
-use DigitSoft\Checkbox\Models\Receipts\Goods\GoodModel;
+
+use DigitSoft\Checkbox\Models\Receipts\Discounts\Discounts;
+use DigitSoft\Checkbox\Models\Receipts\Discounts\DiscountModel;
 ```
 
 Without Docker

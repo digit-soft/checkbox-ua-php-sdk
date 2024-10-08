@@ -2,36 +2,36 @@
 
 namespace DigitSoft\Checkbox\Mappers\Shifts;
 
-use DigitSoft\Checkbox\Exceptions\AlreadyOpenedShiftException;
-use DigitSoft\Checkbox\Mappers\Cashier\CashierMapper;
-use DigitSoft\Checkbox\Mappers\CashRegisters\CashRegisterMapper;
 use DigitSoft\Checkbox\Models\Shifts\CreateShift;
+use DigitSoft\Checkbox\Mappers\Cashier\CashierMapper;
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
+use DigitSoft\Checkbox\Exceptions\AlreadyOpenedShiftException;
+use DigitSoft\Checkbox\Mappers\CashRegisters\CashRegisterMapper;
 
-class CreateShiftMapper
+class CreateShiftMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return CreateShift|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?CreateShift
+    public function jsonToObject(?array $json): ?CreateShift
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
-        if (!empty($json['message']) and $json['message'] == 'Касир вже працює з даною касою') {
+        if (! empty($json['message']) and $json['message'] === 'Касир вже працює з даною касою') {
             throw new AlreadyOpenedShiftException($json['message']);
         }
 
-        $zReport = (new ZReportMapper())->jsonToObject($json['z_report']);
-        $initialTransaction = (new InitialTransactionMapper())->jsonToObject($json['initial_transaction']);
-        $closingTransaction = (new ClosingTransactionMapper())->jsonToObject($json['closing_transaction']);
-        $balance = (new BalanceMapper())->jsonToObject($json['balance']);
-        $taxes = (new TaxesMapper())->jsonToObject($json['taxes']);
-        $cashRegister = (new CashRegisterMapper())->jsonToObject($json['cash_register']);
-        $cashier = (new CashierMapper())->jsonToObject($json['cashier']);
+        $zReport = (new ZReportMapper)->jsonToObject($json['z_report']);
+        $initialTransaction = (new InitialTransactionMapper)->jsonToObject($json['initial_transaction']);
+        $closingTransaction = (new ClosingTransactionMapper)->jsonToObject($json['closing_transaction']);
+        $balance = (new BalanceMapper)->jsonToObject($json['balance']);
+        $taxes = (new TaxesMapper)->jsonToObject($json['taxes']);
+        $cashRegister = (new CashRegisterMapper)->jsonToObject($json['cash_register']);
+        $cashier = (new CashierMapper)->jsonToObject($json['cashier']);
 
-        $shift = new CreateShift(
+        return new CreateShift(
             $json['id'],
             $json['serial'],
             $json['status'],
@@ -47,7 +47,5 @@ class CreateShiftMapper
             $cashRegister,
             $cashier
         );
-
-        return $shift;
     }
 }

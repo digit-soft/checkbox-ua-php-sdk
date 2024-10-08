@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 class ShiftsTest extends TestCase
 {
     /** @var  string $jsonString */
-    private $jsonString;
+    private string $jsonString;
 
     public function setUp(): void
     {

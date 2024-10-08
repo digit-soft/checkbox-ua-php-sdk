@@ -3,24 +3,24 @@
 namespace DigitSoft\Checkbox\Models\CashRegisters;
 
 use DigitSoft\Checkbox\Models\Meta;
+use DigitSoft\Checkbox\Models\ModelBaseWithResultsList;
 
-class CashRegisters
+/**
+ * @property \DigitSoft\Checkbox\Models\CashRegisters\CashRegister[]|array $results
+ * @method static static make(array $shifts, ?Meta $meta = null)
+ */
+class CashRegisters extends ModelBaseWithResultsList
 {
-    /** @var array<mixed> $results */
-    public $results;
-    /** @var Meta|null $meta */
-    public $meta;
-
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param array<mixed> $shifts
-     * @param Meta|null $meta
-     *
+     * @param  CashRegister[] $cashRegisters
+     * @param  Meta|null      $meta
+     * @noinspection PhpDynamicFieldDeclarationInspection
      */
-    public function __construct(array $shifts, ?Meta $meta)
+    public function __construct(array $cashRegisters, ?Meta $meta = null)
     {
-        $this->results = $shifts;
+        $this->results = $cashRegisters;
         $this->meta = $meta;
     }
 }

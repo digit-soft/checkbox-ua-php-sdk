@@ -3,20 +3,20 @@
 namespace DigitSoft\Checkbox\Mappers\Shifts;
 
 use DigitSoft\Checkbox\Models\Shifts\Balance;
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
 
-class BalanceMapper
+class BalanceMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return Balance|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?Balance
+    public function jsonToObject(?array $json): ?Balance
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
-        $balance = new Balance(
+        return new Balance(
             $json['initial'],
             $json['balance'],
             $json['cash_sales'],
@@ -25,9 +25,9 @@ class BalanceMapper
             $json['card_returns'],
             $json['service_in'],
             $json['service_out'],
-            $json['updated_at']
+            $json['discounts_sum'] ?? null,
+            $json['extra_charge_sum'] ?? null,
+            $json['updated_at'] ?? null
         );
-
-        return $balance;
     }
 }

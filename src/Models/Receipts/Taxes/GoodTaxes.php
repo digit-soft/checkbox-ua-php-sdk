@@ -4,19 +4,19 @@ namespace DigitSoft\Checkbox\Models\Receipts\Taxes;
 
 class GoodTaxes
 {
-    /** @var array<GoodTax> $results */
-    public $results;
+    /** @var GoodTax[] */
+    public array $results = [];
 
     /**
      * Constructor
      *
-     * @param array<GoodTax> $taxes
-     *
+     * @param  array<GoodTax> $taxes
+     * @throws \Exception
      */
     public function __construct(array $taxes)
     {
         foreach ($taxes as $tax) {
-            if (!is_a($tax, GoodTax::class)) {
+            if (!  $tax instanceof GoodTax) {
                 throw new \Exception('Tax has wrong class');
             }
 
@@ -27,7 +27,7 @@ class GoodTaxes
     public function getTaxByLabel(string $label): ?GoodTax
     {
         foreach ($this->results as $tax) {
-            if ($tax->label == $label) {
+            if ($tax->label === $label) {
                 return $tax;
             }
         }
@@ -40,7 +40,7 @@ class GoodTaxes
         $taxesArr = [];
 
         foreach ($this->results as $tax) {
-            if ($tax->label == $label) {
+            if ($tax->label === $label) {
                 $taxesArr[] = $tax;
             }
         }

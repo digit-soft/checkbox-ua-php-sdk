@@ -2,26 +2,24 @@
 
 namespace DigitSoft\Checkbox\Models\Shifts;
 
-class Balance
+use DigitSoft\Checkbox\Models\ModelBase;
+
+/**
+ * @method static static make(string $initial, string $balance, string $cash_sales, string $card_sales, string $cash_returns, string $card_returns, string $service_in, string $service_out, ?int $discounts_sum = null, ?int $extra_charge_sum = null, ?string $updated_at = null)
+ */
+class Balance extends ModelBase
 {
-    /** @var string $initial */
-    public $initial;
-    /** @var string $balance */
-    public $balance;
-    /** @var string $cash_sales */
-    public $cash_sales;
-    /** @var string $card_sales */
-    public $card_sales;
-    /** @var string $cash_returns */
-    public $cash_returns;
-    /** @var string $card_returns */
-    public $card_returns;
-    /** @var string $service_in */
-    public $service_in;
-    /** @var string $service_out */
-    public $service_out;
-    /** @var string|null $updated_at */
-    public $updated_at;
+    public int $initial;
+    public int $balance;
+    public int $cash_sales;
+    public int $card_sales;
+    public int $cash_returns;
+    public int $card_returns;
+    public int $service_in;
+    public int $service_out;
+    public ?int $discounts_sum;
+    public ?int $extra_charge_sum;
+    public ?string $updated_at;
 
     public function __construct(
         string $initial,
@@ -32,7 +30,9 @@ class Balance
         string $card_returns,
         string $service_in,
         string $service_out,
-        ?string $updated_at
+        ?int $discounts_sum = null,
+        ?int $extra_charge_sum = null,
+        ?string $updated_at = null
     ) {
         $this->initial = $initial;
         $this->balance = $balance;
@@ -42,6 +42,8 @@ class Balance
         $this->card_returns = $card_returns;
         $this->service_in = $service_in;
         $this->service_out = $service_out;
+        $this->discounts_sum = $discounts_sum;
+        $this->extra_charge_sum = $extra_charge_sum;
         $this->updated_at = $updated_at;
     }
 }
