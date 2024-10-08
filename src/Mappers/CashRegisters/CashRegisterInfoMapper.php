@@ -2,23 +2,23 @@
 
 namespace DigitSoft\Checkbox\Mappers\CashRegisters;
 
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
 use DigitSoft\Checkbox\Models\CashRegisters\CashRegisterInfo;
 
-class CashRegisterInfoMapper
+class CashRegisterInfoMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return CashRegisterInfo|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?CashRegisterInfo
+    public function jsonToObject(?array $json): ?CashRegisterInfo
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
-        $documentsState = (new DocumentsStateMapper())->jsonToObject($json['documents_state']);
+        $documentsState = (new DocumentsStateMapper)->jsonToObject($json['documents_state']);
 
-        $cashRegisterInfo = new CashRegisterInfo(
+        return new CashRegisterInfo(
             $json['id'],
             $json['fiscal_number'],
             $json['created_at'],
@@ -30,7 +30,5 @@ class CashRegisterInfoMapper
             $json['has_shift'],
             $documentsState
         );
-
-        return $cashRegisterInfo;
     }
 }

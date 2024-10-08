@@ -4,41 +4,32 @@ namespace DigitSoft\Checkbox\Models\Receipts\Taxes;
 
 class GoodTax
 {
-    /** @var string $id */
-    public $id;
-    /** @var string $code */
-    public $code;
-    /** @var string $label */
-    public $label;
-    /** @var string $symbol */
-    public $symbol;
-    /** @var string $rate */
-    public $rate;
-    /** @var string|null $extra_rate */
-    public $extra_rate;
-    /** @var string $included */
-    public $included;
-    /** @var string $created_at */
-    public $created_at;
-    /** @var string|null $updated_at */
-    public $updated_at;
-    /** @var int $value */
-    public $value;
-    /** @var string $extra_value */
-    public $extra_value;
+    public string $id;
+    public string $code;
+    public string $label;
+    public string $symbol;
+    public int $rate;
+    public ?int $extra_rate;
+    public float $decimal_rate;
+    public ?float $decimal_extra_rate;
+    public bool $included;
+    public bool $no_vat;
+    public string $created_at;
+    public ?string $updated_at;
 
     public function __construct(
         string $id,
         string $code,
         string $label,
         string $symbol,
-        string $rate,
-        ?string $extra_rate,
-        string $included,
+        float $rate,
+        ?float $extra_rate,
+        float $decimal_rate,
+        ?float $decimal_extra_rate,
+        bool $included,
+        bool $no_vat,
         string $created_at,
-        ?string $updated_at,
-        int $value,
-        string $extra_value
+        ?string $updated_at = null
     ) {
         $this->id = $id;
         $this->code = $code;
@@ -47,9 +38,10 @@ class GoodTax
         $this->rate = $rate;
         $this->extra_rate = $extra_rate;
         $this->included = $included;
+        $this->no_vat = $no_vat;
+        $this->decimal_rate = $decimal_rate;
+        $this->decimal_extra_rate = $decimal_extra_rate;
         $this->created_at = $created_at;
         $this->updated_at = $updated_at;
-        $this->value = $value;
-        $this->extra_value = $extra_value;
     }
 }

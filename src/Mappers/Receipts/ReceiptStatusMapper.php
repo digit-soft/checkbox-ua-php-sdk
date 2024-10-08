@@ -7,17 +7,15 @@ use DigitSoft\Checkbox\Models\Receipts\ReceiptStatus;
 class ReceiptStatusMapper
 {
     /**
-     * @param mixed $json
+     * @param  string $json
      * @return ReceiptStatus|null
      */
-    public function jsonToObject($json): ?ReceiptStatus
+    public function jsonToObject(mixed $json): ?ReceiptStatus
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
-        $receipt = new ReceiptStatus($json);
-
-        return $receipt;
+        return new ReceiptStatus($json);
     }
 }

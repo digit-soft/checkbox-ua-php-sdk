@@ -3,20 +3,20 @@
 namespace DigitSoft\Checkbox\Mappers\Shifts;
 
 use DigitSoft\Checkbox\Models\Shifts\ClosingTransaction;
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
 
-class ClosingTransactionMapper
+class ClosingTransactionMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return ClosingTransaction|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?ClosingTransaction
+    public function jsonToObject(?array $json): ?ClosingTransaction
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
-        $transaction = new ClosingTransaction(
+        return ClosingTransaction::make(
             $json['id'],
             $json['type'],
             $json['serial'],
@@ -29,11 +29,9 @@ class ClosingTransactionMapper
             $json['updated_at'],
             $json['request_data'] ?? '',
             $json['request_signature'] ?? '',
-            $json['response_id'] ?? '',
+            $json['response_id'] ?? null,
             $json['response_data_signature'] ?? null,
             $json['response_data'] ?? null
         );
-
-        return $transaction;
     }
 }

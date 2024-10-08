@@ -3,31 +3,29 @@
 namespace DigitSoft\Checkbox\Mappers\Shifts;
 
 use DigitSoft\Checkbox\Models\Shifts\Taxes;
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
 
-class TaxesMapper
+class TaxesMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return Taxes|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?Taxes
+    public function jsonToObject(?array $json): ?Taxes
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
-        $taxessArr = [];
+        $taxesArr = [];
 
         foreach ($json as $jsonRow) {
-            $tax = (new TaxMapper())->jsonToObject($jsonRow);
+            $tax = (new TaxMapper)->jsonToObject($jsonRow);
 
             if (!is_null($tax)) {
-                $taxessArr[] = $tax;
+                $taxesArr[] = $tax;
             }
         }
 
-        $taxes = new Taxes($taxessArr);
-
-        return $taxes;
+        return new Taxes($taxesArr);
     }
 }

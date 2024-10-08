@@ -2,16 +2,20 @@
 
 namespace DigitSoft\Checkbox\Models\Shifts;
 
-class Taxes
+use DigitSoft\Checkbox\Models\ModelBase;
+
+/**
+ * @method static static make(array $taxes)
+ */
+class Taxes extends ModelBase
 {
-    /** @var array<Tax> $taxes */
-    public $taxes;
+    /** @var Tax[] $taxes */
+    public array $taxes;
 
     /**
      * Constructor
      *
-     * @param array<Tax> $taxes
-     *
+     * @param Tax[] $taxes
      */
     public function __construct(array $taxes)
     {

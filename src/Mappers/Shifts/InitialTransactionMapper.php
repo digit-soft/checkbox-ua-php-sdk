@@ -3,20 +3,20 @@
 namespace DigitSoft\Checkbox\Mappers\Shifts;
 
 use DigitSoft\Checkbox\Models\Shifts\InitialTransaction;
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
 
-class InitialTransactionMapper
+class InitialTransactionMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return InitialTransaction|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?InitialTransaction
+    public function jsonToObject(?array $json): ?InitialTransaction
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
-        $transaction = new InitialTransaction(
+        return InitialTransaction::make(
             $json['id'],
             $json['type'],
             $json['serial'],
@@ -29,11 +29,9 @@ class InitialTransactionMapper
             $json['updated_at'],
             $json['request_data'] ?? '',
             $json['request_signature'] ?? '',
-            $json['response_id'] ?? '',
+            $json['response_id'] ?? null,
             $json['response_data_signature'] ?? null,
             $json['response_data'] ?? null
         );
-
-        return $transaction;
     }
 }

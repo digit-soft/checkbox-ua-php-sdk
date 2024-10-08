@@ -3,23 +3,23 @@
 namespace DigitSoft\Checkbox\Mappers\Shifts;
 
 use DigitSoft\Checkbox\Models\Shifts\ZReport;
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
 
-class ZReportMapper
+class ZReportMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return ZReport|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?ZReport
+    public function jsonToObject(?array $json): ?ZReport
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
-        $payments = (new PaymentsMapper())->jsonToObject($json['payments']);
-        $taxes = (new TaxesMapper())->jsonToObject($json['taxes']);
+        $payments = (new PaymentsMapper)->jsonToObject($json['payments']);
+        $taxes = (new TaxesMapper)->jsonToObject($json['taxes']);
 
-        $report = new ZReport(
+        return new ZReport(
             $json['id'],
             $json['serial'],
             $json['is_z_report'],
@@ -32,7 +32,5 @@ class ZReportMapper
             $json['created_at'],
             $json['updated_at']
         );
-
-        return $report;
     }
 }

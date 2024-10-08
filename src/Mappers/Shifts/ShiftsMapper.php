@@ -4,36 +4,28 @@ namespace DigitSoft\Checkbox\Mappers\Shifts;
 
 use DigitSoft\Checkbox\Mappers\MetaMapper;
 use DigitSoft\Checkbox\Models\Shifts\Shifts;
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
 
-class ShiftsMapper
+class ShiftsMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return Shifts|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?Shifts
+    public function jsonToObject(?array $json): ?Shifts
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
         $shiftsArr = [];
-
         foreach ($json['results'] as $jsonRow) {
-            $shift = (new ShiftMapper())->jsonToObject($jsonRow);
-
-            if (!is_null($shift)) {
+            if (($shift = (new ShiftMapper)->jsonToObject($jsonRow)) !== null) {
                 $shiftsArr[] = $shift;
             }
         }
 
-        $meta = (new MetaMapper())->jsonToObject($json['meta']);
+        $meta = (new MetaMapper)->jsonToObject($json['meta'] ?? null);
 
-        $shift = new Shifts(
-            $shiftsArr,
-            $meta
-        );
-
-        return $shift;
+        return Shifts::make($shiftsArr, $meta);
     }
 }

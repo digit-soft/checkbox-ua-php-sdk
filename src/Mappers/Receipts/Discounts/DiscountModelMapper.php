@@ -2,31 +2,28 @@
 
 namespace DigitSoft\Checkbox\Mappers\Receipts\Discounts;
 
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
 use DigitSoft\Checkbox\Models\Receipts\Discounts\DiscountModel;
 
-class DiscountModelMapper
+class DiscountModelMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return DiscountModel|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?DiscountModel
+    public function jsonToObject(?array $json): ?DiscountModel
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
-        $discount = new DiscountModel(
+        return new DiscountModel(
             $json['type'],
             $json['mode'],
             $json['value'],
-            $json['sum'],
-            $json['tax_code'] ?? 0,
+            $json['tax_code'] ?? null,
             $json['tax_codes'] ?? [],
-            $json['name'] ?? ''
+            $json['name'] ?? null
         );
-
-        return $discount;
     }
 
     /**
@@ -39,9 +36,9 @@ class DiscountModelMapper
             'type' => $discountModel->type,
             'mode' => $discountModel->mode,
             'value' => $discountModel->value,
-            'tax_code' => $discountModel->tax_code,
+            'tax_code' => $discountModel->tax_code ?? '',
             'tax_codes' => $discountModel->tax_codes,
-            'name' => $discountModel->name
+            'name' => $discountModel->name ?? ''
         ];
     }
 }

@@ -2,37 +2,34 @@
 
 namespace DigitSoft\Checkbox\Mappers\Shifts;
 
-use DigitSoft\Checkbox\Mappers\Cashier\CashierMapper;
-use DigitSoft\Checkbox\Mappers\CashRegisters\CashRegisterMapper;
 use DigitSoft\Checkbox\Models\Shifts\Shift;
+use DigitSoft\Checkbox\Mappers\Cashier\CashierMapper;
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
+use DigitSoft\Checkbox\Mappers\CashRegisters\CashRegisterMapper;
 
-class ShiftMapper
+class ShiftMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return Shift|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?Shift
+    public function jsonToObject(?array $json): ?Shift
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
-        $zReport = (new ZReportMapper())->jsonToObject($json['z_report']);
-        $balance = (new BalanceMapper())->jsonToObject($json['balance']);
-        $initialTransaction = (new InitialTransactionMapper())->jsonToObject($json['initial_transaction']);
+        $zReport = (new ZReportMapper)->jsonToObject($json['z_report'] ?? null);
+        $balance = (new BalanceMapper)->jsonToObject($json['balance'] ?? null);
+        $initialTransaction = (new InitialTransactionMapper)->jsonToObject($json['initial_transaction'] ?? null);
+        $closingTransaction = isset($json['closing_transaction'])
+            ? (new ClosingTransactionMapper)->jsonToObject($json['closing_transaction'])
+            : null;
 
-        $closingTransaction = null;
+        $cashRegister = (new CashRegisterMapper)->jsonToObject($json['cash_register'] ?? null);
+        $taxes = (new TaxesMapper)->jsonToObject($json['taxes'] ?? null);
+        $cashier = (new CashierMapper)->jsonToObject($json['cashier'] ?? null);
 
-        if (!is_null($json['closing_transaction'])) {
-            $closingTransaction = (new ClosingTransactionMapper())->jsonToObject($json['closing_transaction']);
-        }
-
-        $cashRegister = (new CashRegisterMapper())->jsonToObject($json['cash_register'] ?? null);
-        $taxes = (new TaxesMapper())->jsonToObject($json['taxes']);
-        $cashier = (new CashierMapper())->jsonToObject($json['cashier'] ?? null);
-
-        $shift = new Shift(
+        return Shift::make(
             $json['id'],
             $json['serial'],
             $json['status'],
@@ -48,7 +45,5 @@ class ShiftMapper
             $cashRegister,
             $cashier
         );
-
-        return $shift;
     }
 }

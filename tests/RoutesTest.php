@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DigitSoft\Checkbox\Tests;
 
+use DigitSoft\Checkbox\Routes;
 use PHPUnit\Framework\TestCase;
 
 class RoutesTest extends TestCase

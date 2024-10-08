@@ -2,22 +2,20 @@
 
 namespace DigitSoft\Checkbox\Models\Cashier;
 
-class Organization
+use DigitSoft\Checkbox\Models\ModelBase;
+
+/**
+ * @method static static make(string $id, string $title, string $edrpou, string $tax_number, string $created_at, string $updated_at, ?string $subscription_exp)
+ */
+class Organization extends ModelBase
 {
-    /** @var string $id */
-    public $id;
-    /** @var string $title */
-    public $title;
-    /** @var string $edrpou */
-    public $edrpou;
-    /** @var string $tax_number */
-    public $tax_number;
-    /** @var string $created_at */
-    public $created_at;
-    /** @var string $updated_at */
-    public $updated_at;
-    /** @var string $subscription_exp */
-    public $subscription_exp;
+    public string $id;
+    public string $title;
+    public string $edrpou;
+    public string $tax_number;
+    public string $created_at;
+    public string $updated_at;
+    public ?string $subscription_exp;
 
     public function __construct(
         string $id,
@@ -26,7 +24,7 @@ class Organization
         string $tax_number,
         string $created_at,
         string $updated_at,
-        string $subscription_exp
+        ?string $subscription_exp
     ) {
         $this->id = $id;
         $this->title = $title;

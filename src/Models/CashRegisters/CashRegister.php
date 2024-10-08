@@ -2,22 +2,20 @@
 
 namespace DigitSoft\Checkbox\Models\CashRegisters;
 
+use DigitSoft\Checkbox\Models\ModelBase;
 use DigitSoft\Checkbox\Models\Shifts\Shift;
 
-class CashRegister
+/**
+ * @method static static make(string $id, string $fiscal_number, string $created_at, string $updated_at, ?Shift $shift, ?bool $offline_mode = false)
+ */
+class CashRegister extends ModelBase
 {
-    /** @var string $id */
-    public $id;
-    /** @var string $fiscal_number */
-    public $fiscal_number;
-    /** @var string $created_at */
-    public $created_at;
-    /** @var string $updated_at */
-    public $updated_at;
-    /** @var Shift|null $shift */
-    public $shift;
-    /** @var bool|null $offline_mode */
-    public $offline_mode;
+    public string $id;
+    public string $fiscal_number;
+    public string $created_at;
+    public string $updated_at;
+    public ?Shift $shift;
+    public ?bool $offline_mode;
 
     public function __construct(
         string $id,

@@ -4,36 +4,30 @@ namespace DigitSoft\Checkbox\Mappers\Transactions;
 
 use DigitSoft\Checkbox\Mappers\MetaMapper;
 use DigitSoft\Checkbox\Models\Transactions\Transactions;
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
 
-class TransactionsMapper
+class TransactionsMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return Transactions|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?Transactions
+    public function jsonToObject(?array $json): ?Transactions
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
         $transactionArr = [];
-
         foreach ($json['results'] as $jsonRow) {
-            $trans = (new TransactionMapper())->jsonToObject($jsonRow);
+            $trans = (new TransactionMapper)->jsonToObject($jsonRow);
 
-            if (!is_null($trans)) {
+            if ($trans !== null) {
                 $transactionArr[] = $trans;
             }
         }
 
-        $meta = (new MetaMapper())->jsonToObject($json['meta']);
+        $meta = (new MetaMapper)->jsonToObject($json['meta']);
 
-        $transactions = new Transactions(
-            $transactionArr,
-            $meta
-        );
-
-        return $transactions;
+        return new Transactions($transactionArr, $meta);
     }
 }

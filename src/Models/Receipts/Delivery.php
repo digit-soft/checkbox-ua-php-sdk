@@ -2,17 +2,18 @@
 
 namespace DigitSoft\Checkbox\Models\Receipts;
 
-class Delivery
+use DigitSoft\Checkbox\Models\ModelBase;
+
+class Delivery extends ModelBase
 {
-    /** @var string $phone */
-    private string $phone;
-    /** @var array<string> $emails */
-    private array $emails;
+    protected string $phone;
+    /** @var string[] */
+    protected array $emails;
 
     /**
      * Constructor
      *
-     * @param array<string> $emails
+     * @param string[] $emails
      * @param string $phone
      *
      */

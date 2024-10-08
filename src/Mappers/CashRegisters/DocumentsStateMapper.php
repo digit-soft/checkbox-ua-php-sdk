@@ -3,25 +3,23 @@
 namespace DigitSoft\Checkbox\Mappers\CashRegisters;
 
 use DigitSoft\Checkbox\Models\CashRegisters\DocumentsState;
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
 
-class DocumentsStateMapper
+class DocumentsStateMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return DocumentsState|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?DocumentsState
+    public function jsonToObject(?array $json): ?DocumentsState
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
-        $state = new DocumentsState(
+        return new DocumentsState(
             $json['last_receipt_code'],
             $json['last_report_code'],
             $json['last_z_report_code']
         );
-
-        return $state;
     }
 }

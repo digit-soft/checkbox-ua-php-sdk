@@ -4,31 +4,34 @@ namespace DigitSoft\Checkbox\Models\Shifts;
 
 class ShiftsQueryParams
 {
-    /** @var array<string> $statuses */
-    public $statuses;
-    /** @var bool $desc */
-    public $desc;
-    /** @var int $limit */
-    public $limit;
-    /** @var int $offset */
-    public $offset;
-    /** @var array<string> $allowedStatuses */
-    private $allowedStatuses = [];
+    public const string STATUS_CREATED = 'CREATED';
+    public const string STATUS_OPENING = 'OPENING';
+    public const string STATUS_OPENED = 'OPENED';
+    public const string STATUS_CLOSING = 'CLOSING';
+    public const string STATUS_CLOSED = 'CLOSED';
 
-    public const STATUS_CREATED = 'CREATED';
-    public const STATUS_OPENING = 'OPENING';
-    public const STATUS_OPENED = 'OPENED';
-    public const STATUS_CLOSING = 'CLOSING';
-    public const STATUS_CLOSED = 'CLOSED';
+    /** @var array<string> $statuses */
+    public array $statuses = [];
+    public bool $desc = false;
+    public int $limit = 25;
+    public int $offset = 0;
+
+    private static array $allowedStatuses = [
+        self::STATUS_CREATED,
+        self::STATUS_OPENING,
+        self::STATUS_OPENED,
+        self::STATUS_CLOSING,
+        self::STATUS_CLOSED
+    ];
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param array<string> $statuses
-     * @param bool $desc
-     * @param int $limit
-     * @param int $offset
-     *
+     * @param  array<string> $statuses
+     * @param  bool          $desc
+     * @param  int           $limit
+     * @param  int           $offset
+     * @throws \Exception
      */
     public function __construct(
         array $statuses = [],
@@ -37,14 +40,11 @@ class ShiftsQueryParams
         int $offset = 0
     ) {
         if ($offset < 0) {
-            throw new \Exception('Offset cant be lower then 0');
+            throw new \Exception("Offset can't be less than 0");
         }
-
         if ($limit > 1000) {
-            throw new \Exception('Limit cant be more then 1000');
+            throw new \Exception("Limit can't be greater than 1000");
         }
-
-        $this->initAllowedStatuses();
 
         $this->statuses = $statuses;
 
@@ -55,21 +55,16 @@ class ShiftsQueryParams
         $this->desc = $desc;
     }
 
-    private function initAllowedStatuses(): void
-    {
-        $this->allowedStatuses = [
-            self::STATUS_CREATED,
-            self::STATUS_OPENING,
-            self::STATUS_OPENED,
-            self::STATUS_CLOSING,
-            self::STATUS_CLOSED
-        ];
-    }
-
+    /**
+     * Validate statuses.
+     *
+     * @return void
+     * @throws \Exception
+     */
     private function validateStatuses(): void
     {
         foreach ($this->statuses as $status) {
-            if (!in_array($status, $this->allowedStatuses)) {
+            if (! in_array($status, static::$allowedStatuses, true)) {
                 throw new \Exception('Status "' . $status . '" is not allowed');
             }
         }

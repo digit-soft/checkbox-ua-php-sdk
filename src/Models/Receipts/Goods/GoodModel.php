@@ -6,35 +6,27 @@ use DigitSoft\Checkbox\Models\Receipts\Taxes\GoodTaxes;
 
 class GoodModel
 {
-    /** @var string $code */
-    public $code;
-    /** @var string $barcode */
-    public $barcode;
-    /** @var string $name */
-    public $name;
-    /** @var string $header */
-    public $header;
-    /** @var string $footer */
-    public $footer;
-    /** @var string $uktzed */
-    public $uktzed;
-    /** @var float $price */
-    public $price;
-    /** @var GoodTaxes|null $taxes */
-    public $taxes;
+    public string $code;
+    public string $name;
+    public ?string $barcode;
+    public ?string $uktzed;
+    public ?string $header;
+    public ?string $footer;
+    public int $price;
+    public ?GoodTaxes $taxes;
 
     public function __construct(
         string $code,
-        float $price,
+        int $price,
         string $name,
-        string $barcode = '',
-        string $header = '',
-        string $footer = '',
-        string $uktzed = '',
+        ?string $barcode = null,
+        ?string $header = null,
+        ?string $footer = null,
+        ?string $uktzed = null,
         ?GoodTaxes $taxes = null
     ) {
         $this->code = $code;
-        $this->price = round($price);
+        $this->price = $price;
         $this->name = $name;
         $this->barcode = $barcode;
         $this->header = $header;

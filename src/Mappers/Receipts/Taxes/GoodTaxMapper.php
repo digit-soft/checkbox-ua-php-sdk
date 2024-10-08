@@ -3,33 +3,32 @@
 namespace DigitSoft\Checkbox\Mappers\Receipts\Taxes;
 
 use DigitSoft\Checkbox\Models\Receipts\Taxes\GoodTax;
+use DigitSoft\Checkbox\Mappers\Contracts\JsonToObjectMapper;
 
-class GoodTaxMapper
+class GoodTaxMapper implements JsonToObjectMapper
 {
     /**
-     * @param mixed $json
-     * @return GoodTax|null
+     * {@inheritdoc}
      */
-    public function jsonToObject($json): ?GoodTax
+    public function jsonToObject(?array $json): ?GoodTax
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
-        $tax = new GoodTax(
+        return new GoodTax(
             $json['id'],
             $json['code'],
             $json['label'],
             $json['symbol'],
-            $json['rate'],
+            $json['rate'] ?? 0,
             $json['extra_rate'] ?? null,
-            $json['included'],
+            $json['decimal_rate'] ?? 0.0,
+            $json['decimal_extra_rate'] ?? null,
+            $json['included'] ?? true,
+            $json['no_vat'] ?? true,
             $json['created_at'],
             $json['updated_at'] ?? null,
-            $json['value'] ?? 0,
-            $json['extra_value'] ?? ''
         );
-
-        return $tax;
     }
 }

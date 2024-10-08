@@ -7,17 +7,15 @@ use DigitSoft\Checkbox\Models\Receipts\ReceiptTypes;
 class ReceiptTypeMapper
 {
     /**
-     * @param mixed $json
+     * @param  string $json
      * @return ReceiptTypes|null
      */
-    public function jsonToObject($json): ?ReceiptTypes
+    public function jsonToObject(mixed $json): ?ReceiptTypes
     {
-        if (is_null($json)) {
+        if ($json === null) {
             return null;
         }
 
-        $receipt = new ReceiptTypes($json);
-
-        return $receipt;
+        return new ReceiptTypes($json);
     }
 }
