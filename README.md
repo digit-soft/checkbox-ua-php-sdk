@@ -275,7 +275,7 @@ $receipt = new \DigitSoft\Checkbox\Models\Receipts\SellReceipt(
             )
         ]
     ),
-    'admin@gmail.com', // кому надсилати чек на пошту
+    new \DigitSoft\Checkbox\Models\Receipts\Delivery(['admin@gmail.com']), // кому надсилати чек на пошту
     new \DigitSoft\Checkbox\Models\Receipts\Payments\Payments([
         new \DigitSoft\Checkbox\Models\Receipts\Payments\CardPaymentPayload( // безготівкова оплата
             40 * 100 // 40 грн
@@ -336,7 +336,7 @@ $receipt = new \DigitSoft\Checkbox\Models\Receipts\SellReceipt(
             )
         ]
     ),
-    'admin@example.com', // кому надсилати чек на пошту
+    new \DigitSoft\Checkbox\Models\Receipts\Delivery(['admin@gmail.com']), // кому надсилати чек на пошту
     new \DigitSoft\Checkbox\Models\Receipts\Payments\Payments([ // оплати
         new \DigitSoft\Checkbox\Models\Receipts\Payments\CardPaymentPayload( // безготівкова оплата
             400, // сума оплати 400 = 4 грн
@@ -372,7 +372,7 @@ $saleReceiptResult = $api->receipts()->createSell($receipt): \DigitSoft\Checkbox
 ```php
 $allTaxes = $api->taxes()->all();
 $tax = $allTaxes->getTaxByLabel('Акцизний збір');
-$goodTaxes = $allTaxes->getTaxesByLabel('ПДВ');
+$goodTaxes = $allTaxes->getTaxesByCode('1'); // ПДВ 20%
 $taxCodes = [];
 
 foreach ($goodTaxes->results as $goodTax) {
@@ -444,7 +444,7 @@ $receipt = new \DigitSoft\Checkbox\Models\Receipts\SellReceipt(
             )
         ]
     ),
-    'admin@gmail.com',
+    new \DigitSoft\Checkbox\Models\Receipts\Delivery(['admin@gmail.com']),
     new \DigitSoft\Checkbox\Models\Receipts\Payments\Payments([
         new \DigitSoft\Checkbox\Models\Receipts\Payments\CardPaymentPayload(
             4700
@@ -547,6 +547,7 @@ use DigitSoft\Checkbox\Models\Receipts\Goods\GoodModel;
 use DigitSoft\Checkbox\Models\Receipts\Goods\GoodItemModel;
 use DigitSoft\Checkbox\Models\Receipts\SellReceipt;
 use DigitSoft\Checkbox\Models\Receipts\ServiceReceipt;
+use DigitSoft\Checkbox\Models\Receipts\Delivery;
 
 use DigitSoft\Checkbox\Models\Receipts\Payments\Payments;
 use DigitSoft\Checkbox\Models\Receipts\Payments\CardPaymentPayload;
