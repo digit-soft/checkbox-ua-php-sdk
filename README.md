@@ -313,7 +313,7 @@ $receipt = new \DigitSoft\Checkbox\Models\Receipts\SellReceipt(
                     '5р47ле78675е3', // баркод
                     'шапка', // header
                     'футер', // footer
-                    '', // ktzed
+                    '3700', // uktzed
                     $goodTaxes // податки товару
                 ),
                 1000, // к-сть 1000 = 1 шт
@@ -331,8 +331,8 @@ $receipt = new \DigitSoft\Checkbox\Models\Receipts\SellReceipt(
                 ),
                 $allTaxes->getTaxesByLabel('Акцизний збір'), // податки товару
                 false, // повернення товару (false or true)
-                0, // сума (не використовується в данном SDK)
-                '' // ID товару (тільки якщо ви завантажували список товарів (не використовується в даному SDK))
+                0, // сума (не використовується в даному SDK)
+                null // ID товару (тільки якщо ви завантажували список товарів (не використовується в даному SDK))
             )
         ]
     ),
@@ -340,13 +340,13 @@ $receipt = new \DigitSoft\Checkbox\Models\Receipts\SellReceipt(
     new \DigitSoft\Checkbox\Models\Receipts\Payments\Payments([ // оплати
         new \DigitSoft\Checkbox\Models\Receipts\Payments\CardPaymentPayload( // безготівкова оплата
             400, // сума оплати 400 = 4 грн
-            'bezgotivka', // текст оплати
-            0, // code - не знаю для чого (видно пін код карти ^_^)
+            'безготівка', // текст оплати
+            0, // code - не знаю для чого
             '0000 0000 0000 0000' // номер картки
         ),
         new \DigitSoft\Checkbox\Models\Receipts\Payments\CashPaymentPayload( // готівкова оплата
             4300, // сума оплати 4300 = 43 грн
-            'nalichka' // текст оплати
+            'готівка' // текст оплати
         )
     ]),
     new \DigitSoft\Checkbox\Models\Receipts\Discounts\Discounts( // знижки/надбавки на весь чек
@@ -389,10 +389,10 @@ $receipt = new \DigitSoft\Checkbox\Models\Receipts\SellReceipt(
                     'vm-123', // good_id
                     5000, // 50 грн
                     'Биовак',
-                    '',
-                    '',
-                    '',
-                    '',
+                    null,
+                    null,
+                    null,
+                    null,
                     $goodTaxes
                 ),
                 1000,
@@ -418,10 +418,10 @@ $receipt = new \DigitSoft\Checkbox\Models\Receipts\SellReceipt(
                     'vm-124', // good_id
                     2000, // 20 грн
                     'Биовак 2',
-                    '',
-                    '',
-                    '',
-                    '',
+                    null,
+                    null,
+                    null,
+                    null,
                     $goodTaxes
                 ),
                 2000, // 2 шт
@@ -440,7 +440,7 @@ $receipt = new \DigitSoft\Checkbox\Models\Receipts\SellReceipt(
                 $allTaxes->getTaxesByLabel('Акцизний збір'),
                 false,
                 0,
-                ''
+                null
             )
         ]
     ),

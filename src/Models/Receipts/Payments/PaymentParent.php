@@ -11,12 +11,12 @@ class PaymentParent extends ModelBase
 
     public string $type;
     public string $value;
-    public string $label;
+    public ?string $label = null;
 
     public function __construct(
         string $type,
         string $value,
-        string $label = ''
+        ?string $label = null
     ) {
         if (! in_array($type, [static::TYPE_CASH, static::TYPE_CARD], true)) {
             throw new \Exception('Wrong payment type');
@@ -25,7 +25,7 @@ class PaymentParent extends ModelBase
         $this->type = $type;
         $this->value = $value;
 
-        if (mb_strlen($label) > 128) {
+        if (is_string($label) && mb_strlen($label) > 128) {
             throw new \Exception('Label is too long');
         }
 
