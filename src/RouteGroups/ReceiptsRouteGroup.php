@@ -100,7 +100,7 @@ class ReceiptsRouteGroup extends RouteGroup
      */
     public function oneAsPdf(string $id): string
     {
-        return $this->api->sendJsonRequestAuthorized(
+        return $this->api->sendJsonRequest(
             $this->routes->getReceiptPdf($id),
             returnRaw: true
         );
@@ -115,7 +115,7 @@ class ReceiptsRouteGroup extends RouteGroup
      */
     public function oneAsHtml(string $id): string
     {
-        return $this->api->sendJsonRequestAuthorized(
+        return $this->api->sendJsonRequest(
             $this->routes->getReceiptHtml($id),
             returnRaw: true
         );
@@ -130,7 +130,7 @@ class ReceiptsRouteGroup extends RouteGroup
      */
     public function oneAsText(string $id): string
     {
-        return $this->api->sendJsonRequestAuthorized(
+        return $this->api->sendJsonRequest(
             $this->routes->getReceiptText($id),
             returnRaw: true
         );
@@ -149,7 +149,7 @@ class ReceiptsRouteGroup extends RouteGroup
             'Content-Type' => 'image/png',
         ];
 
-        return $this->api->sendJsonRequestAuthorized(
+        return $this->api->sendJsonRequest(
             $this->routes->getReceiptQrCodeImage($id),
             headers: $headers,
             returnRaw: true
@@ -171,7 +171,7 @@ class ReceiptsRouteGroup extends RouteGroup
             'Content-Type' => 'image/png',
         ];
 
-        return $this->api->sendJsonRequestAuthorized(
+        return $this->api->sendJsonRequest(
             $this->routes->getReceiptImagePng($id, $width, $paperWidth),
             headers: $headers,
             returnRaw: true
