@@ -3,7 +3,7 @@
     "description": "PHP SDK for integration with checkbox.ua API",
     "type": "library",
     "license": "MIT",
-    "version": "0.2.5",
+    "version": "0.3.0",
     "authors": [
         {
             "name": "Digit",

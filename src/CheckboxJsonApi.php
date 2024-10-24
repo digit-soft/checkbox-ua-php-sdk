@@ -3,6 +3,7 @@
 namespace DigitSoft\Checkbox;
 
 use GuzzleHttp\Client;
+use DigitSoft\Checkbox\TokenStorage\JWTStorage;
 use DigitSoft\Checkbox\RouteGroups\TaxesRouteGroup;
 use DigitSoft\Checkbox\RouteGroups\ShiftsRouteGroup;
 use DigitSoft\Checkbox\RouteGroups\CashierRouteGroup;
@@ -25,6 +26,8 @@ class CheckboxJsonApi
 
     protected Config $config;
 
+    protected ?JWTStorage $tokenStorage = null;
+
     /** @var int Connect timeout in seconds */
     protected int $connectTimeout;
 
@@ -35,12 +38,14 @@ class CheckboxJsonApi
     /**
      * Constructor
      *
-     * @param Config $config
-     * @param int    $connectTimeoutSeconds
+     * @param  Config                                           $config
+     * @param  \DigitSoft\Checkbox\TokenStorage\JWTStorage|null $tokenStorage
+     * @param  int                                              $connectTimeoutSeconds
      */
-    public function __construct(Config $config, int $connectTimeoutSeconds = 5)
+    public function __construct(Config $config, ?JWTStorage $tokenStorage = null, int $connectTimeoutSeconds = 5)
     {
         $this->config = $config;
+        $this->tokenStorage = $tokenStorage;
         $this->connectTimeout = $connectTimeoutSeconds;
 
         $this->initConfiguration();
@@ -137,6 +142,45 @@ class CheckboxJsonApi
     public function hasCashierAuthToken(): bool
     {
         return isset($this->authTokenCashier);
+    }
+
+    /**
+     * Get previously stored cashier token.
+     *
+     * @return string|null
+     */
+    public function getCashierAuthTokenFromStorage(): ?string
+    {
+        $conf = $this->config;
+        if (! isset($this->tokenStorage) || ! isset($conf->licenseKey)) {
+            return null;
+        }
+        if (isset($conf->cashierPinCode)) {
+            return $this->tokenStorage->getTokenByPin($conf->licenseKey, $conf->cashierPinCode);
+        }
+
+        return isset($conf->cashierLogin, $conf->cashierPass)
+            ? $this->tokenStorage->getTokenByLogin($conf->licenseKey, $conf->cashierLogin, $conf->cashierPass)
+            : null;
+    }
+
+    /**
+     * Store cashier token.
+     *
+     * @param  string|null $token
+     * @return void
+     */
+    public function setCashierAuthTokenToStorage(?string $token): void
+    {
+        $conf = $this->config;
+        if (! isset($this->tokenStorage) || ! isset($conf->licenseKey)) {
+            return;
+        }
+        if (isset($conf->cashierPinCode)) {
+            $this->tokenStorage->setTokenByPin($conf->licenseKey, $conf->cashierPinCode, $token);
+        } elseif (isset($conf->cashierLogin, $conf->cashierPass)) {
+            $this->tokenStorage->setTokenByLogin($conf->licenseKey, $conf->cashierLogin, $conf->cashierPass, $token);
+        }
     }
 
     /**
@@ -241,6 +285,7 @@ class CheckboxJsonApi
      * @param  bool       $returnRaw Return RAW string response
      * @return array|string|null
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \DigitSoft\Checkbox\Exceptions\InvalidCredentialsException
      */
     public function sendJsonRequestAuthorized(
         string $uri, string $method = 'GET', ?array $body = null, array $headers = [], ?array $optionsRewrite = null, bool $returnRaw = false

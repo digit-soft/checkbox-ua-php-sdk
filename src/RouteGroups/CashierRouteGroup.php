@@ -7,18 +7,23 @@ use DigitSoft\Checkbox\Models\Cashier\Cashier;
 use DigitSoft\Checkbox\Mappers\Shifts\ShiftMapper;
 use DigitSoft\Checkbox\Mappers\Cashier\CashierMapper;
 use DigitSoft\Checkbox\Exceptions\EmptyResponseException;
+use DigitSoft\Checkbox\Exceptions\InvalidCredentialsException;
 
 class CashierRouteGroup extends RouteGroup
 {
     /**
      * Sign in cashier depending on given config.
      *
+     * @param  bool $useStorage Use token from the storage if exists
      * @return void
      * @throws \DigitSoft\Checkbox\Exceptions\EmptyResponseException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function signIn(): void
+    public function signIn(bool $useStorage = true): void
     {
+        if ($useStorage && $this->signInWithTokenStorage()) {
+            return;
+        }
         if (isset($this->config->cashierPinCode)) {
             $this->signInWithPinCode();
         } else {
@@ -42,6 +47,7 @@ class CashierRouteGroup extends RouteGroup
             'POST'
         );
         $this->api->setCashierAuthToken(null);
+        $this->api->setCashierAuthTokenToStorage(null);
     }
 
     /**
@@ -97,6 +103,7 @@ class CashierRouteGroup extends RouteGroup
         }
 
         $this->api->setCashierAuthToken($json['access_token']);
+        $this->api->setCashierAuthTokenToStorage($json['access_token']);
     }
 
     /**
@@ -123,5 +130,31 @@ class CashierRouteGroup extends RouteGroup
         }
 
         $this->api->setCashierAuthToken($json['access_token']);
+        $this->api->setCashierAuthTokenToStorage($json['access_token']);
+    }
+
+    /**
+     * Try to sign in with previously stored JWT token.
+     *
+     * @return bool
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    protected function signInWithTokenStorage(): bool
+    {
+        if (($token = $this->api->getCashierAuthTokenFromStorage()) === null) {
+            return false;
+        }
+
+        try {
+            $this->api->setCashierAuthToken($token);
+            $this->getProfile();
+        } catch (InvalidCredentialsException) {
+            $this->api->setCashierAuthToken(null);
+            $this->api->setCashierAuthTokenToStorage(null);
+
+            return false;
+        }
+
+        return true;
     }
 }

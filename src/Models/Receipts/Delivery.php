@@ -6,18 +6,17 @@ use DigitSoft\Checkbox\Models\ModelBase;
 
 class Delivery extends ModelBase
 {
-    protected string $phone;
+    protected ?string $phone = null;
     /** @var string[] */
     protected array $emails;
 
     /**
      * Constructor
      *
-     * @param string[] $emails
-     * @param string $phone
-     *
+     * @param  string[]    $emails
+     * @param  string|null $phone
      */
-    public function __construct(array $emails = [], string $phone = '')
+    public function __construct(array $emails = [], ?string $phone = null)
     {
         $this->phone = $phone;
         $this->emails = $emails;
@@ -32,9 +31,11 @@ class Delivery extends ModelBase
     }
 
     /**
-     * @return string
+     * Getter for `phone`.
+     *
+     * @return string|null
      */
-    public function phone(): string
+    public function phone(): ?string
     {
         return $this->phone;
     }
