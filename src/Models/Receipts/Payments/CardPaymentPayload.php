@@ -18,6 +18,7 @@ class CardPaymentPayload extends PaymentParent
     public ?string $payment_system;
     public ?string $receipt_no;
     public ?string $acquirer_and_seller;
+    public ?string $transaction_id;
     public int $commission;
 
     public function __construct(
@@ -33,6 +34,7 @@ class CardPaymentPayload extends PaymentParent
         ?string $payment_system = null,
         ?string $receipt_no = null,
         ?string $acquirer_and_seller = null,
+        ?string $transaction_id = null,
         int $commission = 0
     ) {
         parent::__construct(parent::TYPE_CARD, $value, $label);
@@ -47,6 +49,7 @@ class CardPaymentPayload extends PaymentParent
         $this->payment_system = $payment_system;
         $this->receipt_no = $receipt_no;
         $this->acquirer_and_seller = $acquirer_and_seller;
+        $this->transaction_id = $transaction_id;
         $this->commission = $commission;
     }
 }

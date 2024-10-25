@@ -30,6 +30,7 @@ class CardPaymentMapper implements JsonToObjectMapper
             $json['payment_system'] ?? null,
             $json['receipt_no'] ?? null,
             $json['acquirer_and_seller'] ?? null,
+            $json['transaction_id'] ?? null,
             $json['commission'] ?? 0,
         );
     }
@@ -79,6 +80,10 @@ class CardPaymentMapper implements JsonToObjectMapper
 
         if (isset($obj->acquirer_and_seller)) {
             $result['acquirer_and_seller'] = $obj->acquirer_and_seller;
+        }
+
+        if (isset($obj->transaction_id)) {
+            $result['transaction_id'] = $obj->transaction_id;
         }
 
         if (isset($obj->receipt_no)) {
