@@ -11,6 +11,12 @@ use DigitSoft\Checkbox\Models\CashRegisters\CashRegister;
  */
 class Shift extends ModelBase
 {
+    const string STATUS_CREATED = 'CREATED';
+    const string STATUS_OPENING = 'OPENING';
+    const string STATUS_OPENED = 'OPENED';
+    const string STATUS_CLOSING = 'CLOSING';
+    const string STATUS_CLOSED = 'CLOSED';
+
     public string $id;
     public int $serial;
     public string $status;
