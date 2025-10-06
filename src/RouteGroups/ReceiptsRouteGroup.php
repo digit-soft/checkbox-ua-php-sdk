@@ -26,7 +26,7 @@ class ReceiptsRouteGroup extends RouteGroup
      * @return \DigitSoft\Checkbox\Models\Receipts\Receipts|null
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function all(ReceiptsQueryParams $queryParams = null): ?Receipts
+    public function all(?ReceiptsQueryParams $queryParams = null): ?Receipts
     {
         $queryParams = $queryParams ?? new ReceiptsQueryParams();
 
